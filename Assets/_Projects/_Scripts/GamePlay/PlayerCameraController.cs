@@ -1,8 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// 摄像机控制器 - 带边界限制和Z轴跟随模式
-/// </summary>
 public class PlayerCameraController : MonoBehaviour
 {
     /// <summary>

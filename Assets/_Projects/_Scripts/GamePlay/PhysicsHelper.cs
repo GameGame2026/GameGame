@@ -1,9 +1,4 @@
 using UnityEngine;
-
-/// <summary>
-/// 物理检测工具类 - 提供底层物理检测方法
-/// 职责：封装Unity物���系统的基础检测功能
-/// </summary>
 public static class PhysicsHelper
 {
     /// <summary>

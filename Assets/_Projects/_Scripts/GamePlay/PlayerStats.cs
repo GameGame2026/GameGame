@@ -1,9 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// 玩家状态管理器 - 管理生命值、耐力等数值
-/// </summary>
 public class PlayerStats : MonoBehaviour
 {
     [Header("生命值设置")]
