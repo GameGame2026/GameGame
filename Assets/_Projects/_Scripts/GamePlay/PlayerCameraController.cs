@@ -1,29 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 简单的第三人称/第一人称摄像机控制器
+/// 摄像机控制器 - 带边界限制和Z轴跟随模式
 /// </summary>
 public class PlayerCameraController : MonoBehaviour
 {
+    /// <summary>
+    /// Z轴跟随模式
+    /// </summary>
+    public enum ZAxisMode
+    {
+        FixedFollow,    // 固定跟随玩家Z轴
+        DepthScale      // 根据玩家Z轴进行深度缩放
+    }
+    
     [Header("目标设置")]
     [SerializeField] private Transform target; // 玩家目标
-    [SerializeField] private Vector3 targetOffset = new Vector3(0, 1.5f, 0); // 相机注视点偏移
+    [SerializeField] private Vector3 cameraOffset = new Vector3(0, 5f, -10f); // 相机相对玩家的偏移
     
-    [Header("摄像机设置")]
-    [SerializeField] private float distance = 5f;
-    [SerializeField] private float minDistance = 2f;
-    [SerializeField] private float maxDistance = 10f;
+    [Header("移动边界")]
+    [SerializeField] private bool useBounds = true;
+    [SerializeField] private Vector3 boundsMin = new Vector3(-50f, 0f, -50f); // 边界最小值
+    [SerializeField] private Vector3 boundsMax = new Vector3(50f, 20f, 50f);  // 边界最大值
     
-    [Header("旋转设置")]
-    [SerializeField] private float mouseSensitivity = 2f;
-    [SerializeField] private float minVerticalAngle = -40f;
-    [SerializeField] private float maxVerticalAngle = 80f;
-    [SerializeField] private bool invertY = false;
+    [Header("Z轴模式")]
+    [SerializeField] private ZAxisMode zAxisMode = ZAxisMode.FixedFollow;
+    [SerializeField] private float depthScaleFactor = 0.5f; // 深度缩放系数（仅在DepthScale模式下使用）
+    [SerializeField] private float baseDepth = 0f; // 基准深度位置
     
     [Header("平滑设置")]
-    [SerializeField] private float rotationSmooth = 5f;
     [SerializeField] private float positionSmooth = 10f;
     
     [Header("碰撞检测")]
@@ -36,9 +41,6 @@ public class PlayerCameraController : MonoBehaviour
     private Camera _camera;
     
     // 摄像机状态
-    private float _currentYaw;
-    private float _currentPitch;
-    private float _currentDistance;
     private Vector3 _smoothPosition;
     
     private void Awake()
@@ -51,52 +53,22 @@ public class PlayerCameraController : MonoBehaviour
         {
             _inputSystem = target.GetComponent<PlayerInputSystem>();
         }
-        
-        _currentDistance = distance;
     }
     
     private void Start()
     {
-        // 初始化摄像机旋转
+        // 初始化摄像机位置
         if (target != null)
         {
-            Vector3 angles = transform.eulerAngles;
-            _currentYaw = angles.y;
-            _currentPitch = angles.x;
+            _smoothPosition = transform.position;
         }
-        
-        // 锁定鼠标
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
     }
     
     private void LateUpdate()
     {
         if (target == null) return;
         
-        HandleCameraRotation();
         HandleCameraPosition();
-    }
-    
-    /// <summary>
-    /// 处理摄像机旋转
-    /// </summary>
-    private void HandleCameraRotation()
-    {
-        if (_inputSystem == null) return;
-        
-        Vector2 lookInput = _inputSystem.LookDirection;
-        
-        // 应用鼠标灵敏度
-        float mouseX = lookInput.x * mouseSensitivity * 0.1f;
-        float mouseY = lookInput.y * mouseSensitivity * 0.1f;
-        
-        // 更新旋转角度
-        _currentYaw += mouseX;
-        _currentPitch += (invertY ? mouseY : -mouseY);
-        
-        // 限制垂直角度
-        _currentPitch = Mathf.Clamp(_currentPitch, minVerticalAngle, maxVerticalAngle);
     }
     
     /// <summary>
@@ -104,17 +76,18 @@ public class PlayerCameraController : MonoBehaviour
     /// </summary>
     private void HandleCameraPosition()
     {
-        Vector3 targetPosition = target.position + targetOffset;
-        Quaternion targetRotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
+        Vector3 desiredPosition = CalculateDesiredPosition();
         
-        Vector3 desiredPosition;
+        // 应用边界限制
+        if (useBounds)
+        {
+            desiredPosition = ApplyBounds(desiredPosition);
+        }
         
-        Vector3 offset = targetRotation * new Vector3(0, 0, -_currentDistance);
-        desiredPosition = targetPosition + offset;
-            
         // 碰撞检测
         if (enableCollision)
         {
+            Vector3 targetPosition = target.position;
             Vector3 direction = desiredPosition - targetPosition;
             if (Physics.Raycast(targetPosition, direction.normalized, out RaycastHit hit, 
                     direction.magnitude, collisionLayers, QueryTriggerInteraction.Ignore))
@@ -122,12 +95,39 @@ public class PlayerCameraController : MonoBehaviour
                 desiredPosition = hit.point - direction.normalized * collisionOffset;
             }
         }
-  
         
-        // 平滑移动和旋转
+        // 平滑移动
         _smoothPosition = Vector3.Lerp(_smoothPosition, desiredPosition, positionSmooth * Time.deltaTime);
         transform.position = _smoothPosition;
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSmooth * Time.deltaTime);
+    }
+    
+    /// <summary>
+    /// 计算期望的摄像机位置（基于Z轴模式）
+    /// </summary>
+    private Vector3 CalculateDesiredPosition()
+    {
+        Vector3 desiredPosition = target.position + cameraOffset;
+        
+        if (zAxisMode == ZAxisMode.DepthScale)
+        {
+            // 深度缩放模式：根据玩家Z轴位置调整摄像机Z轴偏移
+            float playerZOffset = target.position.z - baseDepth;
+            desiredPosition.z = target.position.z + cameraOffset.z + (playerZOffset * depthScaleFactor);
+        }
+        // FixedFollow模式下直接使用 target.position + cameraOffset
+        
+        return desiredPosition;
+    }
+    
+    /// <summary>
+    /// 应用边界限制
+    /// </summary>
+    private Vector3 ApplyBounds(Vector3 position)
+    {
+        position.x = Mathf.Clamp(position.x, boundsMin.x, boundsMax.x);
+        position.y = Mathf.Clamp(position.y, boundsMin.y, boundsMax.y);
+        position.z = Mathf.Clamp(position.z, boundsMin.z, boundsMax.z);
+        return position;
     }
     
     /// <summary>
@@ -144,17 +144,54 @@ public class PlayerCameraController : MonoBehaviour
     }
     
     /// <summary>
-    /// 设置摄像机距离（用于缩放）
+    /// 设置移动边界
     /// </summary>
-    public void SetDistance(float newDistance)
+    public void SetBounds(Vector3 min, Vector3 max)
     {
-        _currentDistance = Mathf.Clamp(newDistance, minDistance, maxDistance);
+        boundsMin = min;
+        boundsMax = max;
     }
     
+    /// <summary>
+    /// 启用/禁用边界限制
+    /// </summary>
+    public void SetUseBounds(bool use)
+    {
+        useBounds = use;
+    }
+    
+    /// <summary>
+    /// 设置Z轴跟随模式为固定跟随
+    /// </summary>
+    public void SetFixedFollowMode()
+    {
+        zAxisMode = ZAxisMode.FixedFollow;
+    }
+    
+    /// <summary>
+    /// 设置Z轴跟随模式为深度缩放
+    /// </summary>
+    /// <param name="scaleFactor">深度缩放系数</param>
+    /// <param name="baseDepthPosition">基准深度位置</param>
+    public void SetDepthScaleMode(float scaleFactor = 0.5f, float baseDepthPosition = 0f)
+    {
+        zAxisMode = ZAxisMode.DepthScale;
+        depthScaleFactor = scaleFactor;
+        baseDepth = baseDepthPosition;
+    }
+    
+    /// <summary>
+    /// 设置摄像机偏移
+    /// </summary>
+    public void SetCameraOffset(Vector3 offset)
+    {
+        cameraOffset = offset;
+    }
     
     // 公开属性
     public Transform Target => target;
-    public float Yaw => _currentYaw;
-    public float Pitch => _currentPitch;
+    public ZAxisMode CurrentZAxisMode => zAxisMode;
+    public Vector3 BoundsMin => boundsMin;
+    public Vector3 BoundsMax => boundsMax;
 }
 

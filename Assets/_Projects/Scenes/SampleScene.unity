@@ -456,15 +456,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1976012000}
-  targetOffset: {x: 0, y: 1.5, z: 0}
-  distance: 5
-  minDistance: 2
-  maxDistance: 10
-  mouseSensitivity: 2
-  minVerticalAngle: -40
-  maxVerticalAngle: 80
-  invertY: 0
-  rotationSmooth: 5
+  cameraOffset: {x: 0, y: 5, z: -10}
+  useBounds: 0
+  boundsMin: {x: -50, y: 0, z: -50}
+  boundsMax: {x: 50, y: 20, z: 50}
+  zAxisMode: 0
+  depthScaleFactor: 0.5
+  baseDepth: 0
   positionSmooth: 10
   enableCollision: 1
   collisionOffset: 0.3
