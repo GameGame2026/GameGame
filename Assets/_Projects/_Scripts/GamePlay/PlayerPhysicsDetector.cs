@@ -63,16 +63,21 @@ public class PlayerPhysicsDetector : MonoBehaviour
     }
     
     /// <summary>
-    /// 检测台阶并计算需要的向上运动
+    /// 检测台阶并计算需要的向��运动
     /// </summary>
     /// <param name="horizontalMotion">水平移动方向</param>
     /// <param name="additionalUpMotion">输出：需要添加的向上运动量</param>
+    /// <param name="verticalVelocity">当前垂直速度</param>
     /// <returns>是否检测到可攀爬的台阶</returns>
-    public bool TryDetectStep(Vector3 horizontalMotion, out float additionalUpMotion)
+    public bool TryDetectStep(Vector3 horizontalMotion, out float additionalUpMotion, float verticalVelocity = 0f)
     {
         additionalUpMotion = 0f;
         
-        if (!enableStepDetection || horizontalMotion.magnitude < 0.01f)
+        // 台阶检测
+        if (!enableStepDetection || 
+            horizontalMotion.magnitude < 0.01f || 
+            !_isGrounded || 
+            verticalVelocity < -0.5f)
         {
             return false;
         }
@@ -80,31 +85,33 @@ public class PlayerPhysicsDetector : MonoBehaviour
         // 检测前方是否有障碍物
         Vector3 checkStart = transform.position + Vector3.up * 0.1f;
         Vector3 direction = horizontalMotion.normalized;
-        
-        if (!Physics.Raycast(checkStart, direction, 
-            _controller.radius + 0.1f, groundLayer, QueryTriggerInteraction.Ignore))
+
+        if (!Physics.Raycast(checkStart, direction,
+                _controller.radius + 0.1f, groundLayer, QueryTriggerInteraction.Ignore))
         {
-            return false; // 前方没有障碍
+            return false;
         }
-        
-        // 检测台阶顶部
+
+        // 从高处向下检测，看是否能找到台阶顶部
         Vector3 stepCheckPos = checkStart + direction * (_controller.radius + 0.1f) + Vector3.up * stepHeight;
-        
-        if (!Physics.Raycast(stepCheckPos, Vector3.down, out RaycastHit stepHit, 
-            stepHeight, groundLayer, QueryTriggerInteraction.Ignore))
+
+        if (!Physics.Raycast(stepCheckPos, Vector3.down, out RaycastHit stepHit,
+                stepHeight + 0.2f, groundLayer, QueryTriggerInteraction.Ignore))
         {
-            return false; // 没有检测到台阶顶部
+            return false;
         }
-        
+
         float stepUpHeight = stepHit.point.y - transform.position.y;
-        
-        // 如果台阶高度在有效范围内
+
+        // 确认是合理的台阶高度
         if (stepUpHeight > 0.01f && stepUpHeight <= stepHeight)
         {
-            additionalUpMotion = stepUpHeight / Time.deltaTime * stepSmooth;
+            // 直接返回需要的向上移动距离，而不是速度
+            additionalUpMotion = stepUpHeight;
+            Debug.Log($"Step detected: height={stepUpHeight:F3}");
             return true;
         }
-        
+
         return false;
     }
     
@@ -118,7 +125,7 @@ public class PlayerPhysicsDetector : MonoBehaviour
     }
     
     /// <summary>
-    /// 获取地面检��位置（用于调试）
+    /// 获取地面检测位置
     /// </summary>
     public Vector3 GetGroundCheckPosition()
     {

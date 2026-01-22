@@ -186,13 +186,15 @@ public class PlayerController : MonoBehaviour
             motion.y = -0.5f;
         }
         
-        // 尝试台阶攀爬 - 使用物理检测器
-        if (isGrounded && _currentSpeed.magnitude > 0.1f)
+        // 尝试台阶攀爬
+        if (isGrounded && _velocity.y <= 0 && _currentSpeed.magnitude > 0.1f)
         {
-            Vector3 horizontalMotion = new Vector3(motion.x, 0, motion.z);
-            if (_physicsDetector.TryDetectStep(horizontalMotion, out float additionalUpMotion))
+            Vector3 horizontalMotion = new Vector3(_currentSpeed.x, 0, _currentSpeed.z);
+            if (_physicsDetector.TryDetectStep(horizontalMotion, out float stepUpDistance, _velocity.y))
             {
-                motion.y = Mathf.Max(motion.y, additionalUpMotion);
+                // stepUpDistance 是距离，转换为速度（距离/时间）
+                float stepUpVelocity = stepUpDistance / Time.deltaTime;
+                motion.y = Mathf.Max(motion.y, stepUpVelocity);
             }
         }
         
