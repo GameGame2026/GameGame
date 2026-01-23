@@ -20,7 +20,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float invincibilityDuration = 1f; // 受伤后无敌时间
     private float _invincibilityTimer;
     
-    // 计时��
+    // 计时
     private float _lastDamageTime;
     
     // 事件
