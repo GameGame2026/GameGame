@@ -4,22 +4,8 @@ using System.Collections;
 
 namespace _Projects.SceneManagement
 {
-    public class SceneTransitionManager : MonoBehaviour
+    public class SceneTransitionManager : Singleton<SceneTransitionManager>
     {
-        private static SceneTransitionManager _instance;
-        public static SceneTransitionManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    GameObject go = new GameObject("SceneTransitionManager");
-                    _instance = go.AddComponent<SceneTransitionManager>();
-                    DontDestroyOnLoad(go);
-                }
-                return _instance;
-            }
-        }
 
         [Header("场景转换设置")]
         [Tooltip("是否启用淡入淡出效果")]
@@ -34,19 +20,7 @@ namespace _Projects.SceneManagement
         /// 当前是否���在转换场景
         /// </summary>
         public bool IsTransitioning => _isTransitioning;
-
-        private void Awake()
-        {
-            // 确保只有一个实例
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        
 
         /// <summary>
         /// 加载场景（通过场景名称）

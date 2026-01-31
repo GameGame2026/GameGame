@@ -5,24 +5,8 @@ namespace _Projects.SceneManagement
     /// <summary>
     /// 该类用于在场景切换时保存和恢复玩家数据
     /// </summary>
-    public class PlayerDataManager : MonoBehaviour
+    public class PlayerDataManager : Singleton<PlayerDataManager>
     {
-        private static PlayerDataManager _instance;
-        
-        public static PlayerDataManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    GameObject go = new GameObject("PlayerDataManager");
-                    _instance = go.AddComponent<PlayerDataManager>();
-                    DontDestroyOnLoad(go);
-                }
-                return _instance;
-            }
-        }
-
         [Header("玩家基础数据")]
         public int currentHealth = 100;
         public int maxHealth = 100;
@@ -37,18 +21,7 @@ namespace _Projects.SceneManagement
         [Header("游戏进度数据")]
         public int currentLevel = 1;
         public float playTime = 0f;
-
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        
 
         /// <summary>
         /// 保存玩家当前状态

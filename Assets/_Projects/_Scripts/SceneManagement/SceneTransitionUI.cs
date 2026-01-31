@@ -6,26 +6,13 @@ namespace _Projects.SceneManagement
 {
     [RequireComponent(typeof(Canvas))]
     [RequireComponent(typeof(CanvasGroup))]
-    public class SceneTransitionUI : MonoBehaviour
+    public class SceneTransitionUI : Singleton<SceneTransitionUI>
     {
-        private static SceneTransitionUI _instance;
-        
-        public static SceneTransitionUI Instance => _instance;
-
         private CanvasGroup _canvasGroup;
         private Canvas _canvas;
 
         private void Awake()
         {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-            
             _canvasGroup = GetComponent<CanvasGroup>();
             _canvas = GetComponent<Canvas>();
             
