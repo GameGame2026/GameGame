@@ -3,12 +3,6 @@ using Cinemachine;
 
 namespace _Projects.Camera
 {
-    /// <summary>
-    /// 在 3D 场景中模拟 2D/2.5D 相机：
-    /// - 可锁定世界 X/Y/Z 任意轴
-    /// - 可选跟随目标对应轴调整相机位置（带阻尼）
-    /// 将本组件挂到需要的 CinemachineVirtualCamera 上
-    /// </summary>
     [ExecuteAlways]
     [DisallowMultipleComponent]
     [AddComponentMenu("Cinemachine/Extensions/Axis Lock")]
@@ -106,8 +100,7 @@ namespace _Projects.Camera
                 return;
 
             var pos = state.RawPosition;
-
-            // 处理首次帧或暂停编辑器时可能给出的负 deltaTime
+            
             bool validDeltaTime = deltaTime >= 0f;
 
             // 处理 X 轴
