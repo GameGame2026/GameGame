@@ -3,12 +3,6 @@ using Cinemachine;
 
 namespace _Projects.Camera
 {
-    /// <summary>
-    /// 在 3D 场景中模拟 2D 侧视相机：
-    /// \- 锁定世界 Z 平面
-    /// \- 可选跟随目标 Z 调整相机深度（带阻尼）
-    /// 将本组件挂到需要的 CinemachineVirtualCamera 上
-    /// </summary>
     [ExecuteAlways]
     [DisallowMultipleComponent]
     [AddComponentMenu("Cinemachine/Extensions/2.5D Z Lock")]
