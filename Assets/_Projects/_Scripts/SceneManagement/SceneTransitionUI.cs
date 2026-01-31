@@ -11,8 +11,9 @@ namespace _Projects.SceneManagement
         private CanvasGroup _canvasGroup;
         private Canvas _canvas;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _canvasGroup = GetComponent<CanvasGroup>();
             _canvas = GetComponent<Canvas>();
             
