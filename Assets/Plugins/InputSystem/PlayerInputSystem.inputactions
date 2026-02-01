@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "name": "PlyaerInputSystem",
+    "name": "PlayerInputSystem",
     "maps": [
         {
             "name": "GamePlay",
