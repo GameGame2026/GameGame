@@ -13,11 +13,19 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: 
   dialoguePieces:
-  - id: 
-    image: {fileID: 0}
-    text: 
+  - id: 1
+    speakerType: 1
+    speakerName: abc
+    image: {fileID: 593740586, guid: 08b9b1cc43a267e47ae2dae15b309559, type: 3}
+    text: 111111111111111
+    nextID: 2
     options:
-    - text: 
-      targetID: 
-    - text: 
-      targetID: 
+    - text: next
+      targetID: 2
+  - id: 2
+    speakerType: 0
+    speakerName: bcd
+    image: {fileID: 1542758366, guid: 08b9b1cc43a267e47ae2dae15b309559, type: 3}
+    text: 222222222222222
+    nextID: 
+    options: []
