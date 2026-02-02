@@ -65,6 +65,19 @@ namespace GamePlay.Controller
         
         [Range(0, 1)] 
         public float footstepAudioVolume = 0.5f;
+
+        [Header("交互设置")]
+        [Tooltip("交互检测距离")]
+        public float interactRange = 3.0f;
+        
+        [Tooltip("交互检测角度（前方锥形范围）")]
+        public float interactAngle = 60.0f;
+        
+        [Tooltip("处置检测距离")]
+        public float disposeRange = 3.0f;
+        
+        [Tooltip("处置检测角度")]
+        public float disposeAngle = 60.0f;
     }
 }
 

@@ -15,6 +15,9 @@ namespace GamePlay.Controller
         public Vector2 LookInput { get; private set; }
         public bool JumpInput { get; private set; }
         public bool SprintInput { get; private set; }
+        public bool InteractInput { get; private set; }
+        public bool DisposeInput { get; private set; }
+        public bool RecycleInput { get; private set; }
 
         [Header("Input Settings")]
         [Tooltip("是否启用模拟移动（根据摇杆推动距离调整速度）")]
@@ -49,6 +52,15 @@ namespace GamePlay.Controller
 
             _inputSystem.GamePlay.Sprint.performed += OnSprintPerformed;
             _inputSystem.GamePlay.Sprint.canceled += OnSprintCanceled;
+            
+            _inputSystem.GamePlay.Interact.performed += ctx => InteractInput = true;
+            _inputSystem.GamePlay.Interact.canceled += ctx => InteractInput = false;
+            
+            _inputSystem.GamePlay.Dispose.performed += ctx => DisposeInput = true;
+            _inputSystem.GamePlay.Dispose.canceled += ctx => DisposeInput = false;
+            
+            _inputSystem.GamePlay.Recycle.performed += ctx => RecycleInput = true;
+            _inputSystem.GamePlay.Recycle.canceled += ctx => RecycleInput = false;
 
             _inputSystem.GamePlay.Enable();
         }

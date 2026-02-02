@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using _Projects.GamePlay;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -21,10 +23,9 @@ namespace GamePlay.Controller
         [Tooltip("Cinemachine 虚拟摄像机中设置的跟随目标，摄像机将跟随该目标")]
         public GameObject CinemachineCameraTarget;
 
-
-        // Cinemachine 相关
-        private float _cinemachineTargetYaw;
-        private float _cinemachineTargetPitch;
+        [Header("检测器")]
+        [Tooltip("玩家检测器（手动指定或自动查找）")]
+        public PlayerProximityDetector proximityDetector;
 
         // 玩家相关
         private float _speed;
@@ -54,6 +55,12 @@ namespace GamePlay.Controller
 
         private bool _hasAnimator;
 
+        // 交互系统
+        private List<DisposableObject> _disposedObjects = new List<DisposableObject>();
+        private InteractableNPC _currentNPC;
+        private bool _disposeInputPressed;
+        private bool _recycleInputPressed;
+
 
 
         private void Awake()
@@ -63,12 +70,20 @@ namespace GamePlay.Controller
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+
+            // 获取或查找检测器
+            if (proximityDetector == null)
+            {
+                proximityDetector = GetComponentInChildren<PlayerProximityDetector>();
+                if (proximityDetector == null)
+                {
+                    Debug.LogWarning("[ThirdPersonController] 未找到 PlayerProximityDetector，请手动添加并配置。", this);
+                }
+            }
         }
 
         private void Start()
         {
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _inputHandler = GetComponent<PlayerInputHandler>();
@@ -87,13 +102,11 @@ namespace GamePlay.Controller
             JumpAndGravity();
             GroundedCheck();
             Move();
+            Interact();
+            Dispose();
+            Recycle();
         }
-
-        private void LateUpdate()
-        {
-            CameraRotation();
-        }
-
+        
         private void AssignAnimationIDs()
         {
             _animIDSpeed = Animator.StringToHash("Speed");
@@ -117,27 +130,7 @@ namespace GamePlay.Controller
                 _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
-
-        private void CameraRotation()
-        {
-            // 如果有输入且摄像机位置未锁定
-            if (_inputHandler.LookInput.sqrMagnitude >= _threshold && !config.lockCameraPosition)
-            {
-                // 不要把鼠标输入乘以 Time.deltaTime
-                float deltaTimeMultiplier = 1.0f;
-
-                _cinemachineTargetYaw += _inputHandler.LookInput.x * deltaTimeMultiplier;
-                _cinemachineTargetPitch += _inputHandler.LookInput.y * deltaTimeMultiplier;
-            }
-
-            // 限制旋转角度，确保值在合理范围内
-            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, config.bottomClamp, config.topClamp);
-
-            // Cinemachine 将跟随该目标
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + config.cameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
-        }
+        
 
         private void Move()
         {
@@ -273,6 +266,113 @@ namespace GamePlay.Controller
             if (_verticalVelocity < _terminalVelocity)
             {
                 _verticalVelocity += config.gravity * Time.deltaTime;
+            }
+        }
+        
+        private void Interact()
+        {
+            // 查找范围内可互动的NPC
+            InteractableNPC closestNPC = FindClosestInteractable();
+            
+            // 更新当前NPC的UI显示
+            if (closestNPC != _currentNPC)
+            {
+                // 隐藏之前NPC的UI
+                if (_currentNPC != null)
+                {
+                    _currentNPC.HideInteractUI();
+                }
+                
+                _currentNPC = closestNPC;
+                
+                // 显示新NPC的UI
+                if (_currentNPC != null)
+                {
+                    _currentNPC.ShowInteractUI();
+                }
+            }
+            
+            // 按下交互键时触发对话
+            if (_inputHandler.InteractInput && _currentNPC != null)
+            {
+                _currentNPC.TriggerAction();
+            }
+        }
+
+        private InteractableNPC FindClosestInteractable()
+        {
+            if (proximityDetector != null)
+            {
+                return proximityDetector.GetInteractable();
+            }
+            
+            Debug.LogWarning("[ThirdPersonController] proximityDetector 未设置", this);
+            return null;
+        }
+
+        private void Dispose()
+        {
+            // 检测按键按下（避免连续触发）
+            if (_inputHandler.DisposeInput && !_disposeInputPressed)
+            {
+                Debug.Log("Dispose pressed");
+                _disposeInputPressed = true;
+                
+                // 查找最近的可贴附物体
+                DisposableObject closestDisposable = FindClosestDisposable();
+                
+                if (closestDisposable != null)
+                {
+                    Debug.Log("Found disposable: " + closestDisposable.gameObject.name);
+                    // 贴上prefab，改变物体状态
+                    closestDisposable.ChangeState();
+                    
+                    // 添加到已贴附列表（按放置顺序）
+                    if (!_disposedObjects.Contains(closestDisposable))
+                    {
+                        _disposedObjects.Add(closestDisposable);
+                    }
+                }
+            }
+            else if (!_inputHandler.DisposeInput)
+            {
+                _disposeInputPressed = false;
+            }
+        }
+
+        private DisposableObject FindClosestDisposable()
+        {
+            if (proximityDetector != null)
+            {
+                var result = proximityDetector.GetDisposable();
+                Debug.Log($"[ThirdPersonController] FindClosestDisposable 返回: {(result != null ? result.name : "null")}", this);
+                return result;
+            }
+            
+            Debug.LogWarning("[ThirdPersonController] proximityDetector 未设置", this);
+            return null;
+        }
+
+        private void Recycle()
+        {
+            // 检测按键按下（避免连续触发）
+            if (_inputHandler.RecycleInput && !_recycleInputPressed)
+            {
+                _recycleInputPressed = true;
+                
+                // 按照放置次序回收（从列表末尾开始，即最后贴附的）
+                if (_disposedObjects.Count > 0)
+                {
+                    DisposableObject lastDisposed = _disposedObjects[_disposedObjects.Count - 1];
+                    
+                    // 回收prefab，恢复物体状态
+                    lastDisposed.Recycle();
+                    _disposedObjects.RemoveAt(_disposedObjects.Count - 1);
+                }
+            }
+            else if (!_inputHandler.RecycleInput)
+            {
+                _recycleInputPressed = false;
             }
         }
 

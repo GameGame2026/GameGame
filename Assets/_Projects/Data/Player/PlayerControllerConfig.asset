@@ -43,3 +43,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   footstepAudioVolume: 0.5
+  interactRange: 3
+  interactAngle: 60
+  disposeRange: 3
+  disposeAngle: 60
