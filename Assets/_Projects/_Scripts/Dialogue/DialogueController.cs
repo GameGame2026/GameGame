@@ -9,6 +9,7 @@ public class DialogueController : MonoBehaviour
     public DialogueData_SO currentData;
     public PlayerInputHandler input;
     bool canTalk = false;
+    private bool lastInteractInput = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,15 +24,22 @@ public class DialogueController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             DialogueUI.Instance.dialoguePanel.SetActive(false);
+            canTalk = false;
         }
     }
 
     private void Update()
     {
-        if (canTalk && input.InteractInput)
+        // 边缘检测 - 只在按键按下时触发
+        bool interactPressed = input.InteractInput;
+        
+        // 只有在可以对话 且 对话未激活 且 按键刚按下时才打开对话
+        if (canTalk && !DialogueUI.Instance.IsDialogueActive && interactPressed && !lastInteractInput)
         {
             OpenDialogue();
         }
+        
+        lastInteractInput = interactPressed;
     }
 
     private void OpenDialogue()

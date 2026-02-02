@@ -18,14 +18,26 @@ MonoBehaviour:
     speakerName: abc
     image: {fileID: 593740586, guid: 08b9b1cc43a267e47ae2dae15b309559, type: 3}
     text: 111111111111111
-    nextID: 2
+    nextID: 
     options:
     - text: next
       targetID: 2
+    - text: what
+      targetID: 3
+    isLastPiece: 0
   - id: 2
     speakerType: 0
     speakerName: bcd
     image: {fileID: 1542758366, guid: 08b9b1cc43a267e47ae2dae15b309559, type: 3}
     text: 222222222222222
+    nextID: 3
+    options: []
+    isLastPiece: 0
+  - id: 3
+    speakerType: 0
+    speakerName: bcd
+    image: {fileID: 1542758366, guid: 08b9b1cc43a267e47ae2dae15b309559, type: 3}
+    text: 3333333333333
     nextID: 
     options: []
+    isLastPiece: 1

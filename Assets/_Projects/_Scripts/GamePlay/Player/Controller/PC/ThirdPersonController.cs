@@ -101,10 +101,25 @@ namespace GamePlay.Controller
 
             JumpAndGravity();
             GroundedCheck();
-            Move();
-            Interact();
-            Dispose();
-            Recycle();
+            if (DialogueUI.Instance != null && DialogueUI.Instance.IsDialogueActive == false)
+            {
+                Move();
+                Interact();
+                Dispose();
+                Recycle();
+            }
+            else
+            {
+                _speed = 0f;
+                _animationBlend = Mathf.Lerp(_animationBlend, 0f, Time.deltaTime * config.speedChangeRate);
+                
+                if (_hasAnimator)
+                {
+                    _animator.SetFloat(_animIDSpeed, _animationBlend);
+                    _animator.SetFloat(_animIDMotionSpeed, 0f);
+                }
+            }
+            
         }
         
         private void AssignAnimationIDs()

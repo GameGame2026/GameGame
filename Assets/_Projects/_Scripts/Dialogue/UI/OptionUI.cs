@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class OptionUI : MonoBehaviour
 {
     public TextMeshProUGUI optionText;
+    public TextMeshProUGUI numberText;
     public Image backgroundImage;
     public Color normalColor = Color.white;
     public Color highlightColor = Color.yellow;
@@ -27,11 +28,17 @@ public class OptionUI : MonoBehaviour
         }
     }
 
-    public void UpdateOption(DialoguePiece piece, DialogueOption option)
+    public void UpdateOption(DialoguePiece piece, DialogueOption option, int optionNumber = 0)
     {
         currentPiece = piece;
         optionText.text = option.text;
         nextPieceID = option.targetID;
+        
+        // Set the number text if available
+        if (numberText != null && optionNumber > 0)
+        {
+            numberText.text = optionNumber.ToString();
+        }
         
         // Reset to normal state
         SetHighlight(false);
@@ -71,5 +78,5 @@ public class OptionUI : MonoBehaviour
             DialogueUI.Instance.dialoguePanel.SetActive(false);
         }
     }
-    
 }
+

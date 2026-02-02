@@ -18,7 +18,6 @@ public class DialogueUI : Singleton<DialogueUI>
     public TextMeshProUGUI NPCNameText;
     public TextMeshProUGUI PlayerNameText;
     public TextMeshProUGUI mainText;
-    public Button nextButton;
     
     public GameObject dialoguePanel;
     
@@ -44,11 +43,13 @@ public class DialogueUI : Singleton<DialogueUI>
     
     private List<OptionUI> currentOptions = new List<OptionUI>();
     private int selectedOptionIndex = -1;
+    private bool lastInteractInput = false;
+
+    public bool IsDialogueActive => dialoguePanel != null && dialoguePanel.activeSelf;
 
     protected override void Awake()
     {
         base.Awake();
-        nextButton.onClick.AddListener(ContinueDialogue);
         
         if (nextHintPanel != null)
             nextHintPanel.SetActive(false);
@@ -59,32 +60,51 @@ public class DialogueUI : Singleton<DialogueUI>
     private void Update()
     {
         if (!dialoguePanel.activeSelf)
+        {
+            lastInteractInput = false;
             return;
+        }
 
-        // Handle interact input (I key)
-        if (inputHandler != null && inputHandler.InteractInput)
+        // 处理交互输入（I 键）- 只在按键按下时触发（边缘检测）
+        bool interactPressed = inputHandler != null && inputHandler.InteractInput;
+        if (interactPressed && !lastInteractInput)
         {
             if (isTyping)
             {
-                // Skip typewriter effect
+                // 跳过打字机效果
                 SkipTypewriter();
             }
             else if (currentOptions.Count > 0)
             {
-                // Trigger selected option
+                // 触发选中的选项
                 if (selectedOptionIndex >= 0 && selectedOptionIndex < currentOptions.Count)
                 {
                     currentOptions[selectedOptionIndex].TriggerOption();
                 }
             }
-            else if (textFullyDisplayed && !string.IsNullOrEmpty(currentPiece?.nextID))
+            else if (textFullyDisplayed)
             {
-                // Continue to next dialogue
-                ContinueDialogue();
+                // 如果文本已完全显示
+                if (currentPiece != null && currentPiece.isLastPiece)
+                {
+                    // 最后一段对话，关闭对话框
+                    dialoguePanel.SetActive(false);
+                }
+                else if (!string.IsNullOrEmpty(currentPiece?.nextID))
+                {
+                    // 有下一段对话，继续
+                    ContinueDialogue();
+                }
+                else
+                {
+                    // 没有下一段对话，关闭对话框
+                    dialoguePanel.SetActive(false);
+                }
             }
         }
+        lastInteractInput = interactPressed;
 
-        // Handle option selection with WS keys
+        // 使用 WS 键处理选项选择
         if (currentOptions.Count > 0 && !isTyping)
         {
             HandleOptionSelection();
@@ -93,7 +113,7 @@ public class DialogueUI : Singleton<DialogueUI>
 
     private void HandleOptionSelection()
     {
-        // WS navigation
+        // WS 键导航
         if (Input.GetKeyDown(KeyCode.W))
         {
             SelectPreviousOption();
@@ -103,7 +123,7 @@ public class DialogueUI : Singleton<DialogueUI>
             SelectNextOption();
         }
         
-        // Number key selection (1-4)
+        // 数字键选择（1-4）
         for (int i = 0; i < Mathf.Min(4, currentOptions.Count); i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
@@ -119,17 +139,17 @@ public class DialogueUI : Singleton<DialogueUI>
         if (index < 0 || index >= currentOptions.Count)
             return;
 
-        // Deselect previous
+        // 取消选中之前的选项
         if (selectedOptionIndex >= 0 && selectedOptionIndex < currentOptions.Count)
         {
             currentOptions[selectedOptionIndex].SetHighlight(false);
         }
 
-        // Select new
+        // 选中新的选项
         selectedOptionIndex = index;
         currentOptions[selectedOptionIndex].SetHighlight(true);
         
-        // Set EventSystem selection for UI navigation
+        // 为 UI 导航设置 EventSystem 选择
         if (EventSystem.current != null)
         {
             EventSystem.current.SetSelectedGameObject(currentOptions[selectedOptionIndex].gameObject);
@@ -169,13 +189,13 @@ public class DialogueUI : Singleton<DialogueUI>
             }
             else
             {
-                // End dialogue if nextID not found
+                // 如果找不到 nextID，结束对话
                 dialoguePanel.SetActive(false);
             }
         }
         else
         {
-            // End dialogue if no nextID
+            // 如果没有 nextID，结束对话
             dialoguePanel.SetActive(false);
         }
     }
@@ -187,23 +207,40 @@ public class DialogueUI : Singleton<DialogueUI>
 
     public void UpdateMainDialogue(DialoguePiece piece)
     {
+        if (piece == null)
+        {
+            Debug.LogError("DialoguePiece 为空！");
+            return;
+        }
+        
         dialoguePanel.SetActive(true);
         currentPiece = piece;
         textFullyDisplayed = false;
+        isTyping = false;
         
-        // Stop any existing typewriter
+        // 停止任何现有的打字机效果
         if (typewriterCoroutine != null)
         {
             StopCoroutine(typewriterCoroutine);
+            typewriterCoroutine = null;
         }
         
-        // Clear current options
+        // 清空文本
+        if (mainText != null)
+        {
+            mainText.text = "";
+        }
+        
+        // 清除当前选项
         ClearOptions();
         
-        // Update speaker UI based on speaker type
+        // 隐藏提示和按钮（等待打字机效果完成后再显示）
+        ShowNextHint(false);
+        
+        // 根据说话者类型更新 UI
         UpdateSpeakerUI(piece);
         
-        // Start typewriter effect
+        
         typewriterCoroutine = StartCoroutine(TypewriterEffect(piece.text));
     }
     
@@ -211,13 +248,13 @@ public class DialogueUI : Singleton<DialogueUI>
     {
         if (piece.speakerType == SpeakerType.NPC)
         {
-            // Show NPC panel, hide Player panel
+            // 显示 NPC 面板，隐藏玩家面板
             if (NPCPanel != null)
                 NPCPanel.SetActive(true);
             if (PlayerPanel != null)
                 PlayerPanel.SetActive(false);
             
-            // Set NPC icon and name
+            // 设置 NPC 图标和名字
             if (piece.image != null && NPCIcon != null)
             {
                 NPCIcon.enabled = true;
@@ -233,15 +270,15 @@ public class DialogueUI : Singleton<DialogueUI>
                 NPCNameText.text = piece.speakerName;
             }
         }
-        else // Player
+        else // 玩家
         {
-            // Show Player panel, hide NPC panel
+            // 显示玩家面板，隐藏 NPC 面板
             if (PlayerPanel != null)
                 PlayerPanel.SetActive(true);
             if (NPCPanel != null)
                 NPCPanel.SetActive(false);
             
-            // Set Player icon and name
+            // 设置玩家图标和名字
             if (piece.image != null && PlayerIcon != null)
             {
                 PlayerIcon.enabled = true;
@@ -291,28 +328,37 @@ public class DialogueUI : Singleton<DialogueUI>
     
     private void OnTextFullyDisplayed()
     {
-        // Show options if available
+        // 优先检查是否为最后一段对话
+        if (currentPiece.isLastPiece)
+        {
+            Debug.Log("最后一段对话，显示关闭提示");
+            // 最后一段对话，显示关闭提示
+            ShowNextHint(true, "按 I 关闭对话");
+            return;
+        }
+        
+        // 如果有选项可选，则显示选项
         if (currentPiece.options != null && currentPiece.options.Count > 0)
         {
             CreateOptions(currentPiece);
             ShowNextHint(false);
             
-            // Default: no option selected
-            selectedOptionIndex = -1;
+            // 自动选中第一个选项
+            SelectOption(0);
         }
         else if (!string.IsNullOrEmpty(currentPiece.nextID))
         {
-            // Show next hint if there's a next dialogue
+            // 如果有下一段对话，显示提示和按钮
             ShowNextHint(true);
         }
         else
         {
-            // No options and no next, dialogue will end
-            ShowNextHint(false);
+            // 没有选项也没有下一段对话，显示关闭对话的提示
+            ShowNextHint(true, "按 I 关闭对话");
         }
     }
     
-    private void ShowNextHint(bool show)
+    private void ShowNextHint(bool show, string customText = null)
     {
         if (nextHintPanel != null)
         {
@@ -321,7 +367,7 @@ public class DialogueUI : Singleton<DialogueUI>
         
         if (show && nextHintText != null)
         {
-            nextHintText.text = "按 I 进行下一步对话";
+            nextHintText.text = customText ?? "按 I 继续对话";
         }
     }
 
@@ -336,26 +382,26 @@ public class DialogueUI : Singleton<DialogueUI>
             return;
         }
         
-        // Show option panel
+        // 显示选项面板
         if (optionPanel != null)
             optionPanel.gameObject.SetActive(true);
         
-        // Create option buttons
+        // 创建选项按钮
         for (int i = 0; i < piece.options.Count; i++)
         {
             var option = Instantiate(optionPrefab, optionPanel);
-            option.UpdateOption(piece, piece.options[i]);
+            option.UpdateOption(piece, piece.options[i], i + 1); // 传递序号（从1开始）
             currentOptions.Add(option);
         }
     }
     
     private void ClearOptions()
     {
-        // Clear option list
+        // 清空选项列表
         currentOptions.Clear();
         selectedOptionIndex = -1;
         
-        // Destroy existing option GameObjects
+        // 销毁现有的选项 GameObject
         if (optionPanel != null && optionPanel.childCount > 0)
         {
             for (int i = optionPanel.childCount - 1; i >= 0; i--)
