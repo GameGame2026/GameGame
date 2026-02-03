@@ -1,0 +1,248 @@
+====================================================================
+基于点数的多动画集系统 - Animator设置指南
+====================================================================
+
+【系统概述】
+你的角色有4个等级（0-3点），每个等级有独立的动画集。
+每个等级需要8个动画（前后两组 × 4个状态）。
+
+【所需动画总数】
+4个等级 × 8个动画 = 32个动画文件
+
+等级0（0点）：
+- Idle_Front_0, Walk_Front_0, Run_Front_0, Jump_Front_0
+- Idle_Back_0, Walk_Back_0, Run_Back_0, Jump_Back_0
+
+等级1（1点）：
+- Idle_Front_1, Walk_Front_1, Run_Front_1, Jump_Front_1
+- Idle_Back_1, Walk_Back_1, Run_Back_1, Jump_Back_1
+
+等级2（2点）：
+- Idle_Front_2, Walk_Front_2, Run_Front_2, Jump_Front_2
+- Idle_Back_2, Walk_Back_2, Run_Back_2, Jump_Back_2
+
+等级3（3点）：
+- Idle_Front_3, Walk_Front_3, Run_Front_3, Jump_Front_3
+- Idle_Back_3, Walk_Back_3, Run_Back_3, Jump_Back_3
+
+【Animator参数设置】
+--------------------------
+1. Speed (Float) - 默认值: 0
+   * 0 = Idle, 1 = Walk, 2 = Run
+
+2. Grounded (Bool) - 默认值: true
+   * true = 在地面, false = 在空中
+
+3. Jump (Trigger)
+   * 起跳瞬间触发
+
+4. FacingAway (Bool) - 默认值: false
+   * false = 面对摄像机, true = 背对摄像机
+
+5. Points (Int) - 默认值: 0
+   * 0-3，控制使用哪套动画集
+
+【推荐方案A：使用Sub-State Machine（最清晰）】
+====================================================================
+
+主层结构：
+├─ Level0_SubStateMachine (Points = 0时进入)
+├─ Level1_SubStateMachine (Points = 1时进入)
+├─ Level2_SubStateMachine (Points = 2时进入)
+└─ Level3_SubStateMachine (Points = 3时进入)
+
+每个Sub-State Machine内部结构相同：
+├─ GroundMovement_Front (Blend Tree)
+│  ├─ Idle_Front_X (Threshold = 0)
+│  ├─ Walk_Front_X (Threshold = 1)
+│  └─ Run_Front_X (Threshold = 2)
+├─ GroundMovement_Back (Blend Tree)
+│  ├─ Idle_Back_X (Threshold = 0)
+│  ├─ Walk_Back_X (Threshold = 1)
+│  └─ Run_Back_X (Threshold = 2)
+├─ Jump_Front_X
+└─ Jump_Back_X
+
+步骤1：创建4个Sub-State Machine
+--------------------------
+在Animator主层创建：
+- Level0_SubStateMachine
+- Level1_SubStateMachine
+- Level2_SubStateMachine
+- Level3_SubStateMachine
+
+步骤2：设置Sub-State Machine之间的转换
+--------------------------
+Level0 -> Level1
+- Condition: Points = 1
+- Has Exit Time: 取消勾选
+- Transition Duration: 0
+
+Level1 -> Level2
+- Condition: Points = 2
+- Has Exit Time: 取消勾选
+- Transition Duration: 0
+
+Level2 -> Level3
+- Condition: Points = 3
+- Has Exit Time: 取消勾选
+- Transition Duration: 0
+
+同样设置反向转换（Level3 -> Level2 -> Level1 -> Level0）：
+- Condition: Points = 对应值
+- Has Exit Time: 取消勾选
+- Transition Duration: 0
+
+步骤3：配置每个Sub-State Machine内部（以Level0为例）
+--------------------------
+双击进入 Level0_SubStateMachine：
+
+3.1 创建Blend Tree：GroundMovement_Front
+   - Blend Type: 1D
+   - Parameter: Speed
+   - Motions:
+     * Threshold 0: Idle_Front_0
+     * Threshold 1: Walk_Front_0
+     * Threshold 2: Run_Front_0
+
+3.2 创建Blend Tree：GroundMovement_Back
+   - Blend Type: 1D
+   - Parameter: Speed
+   - Motions:
+     * Threshold 0: Idle_Back_0
+     * Threshold 1: Walk_Back_0
+     * Threshold 2: Run_Back_0
+
+3.3 创建普通状态：
+   - Jump_Front_0
+   - Jump_Back_0
+
+3.4 设置内部转换：
+   GroundMovement_Front <-> GroundMovement_Back
+   - Condition: FacingAway = true/false
+   - Has Exit Time: 取消勾选
+   - Transition Duration: 0.1
+
+   GroundMovement_Front/Back -> Jump_Front
+   - Condition: Grounded = false AND FacingAway = false
+   - Has Exit Time: 取消勾选
+   - Transition Duration: 0.1
+
+   GroundMovement_Front/Back -> Jump_Back
+   - Condition: Grounded = false AND FacingAway = true
+   - Has Exit Time: 取消勾选
+   - Transition Duration: 0.1
+
+   Jump_Front -> GroundMovement_Front
+   - Condition: Grounded = true AND FacingAway = false
+   - Has Exit Time: 取消勾选
+   - Transition Duration: 0.2
+
+   Jump_Back -> GroundMovement_Back
+   - Condition: Grounded = true AND FacingAway = true
+   - Has Exit Time: 取消勾选
+   - Transition Duration: 0.2
+
+   Jump_Front <-> Jump_Back（空中切换朝向，可选）
+   - Condition: FacingAway = true/false
+   - Has Exit Time: 取消勾选
+   - Transition Duration: 0.1
+
+3.5 设置默认状态：
+   右键 GroundMovement_Front -> Set as Layer Default State
+
+步骤4：复制配置到其他等级
+--------------------------
+对Level1、Level2、Level3重复步骤3，只是替换动画文件：
+- Level1使用 *_1 动画
+- Level2使用 *_2 动画
+- Level3使用 *_3 动画
+
+步骤5：设置主层默认状态
+--------------------------
+右键 Level0_SubStateMachine -> Set as Layer Default State
+
+【推荐方案B：使用Blend Tree 2D（更简洁但设置复杂）】
+====================================================================
+
+使用2D Blend Tree同时控制Speed和Points：
+
+主层结构：
+├─ GroundMovement_Front (2D Blend Tree)
+├─ GroundMovement_Back (2D Blend Tree)
+├─ JumpMovement_Front (1D Blend Tree，按Points切换)
+└─ JumpMovement_Back (1D Blend Tree，按Points切换)
+
+2D Blend Tree配置（以GroundMovement_Front为例）：
+- Blend Type: 2D Simple Directional
+- Parameter X: Speed (0-2)
+- Parameter Y: Points (0-3)
+
+添加Motion Points（12个点）：
+Speed=0, Points=0 -> Idle_Front_0
+Speed=1, Points=0 -> Walk_Front_0
+Speed=2, Points=0 -> Run_Front_0
+Speed=0, Points=1 -> Idle_Front_1
+Speed=1, Points=1 -> Walk_Front_1
+Speed=2, Points=1 -> Run_Front_2
+... 以此类推到Points=3
+
+注意：2D Blend Tree比较难调，建议使用方案A。
+
+【测试和调试】
+====================================================================
+
+1. 在Unity中为Player添加PlayerStats组件（如果还没有）
+
+2. 运行游戏，在Inspector中实时修改PlayerStats的Points值（0-3）
+
+3. 观察角色动画是否正确切换
+
+4. 测试所有组合：
+   - 每个点数等级（0-3）
+   - 每个动作（Idle, Walk, Run, Jump）
+   - 每个朝向（Front, Back）
+   - 每个转向（Left, Right）
+
+5. 使用Console查看调试信息：
+   - "[PlayerStats] 点数设置: X -> Y"
+   - "[ThirdPersonController] 动画点数更新: Y"
+
+【代码接口】
+====================================================================
+
+在游戏中改变点数：
+
+// 增加点数
+playerStats.AddPoints(1);
+
+// 减少点数
+playerStats.RemovePoints(1);
+
+// 直接设置点数
+playerStats.SetPoints(2);
+
+// 获取当前点数
+int currentPoints = playerStats.Points;
+
+【常见问题】
+====================================================================
+
+Q: 点数改变了但动画没有切换？
+A: 检查：
+   1. PlayerStats组件是否在Player上
+   2. Console是否有"动画点数更新"的日志
+   3. Animator参数Points是否正确设置
+   4. Sub-State Machine之间的转换条件是否正确
+
+Q: 动画切换有延迟？
+A: 减小Transition Duration的值，或者取消Has Exit Time
+
+Q: 某些动画丢失？
+A: 确保所有32个动画文件都已导入并正确命名
+
+Q: 如何临时测试某个等级的动画？
+A: 在PlayerStats的Inspector中直接修改Current Points的值
+
+====================================================================
+

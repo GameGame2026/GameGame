@@ -39,14 +39,21 @@ namespace GamePlay.Controller
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
-        // 动画参数 ID
-        private int _animIDSpeed;
-        private int _animIDGrounded;
-        private int _animIDJump;
-        private int _animIDFreeFall;
-        private int _animIDMotionSpeed;
+        // 动画参数 ID（使用Bool和Float控制，避免Trigger导致的卡顿）
+        private int _animIDSpeed;        // Float: 移动速度（0=Idle, 1=Walk, 2=Run）
+        private int _animIDGrounded;     // Bool: 是否在地面
+        private int _animIDJump;         // Trigger: 跳跃触发（仅在起跳时触发一次）
+        private int _animIDFacingAway;   // Bool: 是否背对摄像机（按W时true）
+        private int _animIDPoints;       // Int: 点数（0-3），用于切换不同动画集
+        
+        // 2D角色朝向控制
+        private bool _isFacingRight = true;           // 当前是否朝右
+        private bool _isFacingAway = false;           // 是否背对摄像机
+        private enum LastVerticalInput { None, Forward, Backward }
+        private LastVerticalInput _lastVerticalInput = LastVerticalInput.None;  // 记录最后的前后输入
         
         private PlayerInputHandler _inputHandler;
+        private PlayerStats _playerStats;  // 玩家状态（包含点数）
         private Animator _animator;
         private CharacterController _controller;
         private GameObject _mainCamera;
@@ -87,6 +94,25 @@ namespace GamePlay.Controller
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _inputHandler = GetComponent<PlayerInputHandler>();
+            _playerStats = GetComponent<PlayerStats>();
+            
+            // 如果找不到PlayerStats，尝试在同级对象中查找
+            if (_playerStats == null)
+            {
+                _playerStats = GetComponentInParent<PlayerStats>();
+                if (_playerStats == null)
+                {
+                    Debug.LogWarning("[ThirdPersonController] 未找到 PlayerStats 组件，点数系统将无法工作！", this);
+                }
+            }
+            
+            // 订阅点数变化事件
+            if (_playerStats != null)
+            {
+                _playerStats.OnPointsChanged.AddListener(OnPointsChanged);
+                // 初始化时设置一次点数
+                OnPointsChanged(_playerStats.Points);
+            }
 
             AssignAnimationIDs();
 
@@ -115,8 +141,7 @@ namespace GamePlay.Controller
                 
                 if (_hasAnimator)
                 {
-                    _animator.SetFloat(_animIDSpeed, _animationBlend);
-                    _animator.SetFloat(_animIDMotionSpeed, 0f);
+                    _animator.SetFloat(_animIDSpeed, 0f);
                 }
             }
             
@@ -124,11 +149,16 @@ namespace GamePlay.Controller
         
         private void AssignAnimationIDs()
         {
+            // Speed: 0 = Idle, 0-1 = Walk, 1-2 = Run
             _animIDSpeed = Animator.StringToHash("Speed");
+            // Grounded: true = 在地面, false = 在空中（Jump动画）
             _animIDGrounded = Animator.StringToHash("Grounded");
+            // Jump: 仅在起跳瞬间触发
             _animIDJump = Animator.StringToHash("Jump");
-            _animIDFreeFall = Animator.StringToHash("FreeFall");
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            // FacingAway: true = 背对摄像机（按W），false = 面对摄像机（按S或左右）
+            _animIDFacingAway = Animator.StringToHash("FacingAway");
+            // Points: 0-3，控制使用哪套动画集
+            _animIDPoints = Animator.StringToHash("Points");
         }
 
         private void GroundedCheck()
@@ -138,8 +168,8 @@ namespace GamePlay.Controller
                 transform.position.z);
             Grounded = Physics.CheckSphere(spherePosition, config.groundedRadius, config.groundLayers,
                 QueryTriggerInteraction.Ignore);
-
-            // 如果有动画器则更新参数
+            
+            // 更新动画器的Grounded参数
             if (_hasAnimator)
             {
                 _animator.SetBool(_animIDGrounded, Grounded);
@@ -152,9 +182,6 @@ namespace GamePlay.Controller
             // 根据行走/冲刺输入设置目标速度
             float targetSpeed = _inputHandler.SprintInput ? config.sprintSpeed : config.moveSpeed;
 
-            // 一个简单的加速与减速实现，便于替换或调整
-
-            // 注意：Vector2 的 == 运算符使用近似比较，避免浮点误差问题，且比 magnitude 更省性能
             // 如果没有输入，则目标速度为 0
             if (_inputHandler.MoveInput == Vector2.zero) targetSpeed = 0.0f;
 
@@ -168,12 +195,8 @@ namespace GamePlay.Controller
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
                 currentHorizontalSpeed > targetSpeed + speedOffset)
             {
-                // 使用 Lerp 产生更平滑的速度变化（非线性）
-                // 注意 Lerp 的 t 值会被限制到 [0,1]
                 _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
                     Time.deltaTime * config.speedChangeRate);
-
-                // 将速度四舍五入到小数点后三位
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
             }
             else
@@ -187,19 +210,56 @@ namespace GamePlay.Controller
             // 规范化输入方向
             Vector3 inputDirection = new Vector3(_inputHandler.MoveInput.x, 0.0f, _inputHandler.MoveInput.y).normalized;
 
-            // 注意：Vector2 的 != 运算符使用近似比较，避免浮点误差问题，且比 magnitude 更省性能
-            // 如果有移动输入，则在移动时旋转玩家
+            // 2D角色朝向控制
             if (_inputHandler.MoveInput != Vector2.zero)
             {
+                // 计算相对于摄像机的移动方向
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    config.rotationSmoothTime);
-
-                // 相对于摄像机方向旋转，使玩家面向移动方向
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                
+                // 获取输入的前后和左右分量（相对于摄像机）
+                float verticalInput = _inputHandler.MoveInput.y;   // W/S
+                float horizontalInput = _inputHandler.MoveInput.x; // A/D
+                
+                // 判断前后方向（相对于摄像机）
+                if (Mathf.Abs(verticalInput) > 0.1f)
+                {
+                    if (verticalInput > 0) // 按W - 向前（背对摄像机）
+                    {
+                        _isFacingAway = true;
+                        _lastVerticalInput = LastVerticalInput.Forward;
+                    }
+                    else // 按S - 向后（面对摄像机）
+                    {
+                        _isFacingAway = false;
+                        _lastVerticalInput = LastVerticalInput.Backward;
+                    }
+                }
+                else if (Mathf.Abs(horizontalInput) > 0.1f)
+                {
+                    // 只按左右时，保持面对摄像机
+                    _isFacingAway = false;
+                    // 不改变_lastVerticalInput，保持上次的前后记忆
+                }
+                
+                // 左右翻转控制（通过Scale.x）
+                if (Mathf.Abs(horizontalInput) > 0.1f)
+                {
+                    if (horizontalInput > 0) // 按D - 向右
+                    {
+                        _isFacingRight = true;
+                    }
+                    else // 按A - 向左
+                    {
+                        _isFacingRight = false;
+                    }
+                }
             }
-
+            
+            // 应用2D翻转（通过Scale）
+            Vector3 localScale = transform.localScale;
+            localScale.x = _isFacingRight ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
+            transform.localScale = localScale;
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
@@ -207,12 +267,57 @@ namespace GamePlay.Controller
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-            // 如果有动画器则更新动画参数
-            if (_hasAnimator)
+            // 更新2D动画状态
+            UpdateAnimation();
+        }
+
+        private void UpdateAnimation()
+        {
+            if (!_hasAnimator) return;
+
+            // 计算动画速度值
+            // Speed: 0 = Idle, 1 = Walk, 2 = Run
+            float animSpeed = 0f;
+            
+            // 只有在地面上��根据移动状态设置速度
+            if (Grounded)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                if (_inputHandler.MoveInput != Vector2.zero)
+                {
+                    // 按住Shift并且移动 -> Run (Speed = 2)
+                    if (_inputHandler.SprintInput)
+                    {
+                        animSpeed = 2f;
+                    }
+                    // 移动但没按Shift -> Walk (Speed = 1)
+                    else
+                    {
+                        animSpeed = 1f;
+                    }
+                }
+                // 没有移动输入 -> Idle (Speed = 0)
+                else
+                {
+                    animSpeed = 0f;
+                    
+                    // Idle状态下，根据最后的前后输入决定朝向
+                    // 如果最后按的是W，显示背对摄像机的Idle
+                    // 如果最后按的是S或只按左右，显示面对摄像机的Idle
+                    if (_lastVerticalInput == LastVerticalInput.Forward)
+                    {
+                        _isFacingAway = true;
+                    }
+                    else if (_lastVerticalInput == LastVerticalInput.Backward)
+                    {
+                        _isFacingAway = false;
+                    }
+                    // 如果从未按过前后键（LastVerticalInput.None），默认面对摄像机
+                }
             }
+            
+            // 更新动画参数
+            _animator.SetFloat(_animIDSpeed, animSpeed);
+            _animator.SetBool(_animIDFacingAway, _isFacingAway);
         }
 
         private void JumpAndGravity()
@@ -221,13 +326,6 @@ namespace GamePlay.Controller
             {
                 // 重置下落超时计时器
                 _fallTimeoutDelta = config.fallTimeout;
-
-                // 如果有动画器则更新参数
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
-                }
 
                 // 当位于地面时，防止速度无限下落
                 if (_verticalVelocity < 0.0f)
@@ -240,11 +338,11 @@ namespace GamePlay.Controller
                 {
                     // H * -2 * G 的平方根 = 达到期望高度所需的初速度
                     _verticalVelocity = Mathf.Sqrt(config.jumpHeight * -2f * config.gravity);
-
-                    // 如果有动画器则设置跳跃状态
+                    
+                    // 触发跳跃动画（只触发一次）
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDJump, true);
+                        _animator.SetTrigger(_animIDJump);
                     }
                 }
 
@@ -263,14 +361,6 @@ namespace GamePlay.Controller
                 if (_fallTimeoutDelta >= 0.0f)
                 {
                     _fallTimeoutDelta -= Time.deltaTime;
-                }
-                else
-                {
-                    // 如果有动画器则设置自由下落状态
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDFreeFall, true);
-                    }
                 }
 
                 // 如果不在地面上，则禁止跳跃
@@ -431,6 +521,27 @@ namespace GamePlay.Controller
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
                 AudioSource.PlayClipAtPoint(config.landingAudioClip, transform.TransformPoint(_controller.center), config.footstepAudioVolume);
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            // 取消订阅点数变化事件，防止内存泄漏
+            if (_playerStats != null)
+            {
+                _playerStats.OnPointsChanged.RemoveListener(OnPointsChanged);
+            }
+        }
+        
+        /// <summary>
+        /// 点数变化时的回调，更新Animator参数
+        /// </summary>
+        private void OnPointsChanged(int newPoints)
+        {
+            if (_hasAnimator)
+            {
+                _animator.SetInteger(_animIDPoints, newPoints);
+                Debug.Log($"[ThirdPersonController] 动画点数更新: {newPoints}");
             }
         }
     }
