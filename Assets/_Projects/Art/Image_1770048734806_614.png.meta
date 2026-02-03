@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 1024
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Image_1770048734806_614_0
+      name: Idle Right
       rect:
         serializedVersion: 2
         x: 120
@@ -118,7 +118,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Image_1770048734806_614_1
+      name: Idle
       rect:
         serializedVersion: 2
         x: 1291
@@ -149,8 +149,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Image_1770048734806_614_0: 593740586
-      Image_1770048734806_614_1: 1542758366
+      Idle: 1542758366
+      Idle Right: 593740586
       Image_1770048734806_614_2: 1293071565
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
