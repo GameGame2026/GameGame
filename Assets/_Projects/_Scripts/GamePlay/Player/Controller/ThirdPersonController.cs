@@ -46,17 +46,12 @@ namespace GamePlay.Controller
         private int _animIDFacingAway;   // Bool: 是否背对摄像机（按W时true）
         private int _animIDPoints;       // Int: 点数（0-3），用于切换不同动画集
         
-        // 2D角色朝向控制
-        private bool _isFacingRight = true;           // 当前是否朝右
-        private bool _isFacingAway = false;           // 是否背对摄像机
-        private enum LastVerticalInput { None, Forward, Backward }
-        private LastVerticalInput _lastVerticalInput = LastVerticalInput.None;  // 记录最后的前后输入
-        
         private PlayerInputHandler _inputHandler;
         private PlayerStats _playerStats;  // 玩家状态（包含点数）
         private Animator _animator;
         private CharacterController _controller;
         private GameObject _mainCamera;
+        private FaceCamera _faceCamera;  // FaceCamera组件引用
 
         private const float _threshold = 0.01f;
 
@@ -95,16 +90,7 @@ namespace GamePlay.Controller
             _controller = GetComponent<CharacterController>();
             _inputHandler = GetComponent<PlayerInputHandler>();
             _playerStats = GetComponent<PlayerStats>();
-            
-            // 如果找不到PlayerStats，尝试在同级对象中查找
-            if (_playerStats == null)
-            {
-                _playerStats = GetComponentInParent<PlayerStats>();
-                if (_playerStats == null)
-                {
-                    Debug.LogWarning("[ThirdPersonController] 未找到 PlayerStats 组件，点数系统将无法工作！", this);
-                }
-            }
+            _faceCamera = GetComponentInChildren<FaceCamera>();
             
             // 订阅点数变化事件
             if (_playerStats != null)
@@ -210,56 +196,12 @@ namespace GamePlay.Controller
             // 规范化输入方向
             Vector3 inputDirection = new Vector3(_inputHandler.MoveInput.x, 0.0f, _inputHandler.MoveInput.y).normalized;
 
-            // 2D角色朝向控制
+            // 计算相对于摄像机的移动方向
             if (_inputHandler.MoveInput != Vector2.zero)
             {
-                // 计算相对于摄像机的移动方向
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
-                
-                // 获取输入的前后和左右分量（相对于摄像机）
-                float verticalInput = _inputHandler.MoveInput.y;   // W/S
-                float horizontalInput = _inputHandler.MoveInput.x; // A/D
-                
-                // 判断前后方向（相对于摄像机）
-                if (Mathf.Abs(verticalInput) > 0.1f)
-                {
-                    if (verticalInput > 0) // 按W - 向前（背对摄像机）
-                    {
-                        _isFacingAway = true;
-                        _lastVerticalInput = LastVerticalInput.Forward;
-                    }
-                    else // 按S - 向后（面对摄像机）
-                    {
-                        _isFacingAway = false;
-                        _lastVerticalInput = LastVerticalInput.Backward;
-                    }
-                }
-                else if (Mathf.Abs(horizontalInput) > 0.1f)
-                {
-                    // 只按左右时，保持面对摄像机
-                    _isFacingAway = false;
-                    // 不改变_lastVerticalInput，保持上次的前后记忆
-                }
-                
-                // 左右翻转控制（通过Scale.x）
-                if (Mathf.Abs(horizontalInput) > 0.1f)
-                {
-                    if (horizontalInput > 0) // 按D - 向右
-                    {
-                        _isFacingRight = true;
-                    }
-                    else // 按A - 向左
-                    {
-                        _isFacingRight = false;
-                    }
-                }
             }
-            
-            // 应用2D翻转（通过Scale）
-            Vector3 localScale = transform.localScale;
-            localScale.x = _isFacingRight ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
-            transform.localScale = localScale;
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
@@ -279,7 +221,7 @@ namespace GamePlay.Controller
             // Speed: 0 = Idle, 1 = Walk, 2 = Run
             float animSpeed = 0f;
             
-            // 只有在地面上��根据移动状态设置速度
+            // 只有在地面上才根据移动状态设置速度
             if (Grounded)
             {
                 if (_inputHandler.MoveInput != Vector2.zero)
@@ -299,25 +241,17 @@ namespace GamePlay.Controller
                 else
                 {
                     animSpeed = 0f;
-                    
-                    // Idle状态下，根据最后的前后输入决定朝向
-                    // 如果最后按的是W，显示背对摄像机的Idle
-                    // 如果最后按的是S或只按左右，显示面对摄像机的Idle
-                    if (_lastVerticalInput == LastVerticalInput.Forward)
-                    {
-                        _isFacingAway = true;
-                    }
-                    else if (_lastVerticalInput == LastVerticalInput.Backward)
-                    {
-                        _isFacingAway = false;
-                    }
-                    // 如果从未按过前后键（LastVerticalInput.None），默认面对摄像机
                 }
             }
             
             // 更新动画参数
             _animator.SetFloat(_animIDSpeed, animSpeed);
-            _animator.SetBool(_animIDFacingAway, _isFacingAway);
+            
+            // 从FaceCamera获取朝向状态
+            if (_faceCamera != null)
+            {
+                _animator.SetBool(_animIDFacingAway, _faceCamera.IsFacingAway);
+            }
         }
 
         private void JumpAndGravity()

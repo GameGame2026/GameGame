@@ -2911,7 +2911,7 @@ PrefabInstance:
       addedObject: {fileID: 1762682283}
     - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1762682284}
+      addedObject: {fileID: 1762682292}
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
 --- !u!114 &1762682274 stripped
 MonoBehaviour:
@@ -2966,7 +2966,7 @@ MonoBehaviour:
   OnHealthRegen:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1762682284
+--- !u!114 &1762682292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2978,6 +2978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c14e84102424063897c2cff586b079a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoFlipCharacter: 1
 --- !u!1 &1764214107
 GameObject:
   m_ObjectHideFlags: 0
