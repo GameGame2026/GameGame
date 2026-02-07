@@ -110,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4275795056974259219
 Transform:
   m_ObjectHideFlags: 0
@@ -158,6 +158,9 @@ GameObject:
   - component: {fileID: -4138698146137660109}
   - component: {fileID: -6056394231257539517}
   - component: {fileID: 6558516657584815940}
+  - component: {fileID: 7059764850823189291}
+  - component: {fileID: 4448695794983626742}
+  - component: {fileID: 8539390553095406598}
   m_Layer: 3
   m_Name: PlayerArmature
   m_TagString: Player
@@ -223,12 +226,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1542758366, guid: 08b9b1cc43a267e47ae2dae15b309559, type: 3}
+  m_Sprite: {fileID: 780912221, guid: 08b9b1cc43a267e47ae2dae15b309559, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 8.7890625, y: 12.5007515}
+  m_Size: {x: 1.2207031, y: 1.3994982}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -275,7 +278,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.55
-  m_Radius: 0.49
+  m_Radius: 0.39
   m_SlopeLimit: 45
   m_StepOffset: 0.25
   m_SkinWidth: 0.02
@@ -342,6 +345,75 @@ MonoBehaviour:
   persistAcrossScenes: 1
   isSingleton: 1
   singletonTag: Player
+--- !u!114 &7059764850823189291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd48e93b732048b0aa042a4cd35d4541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  canRegenHealth: 1
+  healthRegenRate: 5
+  healthRegenDelay: 3
+  maxStamina: 100
+  currentStamina: 0
+  staminaRegenRate: 20
+  staminaDrainRate: 10
+  currentPoints: 0
+  maxPoints: 3
+  invincibilityDuration: 1
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStaminaChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthRegen:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4448695794983626742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c14e84102424063897c2cff586b079a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8539390553095406598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738e501aacc7415b9a004022489e8d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableKeyboardTest: 1
+  showDebugInfo: 1
+  currentPoints: 0
 --- !u!1 &5348309546656851396
 GameObject:
   m_ObjectHideFlags: 0
