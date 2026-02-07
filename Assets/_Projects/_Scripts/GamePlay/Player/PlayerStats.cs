@@ -16,6 +16,10 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float staminaRegenRate = 20f; // 每秒恢复量
     [SerializeField] private float staminaDrainRate = 10f; // 冲刺时每秒消耗
     
+    [Header("点数系统（影响角色外观动画）")]
+    [SerializeField] private int currentPoints = 0; // 当前点数 (0-3)
+    [SerializeField] private int maxPoints = 3; // 最大点数
+    
     [Header("无敌帧设置")]
     [SerializeField] private float invincibilityDuration = 1f; // 受伤后无敌时间
     private float _invincibilityTimer;
@@ -27,6 +31,7 @@ public class PlayerStats : MonoBehaviour
     [Header("事件")]
     public UnityEvent<float> OnHealthChanged;
     public UnityEvent<float> OnStaminaChanged;
+    public UnityEvent<int> OnPointsChanged; // 点数变化事件
     public UnityEvent OnDeath;
     public UnityEvent<float> OnDamageTaken;
     public UnityEvent OnHealthRegen;
@@ -38,6 +43,8 @@ public class PlayerStats : MonoBehaviour
     public float Stamina => currentStamina;
     public float MaxStamina => maxStamina;
     public float StaminaPercent => currentStamina / maxStamina;
+    public int Points => currentPoints; // 当前点数
+    public int MaxPoints => maxPoints; // 最大点数
     public bool IsAlive => currentHealth > 0;
     public bool IsInvincible => _invincibilityTimer > 0;
     public bool HasStamina => currentStamina > 0;
@@ -222,6 +229,57 @@ public class PlayerStats : MonoBehaviour
         currentHealth = 0;
         OnHealthChanged?.Invoke(currentHealth);
         Die();
+    }
+    
+    // ===== 点数系统方法 =====
+    
+    /// <summary>
+    /// 增加点数
+    /// </summary>
+    public void AddPoints(int amount)
+    {
+        if (amount <= 0) return;
+        
+        int oldPoints = currentPoints;
+        currentPoints = Mathf.Clamp(currentPoints + amount, 0, maxPoints);
+        
+        if (currentPoints != oldPoints)
+        {
+            OnPointsChanged?.Invoke(currentPoints);
+            Debug.Log($"[PlayerStats] 点数增加: {oldPoints} -> {currentPoints}");
+        }
+    }
+    
+    /// <summary>
+    /// 减少点数
+    /// </summary>
+    public void RemovePoints(int amount)
+    {
+        if (amount <= 0) return;
+        
+        int oldPoints = currentPoints;
+        currentPoints = Mathf.Clamp(currentPoints - amount, 0, maxPoints);
+        
+        if (currentPoints != oldPoints)
+        {
+            OnPointsChanged?.Invoke(currentPoints);
+            Debug.Log($"[PlayerStats] 点数减少: {oldPoints} -> {currentPoints}");
+        }
+    }
+    
+    /// <summary>
+    /// 直接设置点数
+    /// </summary>
+    public void SetPoints(int points)
+    {
+        int oldPoints = currentPoints;
+        currentPoints = Mathf.Clamp(points, 0, maxPoints);
+        
+        if (currentPoints != oldPoints)
+        {
+            OnPointsChanged?.Invoke(currentPoints);
+            Debug.Log($"[PlayerStats] 点数设置: {oldPoints} -> {currentPoints}");
+        }
     }
 }
 
