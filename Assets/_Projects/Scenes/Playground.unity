@@ -2913,7 +2913,7 @@ PrefabInstance:
     - target: {fileID: 5333755793358711405, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -165527601, guid: 0cd7b7db6a0eafa4098279ebe302b9f2, type: 3}
+      objectReference: {fileID: 780912221, guid: 08b9b1cc43a267e47ae2dae15b309559, type: 3}
     - target: {fileID: 5333755793358711405, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -2928,6 +2928,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1762682292}
+    - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1762682300}
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
 --- !u!114 &1762682274 stripped
 MonoBehaviour:
@@ -2994,6 +2997,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c14e84102424063897c2cff586b079a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1762682300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787293099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738e501aacc7415b9a004022489e8d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableKeyboardTest: 1
+  showDebugInfo: 1
+  currentPoints: 0
 --- !u!1 &1764214107
 GameObject:
   m_ObjectHideFlags: 0
