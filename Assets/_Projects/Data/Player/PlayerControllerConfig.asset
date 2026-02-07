@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3c77e9f6f214c85b10fe1fc620167bb, type: 3}
   m_Name: PlayerControllerConfig
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  sprintSpeed: 5.335
-  rotationSmoothTime: 0.12
-  speedChangeRate: 10
-  jumpHeight: 1.2
-  gravity: -15
-  jumpTimeout: 0.5
-  fallTimeout: 0.15
-  groundedOffset: -0.14
-  groundedRadius: 0.28
+  moveSpeed: 7
+  sprintSpeed: 7
+  rotationSmoothTime: 0.05
+  speedChangeRate: 20
+  jumpHeight: 2.5
+  gravity: -22
+  jumpTimeout: 0.08
+  fallTimeout: 0.35
+  groundedOffset: -0.05
+  groundedRadius: 0.4
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
-  topClamp: 70
-  bottomClamp: -30
+  topClamp: 75
+  bottomClamp: -40
   cameraAngleOverride: 0
   lockCameraPosition: 0
   landingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
@@ -42,8 +42,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 67c8b33e424ccdc4486edf538ab91c5a, type: 3}
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
-  footstepAudioVolume: 0.5
-  interactRange: 3
-  interactAngle: 60
-  disposeRange: 3
-  disposeAngle: 60
+  footstepAudioVolume: 0.668
+  interactRange: 126.22
+  interactAngle: 105.7
+  disposeRange: 3.23
+  disposeAngle: 223.9
