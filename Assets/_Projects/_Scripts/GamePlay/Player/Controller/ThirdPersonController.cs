@@ -354,23 +354,23 @@ namespace GamePlay.Controller
             // 检测按键按下（避免连续触发）
             if (_inputHandler.DisposeInput && !_disposeInputPressed)
             {
-                Debug.Log("Dispose pressed");
                 _disposeInputPressed = true;
                 
                 // 查找最近的可贴附物体
                 DisposableObject closestDisposable = FindClosestDisposable();
                 
-                if (closestDisposable != null)
+                if (closestDisposable != null && !closestDisposable.IsAttached)
                 {
-                    Debug.Log("Found disposable: " + closestDisposable.gameObject.name);
+                    Debug.Log($"[Dispose] 贴附物体: {closestDisposable.gameObject.name}");
+                    
                     // 贴上prefab，改变物体状态
                     closestDisposable.ChangeState();
                     
-                    // 添加到已贴附列表（按放置顺序）
-                    if (!_disposedObjects.Contains(closestDisposable))
+                    if (closestDisposable.IsAttached && !_disposedObjects.Contains(closestDisposable))
                     {
                         _disposedObjects.Add(closestDisposable);
                     }
+                   
                 }
             }
             else if (!_inputHandler.DisposeInput)
@@ -404,9 +404,17 @@ namespace GamePlay.Controller
                 {
                     DisposableObject lastDisposed = _disposedObjects[_disposedObjects.Count - 1];
                     
+                    Debug.Log($"[Recycle] 回收物体: {lastDisposed.gameObject.name}");
+                    
                     // 回收prefab，恢复物体状态
                     lastDisposed.Recycle();
+                    
+                    // 从列表中移除
                     _disposedObjects.RemoveAt(_disposedObjects.Count - 1);
+                }
+                else
+                {
+                    Debug.Log("[Recycle] 没有可回收的物体");
                 }
             }
             else if (!_inputHandler.RecycleInput)

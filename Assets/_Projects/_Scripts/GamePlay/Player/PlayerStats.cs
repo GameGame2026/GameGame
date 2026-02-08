@@ -10,12 +10,6 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float healthRegenRate = 5f; // 每秒恢复量
     [SerializeField] private float healthRegenDelay = 3f; // 受伤后多久开始恢复
     
-    [Header("耐力设置")]
-    [SerializeField] private float maxStamina = 100f;
-    [SerializeField] private float currentStamina;
-    [SerializeField] private float staminaRegenRate = 20f; // 每秒恢复量
-    [SerializeField] private float staminaDrainRate = 10f; // 冲刺时每秒消耗
-    
     [Header("点数系统（影响角色外观动画）")]
     [SerializeField] private int currentPoints = 0; // 当前点数 (0-3)
     [SerializeField] private int maxPoints = 3; // 最大点数
@@ -40,26 +34,20 @@ public class PlayerStats : MonoBehaviour
     public float Health => currentHealth;
     public float MaxHealth => maxHealth;
     public float HealthPercent => currentHealth / maxHealth;
-    public float Stamina => currentStamina;
-    public float MaxStamina => maxStamina;
-    public float StaminaPercent => currentStamina / maxStamina;
     public int Points => currentPoints; // 当前点数
     public int MaxPoints => maxPoints; // 最大点数
     public bool IsAlive => currentHealth > 0;
     public bool IsInvincible => _invincibilityTimer > 0;
-    public bool HasStamina => currentStamina > 0;
     
     private void Awake()
     {
         // 初始化数值
         currentHealth = maxHealth;
-        currentStamina = maxStamina;
     }
     
     private void Update()
     {
         HandleHealthRegen();
-        HandleStaminaRegen();
         UpdateInvincibility();
     }
     
@@ -81,17 +69,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// 处理耐力自动恢复
-    /// </summary>
-    private void HandleStaminaRegen()
-    {
-        if (currentStamina >= maxStamina) return;
-        
-        float regenAmount = staminaRegenRate * Time.deltaTime;
-        currentStamina = Mathf.Min(currentStamina + regenAmount, maxStamina);
-        OnStaminaChanged?.Invoke(currentStamina);
-    }
     
     /// <summary>
     /// 更新无敌时间
@@ -135,37 +112,6 @@ public class PlayerStats : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth);
     }
     
-    /// <summary>
-    /// 消耗耐力
-    /// </summary>
-    public bool UseStamina(float amount)
-    {
-        if (currentStamina < amount) return false;
-        
-        currentStamina = Mathf.Max(currentStamina - amount, 0);
-        OnStaminaChanged?.Invoke(currentStamina);
-        return true;
-    }
-    
-    /// <summary>
-    /// 持续消耗耐力（用于冲刺等）
-    /// </summary>
-    public bool DrainStamina(float deltaTime)
-    {
-        float drainAmount = staminaDrainRate * deltaTime;
-        return UseStamina(drainAmount);
-    }
-    
-    /// <summary>
-    /// 恢复耐力
-    /// </summary>
-    public void RestoreStamina(float amount)
-    {
-        if (amount <= 0) return;
-        
-        currentStamina = Mathf.Min(currentStamina + amount, maxStamina);
-        OnStaminaChanged?.Invoke(currentStamina);
-    }
     
     /// <summary>
     /// 设置最大生命值
@@ -178,27 +124,6 @@ public class PlayerStats : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth);
     }
     
-    /// <summary>
-    /// 设置最大耐力
-    /// </summary>
-    public void SetMaxStamina(float newMaxStamina)
-    {
-        float staminaPercent = StaminaPercent;
-        maxStamina = Mathf.Max(newMaxStamina, 1);
-        currentStamina = maxStamina * staminaPercent;
-        OnStaminaChanged?.Invoke(currentStamina);
-    }
-    
-    /// <summary>
-    /// 完全恢复
-    /// </summary>
-    public void FullRestore()
-    {
-        currentHealth = maxHealth;
-        currentStamina = maxStamina;
-        OnHealthChanged?.Invoke(currentHealth);
-        OnStaminaChanged?.Invoke(currentStamina);
-    }
     
     /// <summary>
     /// 死亡
@@ -215,10 +140,8 @@ public class PlayerStats : MonoBehaviour
     public void Respawn()
     {
         currentHealth = maxHealth;
-        currentStamina = maxStamina;
         _invincibilityTimer = invincibilityDuration;
         OnHealthChanged?.Invoke(currentHealth);
-        OnStaminaChanged?.Invoke(currentStamina);
     }
     
     /// <summary>

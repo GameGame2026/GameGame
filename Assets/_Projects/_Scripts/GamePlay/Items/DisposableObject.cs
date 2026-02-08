@@ -1,88 +1,121 @@
 using UnityEngine;
-
-
 namespace _Projects.GamePlay
 {
-    /// <summary>
-    /// 可贴附对象 - 场景中可以被贴上prefab的物体
-    /// </summary>
     public class DisposableObject : MonoBehaviour
     {
         [Header("贴附设置")]
         [Tooltip("要贴附的预制体")]
         public GameObject attachPrefab;
         
-        [Tooltip("贴附后的材质")]
-        public Material attachedMaterial;
-        
-        [Tooltip("prefab贴附的位置偏移")]
-        public Vector3 attachOffset = Vector3.zero;
-        
         [Tooltip("是否已被贴附")]
-        public bool IsAttached { get; private set; }
+        public bool IsAttached { get; protected set; }
         
-        private Material _originalMaterial;
-        private Renderer _renderer;
-        private GameObject _attachedPrefabInstance;
+        protected GameObject _attachedPrefabInstance;
+        
+        [Header("点数设置")]
+        [Tooltip("贴附所需的点数")]
+        public int pointCost = 1;
+        
+        public PlayerStats playerStats;
+        
 
-        private void Awake()
+        // 确保 playerStats 可用
+        private PlayerStats GetPlayerStats()
         {
-            _renderer = GetComponent<Renderer>();
-            if (_renderer != null)
-            {
-                _originalMaterial = _renderer.material;
-            }
+            if (playerStats != null) return playerStats;
+            playerStats = FindObjectOfType<PlayerStats>();
+            return playerStats;
         }
 
         /// <summary>
-        /// 贴上prefab，改变物体状态
+        /// 检查玩家是否有足够点数（不会修改点数）
+        /// 返回 true 表示足够或无法检测到 PlayerStats（默认允许），false 表示点数不足
         /// </summary>
-        public void ChangeState()
+        public bool HasEnoughPoints(PlayerStats stats = null)
+        {
+            var s = stats ?? GetPlayerStats();
+            if (s == null)
+            {
+                Debug.LogWarning($"[{gameObject.name}] 未找到 PlayerStats，HasEnoughPoints 返回 true（允许贴附）。");
+                return true;
+            }
+            return s.Points >= pointCost;
+        }
+
+        /// <summary>
+        /// 尝试消耗点数，成功返回 true，失败返回 false
+        /// 如果无法找到 PlayerStats 则返回 true
+        /// </summary>
+        public bool TryConsumePoints(PlayerStats stats = null)
+        {
+            var s = stats ?? GetPlayerStats();
+            if (s == null)
+            {
+                Debug.LogWarning($"[{gameObject.name}] 未找到 PlayerStats，TryConsumePoints 不执行消耗并返回 true。");
+                return true;
+            }
+
+            if (s.Points < pointCost)
+            {
+                return false;
+            }
+
+            s.RemovePoints(pointCost);
+            return true;
+        }
+
+        /// <summary>
+        /// 返还点数
+        /// </summary>
+        public void RefundPoints(PlayerStats stats = null)
+        {
+            var s = stats ?? GetPlayerStats();
+            if (s == null)
+            {
+                Debug.LogWarning($"[{gameObject.name}] 未找到 PlayerStats，RefundPoints 未执行。");
+                return;
+            }
+
+            s.AddPoints(pointCost);
+        }
+
+        public virtual void ChangeState()
         {
             if (IsAttached) return;
             
+            // 先尝试消耗点数，失败则返回
+            if (!TryConsumePoints())
+            {
+                Debug.Log($"[{gameObject.name}] 点数不足，无法贴附（需要 {pointCost} 点）。");
+                return;
+            }
+
             IsAttached = true;
             
-            // 在物体上实例化prefab作为子物体
             if (attachPrefab != null)
             {
-                _attachedPrefabInstance = Instantiate(attachPrefab, transform);
-                _attachedPrefabInstance.transform.localPosition = attachOffset;
-            }
-            
-            // 改变材质
-            if (_renderer != null && attachedMaterial != null)
-            {
-                _renderer.material = attachedMaterial;
+                _attachedPrefabInstance = Instantiate(attachPrefab, transform.position, transform.rotation, transform);
             }
             
             Debug.Log($"{gameObject.name} 已贴上prefab");
         }
-
-        /// <summary>
-        /// 回收prefab，恢复物体原状
-        /// </summary>
-        public void Recycle()
+        
+        public virtual void Recycle()
         {
             if (!IsAttached) return;
-            
+
+            // 回收时返还点数
+            RefundPoints();
+
             IsAttached = false;
             
-            // 销毁贴附的prefab
             if (_attachedPrefabInstance != null)
             {
                 Destroy(_attachedPrefabInstance);
                 _attachedPrefabInstance = null;
             }
             
-            // 恢复原始材质
-            if (_renderer != null && _originalMaterial != null)
-            {
-                _renderer.material = _originalMaterial;
-            }
-            
             Debug.Log($"{gameObject.name} 已回收prefab，恢复原状");
         }
     }
 }
-
