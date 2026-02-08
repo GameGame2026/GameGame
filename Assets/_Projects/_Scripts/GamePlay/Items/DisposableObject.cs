@@ -4,7 +4,7 @@ using UnityEngine;
 namespace _Projects.GamePlay
 {
     /// <summary>
-    /// 可贴附对象 - 场景中可以被贴上prefab的物体
+    /// 可贴附对象 - 场景中可以被贴上prefab的物体（基类）
     /// </summary>
     public class DisposableObject : MonoBehaviour
     {
@@ -12,57 +12,34 @@ namespace _Projects.GamePlay
         [Tooltip("要贴附的预制体")]
         public GameObject attachPrefab;
         
-        [Tooltip("贴附后的材质")]
-        public Material attachedMaterial;
-        
-        [Tooltip("prefab贴附的位置偏移")]
-        public Vector3 attachOffset = Vector3.zero;
-        
         [Tooltip("是否已被贴附")]
-        public bool IsAttached { get; private set; }
+        public bool IsAttached { get; protected set; }
         
-        private Material _originalMaterial;
-        private Renderer _renderer;
-        private GameObject _attachedPrefabInstance;
+        protected GameObject _attachedPrefabInstance;
 
-        private void Awake()
-        {
-            _renderer = GetComponent<Renderer>();
-            if (_renderer != null)
-            {
-                _originalMaterial = _renderer.material;
-            }
-        }
 
         /// <summary>
-        /// 贴上prefab，改变物体状态
+        /// 贴上prefab，改变物体状态（可被子类重写）
         /// </summary>
-        public void ChangeState()
+        public virtual void ChangeState()
         {
             if (IsAttached) return;
             
             IsAttached = true;
             
-            // 在物体上实例化prefab作为子物体
+            // 如果有预制体，实例化它
             if (attachPrefab != null)
             {
-                _attachedPrefabInstance = Instantiate(attachPrefab, transform);
-                _attachedPrefabInstance.transform.localPosition = attachOffset;
-            }
-            
-            // 改变材质
-            if (_renderer != null && attachedMaterial != null)
-            {
-                _renderer.material = attachedMaterial;
+                _attachedPrefabInstance = Instantiate(attachPrefab, transform.position, transform.rotation, transform);
             }
             
             Debug.Log($"{gameObject.name} 已贴上prefab");
         }
 
         /// <summary>
-        /// 回收prefab，恢复物体原状
+        /// 回收prefab，恢复物体原状（可被子类重写）
         /// </summary>
-        public void Recycle()
+        public virtual void Recycle()
         {
             if (!IsAttached) return;
             
@@ -73,12 +50,6 @@ namespace _Projects.GamePlay
             {
                 Destroy(_attachedPrefabInstance);
                 _attachedPrefabInstance = null;
-            }
-            
-            // 恢复原始材质
-            if (_renderer != null && _originalMaterial != null)
-            {
-                _renderer.material = _originalMaterial;
             }
             
             Debug.Log($"{gameObject.name} 已回收prefab，恢复原状");
