@@ -18,10 +18,12 @@ namespace _Projects.GamePlay
         
         public override void ChangeState()
         {
-            SetPhase(true);
             base.ChangeState();
             
-            
+            if (IsAttached)
+            {
+                SetPhase(true);
+            }
         }
         
         public override void Recycle()

@@ -366,8 +366,11 @@ namespace GamePlay.Controller
                     // 贴上prefab，改变物体状态
                     closestDisposable.ChangeState();
                     
-                    // 添加到已贴附列表（按放置顺序）
-                    _disposedObjects.Add(closestDisposable);
+                    if (closestDisposable.IsAttached && !_disposedObjects.Contains(closestDisposable))
+                    {
+                        _disposedObjects.Add(closestDisposable);
+                    }
+                   
                 }
             }
             else if (!_inputHandler.DisposeInput)
