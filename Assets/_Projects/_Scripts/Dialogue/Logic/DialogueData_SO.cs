@@ -20,6 +20,12 @@ public class DialogueData_SO : ScriptableObject
             {
                 dialogueIndex.Add(piece.id, piece);
             }
+
+            //尝试偷偷加一段
+            if (piece.speakerType == SpeakerType.Player)
+            {
+                piece.speakerName = "爱丽丝";
+            }
         }
     }
     #endif

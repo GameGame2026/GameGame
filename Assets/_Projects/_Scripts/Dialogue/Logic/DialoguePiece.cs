@@ -22,4 +22,5 @@ public class DialoguePiece
     [Header("结束标记")]
     [Tooltip("勾选此项表示这是最后一段对话，将显示'按 I 关闭对话'提示")]
     public bool isLastPiece = false; // 是否为最后一段对话
+
 }
