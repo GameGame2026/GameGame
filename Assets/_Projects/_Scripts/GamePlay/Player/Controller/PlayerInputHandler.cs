@@ -18,6 +18,7 @@ namespace GamePlay.Controller
         public bool InteractInput { get; private set; }
         public bool DisposeInput { get; private set; }
         public bool RecycleInput { get; private set; }
+        public bool AttackInput { get; private set; }
 
         [Header("Input Settings")]
         [Tooltip("是否启用模拟移动（根据摇杆推动距离调整速度）")]
@@ -61,6 +62,9 @@ namespace GamePlay.Controller
             
             _inputSystem.GamePlay.Recycle.performed += ctx => RecycleInput = true;
             _inputSystem.GamePlay.Recycle.canceled += ctx => RecycleInput = false;
+            
+            _inputSystem.GamePlay.Attack.performed += ctx => AttackInput = true;
+            _inputSystem.GamePlay.Attack.canceled += ctx => AttackInput = false;
 
             _inputSystem.GamePlay.Enable();
         }
@@ -152,6 +156,11 @@ namespace GamePlay.Controller
         public void ResetJumpInput()
         {
             JumpInput = false;
+        }
+
+        public void ResetAttackInput()
+        {
+            AttackInput = false;
         }
 
         private void OnApplicationFocus(bool hasFocus)

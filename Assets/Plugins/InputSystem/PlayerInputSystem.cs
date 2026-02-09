@@ -154,6 +154,15 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""d667ee37-b8a5-48e4-ab3b-b2f4b451b9e3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -365,6 +374,17 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Recycle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba54803a-9984-4d45-82c2-a08b4c9cafdc"",
+                    ""path"": ""<Keyboard>/slash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -428,6 +448,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_GamePlay_Interact = m_GamePlay.FindAction("Interact", throwIfNotFound: true);
         m_GamePlay_Dispose = m_GamePlay.FindAction("Dispose", throwIfNotFound: true);
         m_GamePlay_Recycle = m_GamePlay.FindAction("Recycle", throwIfNotFound: true);
+        m_GamePlay_Attack = m_GamePlay.FindAction("Attack", throwIfNotFound: true);
     }
 
     ~@PlayerInputSystem()
@@ -515,6 +536,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_Interact;
     private readonly InputAction m_GamePlay_Dispose;
     private readonly InputAction m_GamePlay_Recycle;
+    private readonly InputAction m_GamePlay_Attack;
     /// <summary>
     /// Provides access to input actions defined in input action map "GamePlay".
     /// </summary>
@@ -554,6 +576,10 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GamePlay/Recycle".
         /// </summary>
         public InputAction @Recycle => m_Wrapper.m_GamePlay_Recycle;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Attack".
+        /// </summary>
+        public InputAction @Attack => m_Wrapper.m_GamePlay_Attack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -601,6 +627,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Recycle.started += instance.OnRecycle;
             @Recycle.performed += instance.OnRecycle;
             @Recycle.canceled += instance.OnRecycle;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         /// <summary>
@@ -633,6 +662,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Recycle.started -= instance.OnRecycle;
             @Recycle.performed -= instance.OnRecycle;
             @Recycle.canceled -= instance.OnRecycle;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         /// <summary>
@@ -774,5 +806,12 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRecycle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttack(InputAction.CallbackContext context);
     }
 }
