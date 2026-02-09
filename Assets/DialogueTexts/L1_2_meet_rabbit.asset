@@ -69,3 +69,27 @@ MonoBehaviour:
     nextID: meet_rb_8
     options: []
     isLastPiece: 0
+  - id: meet_rb_8
+    speakerType: 0
+    speakerName: "\u767D\u5154"
+    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    text: "\u975E\u5E38\u597D\uFF01"
+    nextID: meet_rb_9
+    options: []
+    isLastPiece: 0
+  - id: meet_rb_9
+    speakerType: 1
+    speakerName: "\u7231\u4E3D\u4E1D"
+    image: {fileID: 21300000, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    text: "\u8BF6\uFF0C\u8FD9\u53EA\u662F\u6211\u7684\u4E2A\u4EBA\u4E60\u60EF\u2026\u2026"
+    nextID: meet_rb_10
+    options: []
+    isLastPiece: 0
+  - id: meet_rb_10
+    speakerType: 0
+    speakerName: "\u767D\u5154"
+    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    text: "\u4E0D\uFF0C\u5B83\u6709\u6BD4\u4F60\u6240\u77E5\u7684\u66F4\u5F3A\u5927\u7684\u529B\u91CF\u3002\u6765\u8BD5\u8BD5\u5427\u2014\u2014\u7ED9\u8FD9\u4E2A\u53EF\u7591\u7684\u65AD\u5D16\u8D34\u4E0A\u5706\u70B9\u3002"
+    nextID: 
+    options: []
+    isLastPiece: 1
