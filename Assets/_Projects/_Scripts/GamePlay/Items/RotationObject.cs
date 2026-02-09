@@ -31,8 +31,8 @@ public class RotationObject : DisposableObject
 
     public override void Recycle()
     {
-        base.Recycle();
         Rotation();
+        base.Recycle();
         stop = false;
 
     }
