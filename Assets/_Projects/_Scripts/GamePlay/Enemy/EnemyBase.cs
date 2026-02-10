@@ -84,6 +84,8 @@ namespace _Projects.GamePlay
 
         // 攻击相关状态
         protected bool _isAttacking; // 攻击播放期间保持原地不动
+        
+        public bool IsAttacking => _isAttacking;
 
         // 动画参数
         protected int _animSpeed;
@@ -605,4 +607,3 @@ namespace _Projects.GamePlay
         #endregion
     }
 }
-
