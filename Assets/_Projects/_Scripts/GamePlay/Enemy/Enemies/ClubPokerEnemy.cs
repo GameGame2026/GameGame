@@ -191,7 +191,7 @@ namespace _Projects.GamePlay
         protected override void Update()
         {
             // 如果已附着，不执行常规AI更新
-            if (_isAttachedToSurface && IsPointAttached)
+            if (_isAttachedToSurface && IsAttached)
             {
                 // 附着状态下仍然可以被攻击
                 return;
@@ -201,4 +201,3 @@ namespace _Projects.GamePlay
         }
     }
 }
-

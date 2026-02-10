@@ -61,7 +61,9 @@ namespace _Projects.GamePlay
         public bool CanBeAttacked = true;
         
         // 贴点状态
-        public bool IsPointAttached { get; protected set; }
+        // `IsAttached` from DisposableObject is used to track whether this object is attached.
+        // 使用基类 DisposableObject 中的 `IsAttached`（已定义为 public bool IsAttached { get; protected set; }）
+        // 这里不再重复定义 IsPointAttached。
         public bool IsFriendly { get; protected set; }
 
         // 组件引用
@@ -92,6 +94,7 @@ namespace _Projects.GamePlay
         protected int _animAttack;
         protected int _animHit;
         protected int _animDead;
+        protected int _animPointAttached;
 
         protected virtual void Awake()
         {
@@ -108,6 +111,14 @@ namespace _Projects.GamePlay
             _animAttack = Animator.StringToHash("Attack");
             _animHit = Animator.StringToHash("Hit");
             _animDead = Animator.StringToHash("Dead");
+            _animPointAttached = Animator.StringToHash("PointAttached");
+            
+            // 确保 animator 的初始状态与 IsPointAttached 同步
+            if (_animator != null)
+            {
+                // 使用基类的 IsAttached
+                _animator.SetBool(_animPointAttached, IsAttached);
+            }
         }
 
         protected virtual void Start()
@@ -464,8 +475,11 @@ namespace _Projects.GamePlay
         /// </summary>
         public virtual void OnPointAttached()
         {
-            IsPointAttached = true;
-            Debug.Log($"[{gameObject.name}] 被贴点");
+            // 同步到 Animator
+            if (_animator != null)
+            {
+                _animator.SetBool(_animPointAttached, true);
+            }
         }
 
         /// <summary>
@@ -473,8 +487,12 @@ namespace _Projects.GamePlay
         /// </summary>
         public virtual void OnPointDetached()
         {
-            IsPointAttached = false;
-            Debug.Log($"[{gameObject.name}] 点被回收");
+            
+            // 同步到 Animator
+            if (_animator != null)
+            {
+                _animator.SetBool(_animPointAttached, false);
+            }
 
             // 回到正常状态继续攻击
             _stateMachine.ChangeState(EnemyStateType.Idle);
@@ -485,11 +503,11 @@ namespace _Projects.GamePlay
         /// </summary>
         public void SetPointAttached(bool attached)
         {
-            if (attached && !IsPointAttached)
+            if (attached && !IsAttached)
             {
                 _stateMachine.ChangeState(EnemyStateType.Stunned);
             }
-            else if (!attached && IsPointAttached)
+            else if (!attached && IsAttached)
             {
                 OnPointDetached();
             }
@@ -543,7 +561,6 @@ namespace _Projects.GamePlay
         public virtual void SetAnimationState(string stateName)
         {
             // 子类可以重写实现具体动画逻辑
-            Debug.Log($"[{gameObject.name}] 动画状态: {stateName}");
         }
 
         /// <summary>

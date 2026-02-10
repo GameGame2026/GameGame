@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ClubMove
+  m_Name: GhostIdleAfter
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,15 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 706722210, guid: 79231e1d11865b9439b6c315f7822e95, type: 3}
-    - time: 0.33333334
-      value: {fileID: 1683402573, guid: aabe88cb5c8ed1b49a007382e58ee824, type: 3}
+      value: {fileID: -1574741795, guid: c98d5cfbf37f8244d94406f3a1379b7b, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 3
+  m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -46,14 +44,13 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 706722210, guid: 79231e1d11865b9439b6c315f7822e95, type: 3}
-    - {fileID: 1683402573, guid: aabe88cb5c8ed1b49a007382e58ee824, type: 3}
+    - {fileID: -1574741795, guid: c98d5cfbf37f8244d94406f3a1379b7b, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.6666667
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

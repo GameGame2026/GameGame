@@ -88,16 +88,15 @@ namespace _Projects.GamePlay
         public virtual void ChangeState()
         {
             if (IsAttached) return;
-            
+
             // 先尝试消耗点数，失败则返回
             if (!TryConsumePoints())
             {
                 Debug.Log($"[{gameObject.name}] 点数不足，无法贴附（需要 {pointCost} 点）。");
                 return;
             }
-
-            IsAttached = true;
             
+            IsAttached = true;
             if (point != null)
             {
                 point.SetActive(true);

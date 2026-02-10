@@ -15,7 +15,7 @@ namespace _Projects.GamePlay
         public float healAmount = 1f;
         
         [Tooltip("是否处于治愈模式")]
-        public bool IsHealingMode => IsPointAttached;
+        public bool IsHealingMode => IsAttached;
 
         [Header("视觉效果")]
         [Tooltip("正常态材质")]
@@ -98,4 +98,3 @@ namespace _Projects.GamePlay
         }
     }
 }
-

@@ -12,13 +12,13 @@ namespace _Projects.GamePlay
     
         public override void ChangeState()
         {
+            base.ChangeState();
             if (!isOpened)
             {
                 bridgePrefab.SetActive(false);
                 afterBridgePrefab.SetActive(true);
                 isOpened = true;
             }
-            base.ChangeState();
         
         }
 

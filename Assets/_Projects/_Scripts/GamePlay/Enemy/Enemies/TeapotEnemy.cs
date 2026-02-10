@@ -103,7 +103,8 @@ namespace _Projects.GamePlay
         public float damage = 1f;
         public float lifetime = 5f;
         public bool IsReturning { get; private set; }
-        public bool IsPointAttached { get; private set; }
+        // 使用统一的命名：IsAttached 表示是否被贴点
+        public bool IsAttached { get; private set; }
 
         private TeapotEnemy _owner;
         private Transform _target;
@@ -186,9 +187,9 @@ namespace _Projects.GamePlay
         /// </summary>
         public void OnPointAttached()
         {
-            if (IsPointAttached) return;
+            if (IsAttached) return;
             
-            IsPointAttached = true;
+            IsAttached = true;
             IsReturning = true;
             _pathIndex = _currentPathIndex - 1;
             
@@ -253,4 +254,3 @@ namespace _Projects.GamePlay
         }
     }
 }
-

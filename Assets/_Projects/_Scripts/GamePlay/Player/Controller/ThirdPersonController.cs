@@ -392,7 +392,7 @@ namespace GamePlay.Controller
                 // 查找最近的可贴附物体
                 DisposableObject closestDisposable = FindClosestDisposable();
                 
-                if (closestDisposable != null && !closestDisposable.IsAttached)
+                if (closestDisposable != null && !closestDisposable.IsAttached && closestDisposable.HasEnoughPoints(_playerStats))
                 {
                     Debug.Log($"[Dispose] 贴附物体: {closestDisposable.gameObject.name}");
                     
