@@ -39,12 +39,16 @@ namespace GamePlay.Controller
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
+        // 攻击冷却计时
+        private float _attackCooldownTimer = 0f;
+
         // 动画参数 ID（使用Bool和Float控制，避免Trigger导致的卡顿）
         private int _animIDSpeed;        // Float: 移动速度（0=Idle, 1=Walk, 2=Run）
         private int _animIDGrounded;     // Bool: 是否在地面
         private int _animIDJump;         // Trigger: 跳跃触发（仅在起跳时触发一次）
         private int _animIDFacingAway;   // Bool: 是否背对摄像机（按W时true）
         private int _animIDPoints;       // Int: 点数（0-3），用于切换不同动画集
+        private int _animIDAttack;       // Trigger: 攻击触发
         
         private PlayerInputHandler _inputHandler;
         private PlayerStats _playerStats;  // 玩家状态（包含点数）
@@ -52,9 +56,7 @@ namespace GamePlay.Controller
         private CharacterController _controller;
         private GameObject _mainCamera;
         private FaceCamera _faceCamera;  // FaceCamera组件引用
-
-        private const float _threshold = 0.01f;
-
+        
         private bool _hasAnimator;
 
         // 交互系统
@@ -116,6 +118,7 @@ namespace GamePlay.Controller
             if (DialogueUI.Instance != null && DialogueUI.Instance.IsDialogueActive == false)
             {
                 Move();
+                Attack();
                 Interact();
                 Dispose();
                 Recycle();
@@ -145,6 +148,8 @@ namespace GamePlay.Controller
             _animIDFacingAway = Animator.StringToHash("FacingAway");
             // Points: 0-3，控制使用哪套动画集
             _animIDPoints = Animator.StringToHash("Points");
+            // Attack: 攻击触发
+            _animIDAttack = Animator.StringToHash("Attack");
         }
 
         private void GroundedCheck()
@@ -337,6 +342,34 @@ namespace GamePlay.Controller
                 _currentNPC.TriggerAction();
             }
         }
+        
+        private void Attack()
+        {
+            // 检测攻击输入
+            if (_inputHandler.AttackInput && _attackCooldownTimer <= 0f)
+            {
+                if (_hasAnimator)
+                {
+                    // 触发攻击动画
+                    // Animator 会根据当前的 Points 参数（0-3）选择对应的攻击动画
+                    _animator.SetTrigger(_animIDAttack);
+                    
+                    Debug.Log($"[Attack] 触发攻击，当前点数: {(_playerStats != null ? _playerStats.Points : 0)}");
+                }
+                
+                // 重置攻击输入，防止连续触发
+                _inputHandler.ResetAttackInput();
+
+                // 重置攻击冷却计时
+                _attackCooldownTimer = config.attackCooldown;
+            }
+
+            // 更新攻击冷却计时
+            if (_attackCooldownTimer > 0f)
+            {
+                _attackCooldownTimer -= Time.deltaTime;
+            }
+        }
 
         private InteractableNPC FindClosestInteractable()
         {
@@ -359,7 +392,7 @@ namespace GamePlay.Controller
                 // 查找最近的可贴附物体
                 DisposableObject closestDisposable = FindClosestDisposable();
                 
-                if (closestDisposable != null && !closestDisposable.IsAttached)
+                if (closestDisposable != null && !closestDisposable.IsAttached && closestDisposable.HasEnoughPoints(_playerStats))
                 {
                     Debug.Log($"[Dispose] 贴附物体: {closestDisposable.gameObject.name}");
                     

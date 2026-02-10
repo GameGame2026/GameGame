@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 namespace _Projects.GamePlay
@@ -9,23 +10,17 @@ namespace _Projects.GamePlay
     public class InteractableNPC : MonoBehaviour
     {
         [Header("交互设置")]
-        [Tooltip("交互UI预制体或图标")]
-        public GameObject interactUI;
+        [Tooltip("交互UI GameObject")]
+        public GameObject InteractUI;
         
-        [Tooltip("UI偏移位置")]
-        public Vector3 uiOffset = new Vector3(0, 2, 0);
-        
-        private GameObject _uiInstance;
         private bool _isUIShowing = false;
 
         private void Awake()
         {
-            // 如果有UI预制体，在初始化时创建但隐藏
-            if (interactUI != null)
+            // 初始化时隐藏Point
+            if (InteractUI != null)
             {
-                _uiInstance = Instantiate(interactUI, transform);
-                _uiInstance.transform.localPosition = uiOffset;
-                _uiInstance.SetActive(false);
+                InteractUI.SetActive(false);
             }
         }
 
@@ -34,9 +29,9 @@ namespace _Projects.GamePlay
         /// </summary>
         public void ShowInteractUI()
         {
-            if (_uiInstance != null && !_isUIShowing)
+            if (InteractUI != null && !_isUIShowing)
             {
-                _uiInstance.SetActive(true);
+                InteractUI.SetActive(true);
                 _isUIShowing = true;
             }
         }
@@ -46,9 +41,9 @@ namespace _Projects.GamePlay
         /// </summary>
         public void HideInteractUI()
         {
-            if (_uiInstance != null && _isUIShowing)
+            if (InteractUI != null && _isUIShowing)
             {
-                _uiInstance.SetActive(false);
+                InteractUI.SetActive(false);
                 _isUIShowing = false;
             }
         }
@@ -65,15 +60,6 @@ namespace _Projects.GamePlay
             
             // 互动开始后可以隐藏UI
             HideInteractUI();
-        }
-
-        private void OnDestroy()
-        {
-            // 清理UI实例
-            if (_uiInstance != null)
-            {
-                Destroy(_uiInstance);
-            }
         }
     }
 }

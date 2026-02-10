@@ -47,3 +47,4 @@ MonoBehaviour:
   interactAngle: 105.7
   disposeRange: 3.23
   disposeAngle: 223.9
+  attackCooldown: 1

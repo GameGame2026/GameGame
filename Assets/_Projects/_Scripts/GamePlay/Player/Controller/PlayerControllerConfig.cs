@@ -78,6 +78,9 @@ namespace GamePlay.Controller
         
         [Tooltip("处置检测角度")]
         public float disposeAngle = 60.0f;
+
+        [Header("攻击设置")]
+        [Tooltip("攻击冷却时间（秒）")]
+        public float attackCooldown = 0.5f;
     }
 }
-

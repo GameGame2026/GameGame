@@ -1,23 +1,29 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace _Projects.GamePlay
 {
     public class DisposableObject : MonoBehaviour
     {
         [Header("贴附设置")]
-        [Tooltip("要贴附的预制体")]
-        public GameObject attachPrefab;
+        [Tooltip("要贴附的Point")]
+        public GameObject point;
         
         [Tooltip("是否已被贴附")]
         public bool IsAttached { get; protected set; }
-        
-        protected GameObject _attachedPrefabInstance;
         
         [Header("点数设置")]
         [Tooltip("贴附所需的点数")]
         public int pointCost = 1;
         
         public PlayerStats playerStats;
-        
+
+        private void Awake()
+        {
+            point.SetActive(false);
+        }
+
 
         // 确保 playerStats 可用
         private PlayerStats GetPlayerStats()
@@ -82,19 +88,18 @@ namespace _Projects.GamePlay
         public virtual void ChangeState()
         {
             if (IsAttached) return;
-            
+
             // 先尝试消耗点数，失败则返回
             if (!TryConsumePoints())
             {
                 Debug.Log($"[{gameObject.name}] 点数不足，无法贴附（需要 {pointCost} 点）。");
                 return;
             }
-
-            IsAttached = true;
             
-            if (attachPrefab != null)
+            IsAttached = true;
+            if (point != null)
             {
-                _attachedPrefabInstance = Instantiate(attachPrefab, transform.position, transform.rotation, transform);
+                point.SetActive(true);
             }
             
             Debug.Log($"{gameObject.name} 已贴上prefab");
@@ -109,10 +114,9 @@ namespace _Projects.GamePlay
 
             IsAttached = false;
             
-            if (_attachedPrefabInstance != null)
+            if (point != null)
             {
-                Destroy(_attachedPrefabInstance);
-                _attachedPrefabInstance = null;
+                point.SetActive(false);
             }
             
             Debug.Log($"{gameObject.name} 已回收prefab，恢复原状");

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using _Projects.GamePlay;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -14,9 +15,17 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int currentPoints = 0; // 当前点数 (0-3)
     [SerializeField] private int maxPoints = 3; // 最大点数
     
+    [Header("战斗属性")]
+    [SerializeField] private float attackDamage = 10f; // 攻击力
+    
     [Header("无敌帧设置")]
-    [SerializeField] private float invincibilityDuration = 1f; // 受伤后无敌时间
+    [SerializeField] private float invincibilityDuration = 0.7f; // 受伤后无敌时间
     private float _invincibilityTimer;
+    
+    [Header("音效")]
+    [SerializeField] private AudioClip hitSound; // 受击音效
+    [SerializeField] private AudioClip attackSound; // 攻击音效
+    [SerializeField] [Range(0, 1)] private float soundVolume = 0.7f; // 音效音量
     
     // 计时
     private float _lastDamageTime;
@@ -36,6 +45,7 @@ public class PlayerStats : MonoBehaviour
     public float HealthPercent => currentHealth / maxHealth;
     public int Points => currentPoints; // 当前点数
     public int MaxPoints => maxPoints; // 最大点数
+    public float AttackDamage => attackDamage; // 攻击力
     public bool IsAlive => currentHealth > 0;
     public bool IsInvincible => _invincibilityTimer > 0;
     
@@ -92,8 +102,16 @@ public class PlayerStats : MonoBehaviour
         _lastDamageTime = Time.time;
         _invincibilityTimer = invincibilityDuration;
         
+        // 播放受击音效
+        if (hitSound != null)
+        {
+            AudioSource.PlayClipAtPoint(hitSound, transform.position, soundVolume);
+        }
+        
         OnHealthChanged?.Invoke(currentHealth);
         OnDamageTaken?.Invoke(damage);
+        
+        Debug.Log($"[PlayerStats] 玩家受到 {damage} 点伤害，剩余血量: {currentHealth}/{maxHealth}");
         
         if (currentHealth <= 0)
         {
@@ -202,6 +220,39 @@ public class PlayerStats : MonoBehaviour
         {
             OnPointsChanged?.Invoke(currentPoints);
             Debug.Log($"[PlayerStats] 点数设置: {oldPoints} -> {currentPoints}");
+        }
+    }
+    
+    // ===== 战斗系统方法 =====
+    
+    /// <summary>
+    /// 触发攻击 - 在攻击动画中调用
+    /// 此函数由动画事件调用，播放攻击音效
+    /// </summary>
+    public void OnAttackHit()
+    {
+        Debug.Log($"[PlayerStats] 玩家触发攻击");
+        
+        // 播放攻击音效
+        if (attackSound != null)
+        {
+            AudioSource.PlayClipAtPoint(attackSound, transform.position, soundVolume);
+        }
+        
+        // 注意：实际的伤害判定需要在碰撞检测中处理
+        // 这里只是播放音效和触发攻击事件
+    }
+    
+    /// <summary>
+    /// 攻击敌人 - 当碰撞到敌人时调用（需要在攻击动画中触发）
+    /// </summary>
+    /// <param name="enemy">敌人的Enemy组件</param>
+    public void AttackEnemy(EnemyBase enemy)
+    {
+        if (enemy != null)
+        {
+            enemy.TakeDamage(attackDamage);
+            Debug.Log($"[PlayerStats] 玩家攻击敌人 {enemy.gameObject.name}，造成 {attackDamage} 点伤害");
         }
     }
 }
