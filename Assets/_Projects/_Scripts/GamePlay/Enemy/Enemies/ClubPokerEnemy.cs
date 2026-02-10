@@ -43,6 +43,7 @@ namespace _Projects.GamePlay
             // 设置攻击力为2
             attackDamage = 2f;
         }
+        
 
         /// <summary>
         /// 被贴点 - 附着到最近的场景物体表面

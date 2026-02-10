@@ -8,7 +8,7 @@ namespace _Projects.GamePlay
     /// 包含通用AI逻辑、状态机、移动、攻击等功能
     /// </summary>
     [RequireComponent(typeof(Rigidbody))]
-    public class EnemyBase : MonoBehaviour
+    public class EnemyBase : DisposableObject
     {
         [Header("基础属性")]
         [Tooltip("最大血量")]
@@ -81,6 +81,9 @@ namespace _Projects.GamePlay
         protected bool _isInvincible;
         protected float _invincibilityTimer;
         protected Vector3 _spawnPosition;
+
+        // 攻击相关状态
+        protected bool _isAttacking; // 攻击播放期间保持原地不动
 
         // 动画参数
         protected int _animSpeed;
@@ -161,6 +164,27 @@ namespace _Projects.GamePlay
         /// </summary>
         public virtual void MoveTo(Vector3 destination, float speed)
         {
+            // 如果正在播放攻击动画，保持原地不动
+            if (_isAttacking)
+            {
+                // 确保 agent/rigidbody 不会移动
+                if (_navAgent != null && _navAgent.enabled)
+                {
+                    _navAgent.isStopped = true;
+                    _navAgent.ResetPath();
+                }
+                if (_rigidbody != null)
+                {
+                    _rigidbody.velocity = Vector3.zero;
+                }
+                // 更新动画移动参数为0
+                if (_animator != null)
+                {
+                    _animator.SetFloat(_animSpeed, 0f);
+                }
+                return;
+            }
+            
             if (_navAgent != null && _navAgent.enabled)
             {
                 _navAgent.speed = speed;
@@ -295,14 +319,28 @@ namespace _Projects.GamePlay
         /// </summary>
         public virtual void PerformAttack()
         {
+            // 标记为正在攻击以保持原地不动（动画期间通过 OnAttackEnd 恢复）
+            _isAttacking = true;
+            
             Debug.Log($"[{gameObject.name}] 执行攻击");
-
+            
+            // 停止 NavMeshAgent 的移动（如果存在）并清零刚体速度
+            if (_navAgent != null && _navAgent.enabled)
+            {
+                _navAgent.isStopped = true;
+                _navAgent.ResetPath();
+            }
+            if (_rigidbody != null)
+            {
+                _rigidbody.velocity = Vector3.zero;
+            }
+            
             // 播放攻击动画
             if (_animator != null)
             {
                 _animator.SetTrigger(_animAttack);
             }
-
+            
             // 播放攻击音效
             if (attackSound != null)
             {
@@ -319,6 +357,37 @@ namespace _Projects.GamePlay
             {
                 player.TakeDamage(attackDamage);
                 Debug.Log($"[{gameObject.name}] 攻击玩家，造成 {attackDamage} 点伤害");
+            }
+        }
+
+        /// <summary>
+        /// 动画事件：攻击开始（可在动画开头触发）
+        /// 如果你在动画里已经调用了 OnAttackBegin，可以依赖该回调来处理额外逻辑
+        /// </summary>
+        public void OnAttackBegin()
+        {
+            _isAttacking = true;
+            if (_navAgent != null && _navAgent.enabled)
+            {
+                _navAgent.isStopped = true;
+                _navAgent.ResetPath();
+            }
+            if (_rigidbody != null)
+            {
+                _rigidbody.velocity = Vector3.zero;
+            }
+        }
+
+        /// <summary>
+        /// 动画事件：攻击结束（在动画尾帧触发）
+        /// 恢复移动并记录冷却起点
+        /// </summary>
+        public void OnAttackEnd()
+        {
+            _isAttacking = false;
+            if (_navAgent != null && _navAgent.enabled)
+            {
+                _navAgent.isStopped = false;
             }
         }
 
@@ -376,6 +445,18 @@ namespace _Projects.GamePlay
 
         #region 贴点系统
 
+        public override void ChangeState()
+        {
+            base.ChangeState();
+            OnPointAttached();
+        }
+
+        public override void Recycle()
+        {
+            base.Recycle();
+            OnPointDetached();
+        }
+
         /// <summary>
         /// 被贴点时调用 - 子类重写实现特殊效果
         /// </summary>
@@ -392,7 +473,7 @@ namespace _Projects.GamePlay
         {
             IsPointAttached = false;
             Debug.Log($"[{gameObject.name}] 点被回收");
-            
+
             // 回到正常状态继续攻击
             _stateMachine.ChangeState(EnemyStateType.Idle);
         }
@@ -524,5 +605,4 @@ namespace _Projects.GamePlay
         #endregion
     }
 }
-
 
