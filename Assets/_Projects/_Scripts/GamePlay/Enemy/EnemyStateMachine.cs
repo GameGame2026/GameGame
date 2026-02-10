@@ -224,13 +224,13 @@ namespace _Projects.GamePlay
     /// </summary>
     public class EnemyAttackState : EnemyState
     {
-        private float _attackCooldownTimer;
+        private bool _hasAttacked;
 
         public EnemyAttackState(EnemyBase enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine) { }
 
         public override void Enter()
         {
-            _attackCooldownTimer = 0f;
+            _hasAttacked = false;
             Enemy.LookAtPlayer();
         }
 
@@ -242,11 +242,17 @@ namespace _Projects.GamePlay
                 return;
             }
 
-            _attackCooldownTimer -= Time.deltaTime;
-            if (_attackCooldownTimer <= 0f)
+            // 如果还没有攻击且不在攻击动画中，执行攻击
+            if (!_hasAttacked && !Enemy.IsAttacking)
             {
                 Enemy.PerformAttack();
-                _attackCooldownTimer = Enemy.AttackCooldown;
+                _hasAttacked = true;
+            }
+
+            // 如果攻击动画结束，重置攻击标记以便下次攻击
+            if (_hasAttacked && !Enemy.IsAttacking)
+            {
+                _hasAttacked = false;
             }
 
             Enemy.LookAtPlayer();
