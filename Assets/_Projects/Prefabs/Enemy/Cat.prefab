@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 6598505403470522951}
   - component: {fileID: 4639551421922586883}
   - component: {fileID: 2002638476480398649}
+  - component: {fileID: 1710255433587526313}
   m_Layer: 0
   m_Name: Cat
-  m_TagString: Disposeable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,7 +149,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4011834612025900174}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.58
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -157,8 +158,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0
+  m_Height: 0.7
+  m_BaseOffset: -0.22
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!136 &6598505403470522951
@@ -180,7 +181,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.95
+  m_Radius: 0.67
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.41, z: 0}
@@ -200,7 +201,7 @@ MonoBehaviour:
   lockYAxis: 1
   lockXAxis: 0
   useFlip: 1
-  enemyBase: {fileID: 0}
+  enemyBase: {fileID: 2002638476480398649}
 --- !u!114 &2002638476480398649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +226,7 @@ MonoBehaviour:
   rotationSpeed: 5
   detectionRange: 8
   chaseRange: 15
-  attackRange: 2
+  attackRange: 2.74
   patrolRadius: 10
   invincibilityTime: 0.3
   hitSound: {fileID: 0}
@@ -233,11 +234,35 @@ MonoBehaviour:
   deathSound: {fileID: 0}
   soundVolume: 0.7
   CanBeAttacked: 1
-  pounceDistance: 5
-  minPounceDistance: 1.98
+  pounceDistance: 7.7
+  minPounceDistance: 2.74
   pounceDuration: 0.8
-  pounceApexHeight: 1.2
+  pounceApexHeight: 1.57
   landingAttackDelay: 0.05
+  pounceCooldown: 1.5
+--- !u!136 &1710255433587526313
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011834612025900174}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.62158203
+  m_Height: 1.0117797
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.50588983, z: 0}
 --- !u!1001 &8320910340030849014
 PrefabInstance:
   m_ObjectHideFlags: 0
