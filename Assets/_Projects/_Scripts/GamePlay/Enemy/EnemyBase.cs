@@ -595,6 +595,11 @@ namespace _Projects.GamePlay
         public virtual void OnDeath()
         {
             Debug.Log($"[{gameObject.name}] 死亡");
+            
+            if (IsAttached)
+            {
+                Recycle();
+            }
 
             // 播放死亡音效
             if (deathSound != null)
@@ -608,7 +613,7 @@ namespace _Projects.GamePlay
                 _collider.enabled = false;
             }
 
-            // 禁用NavMeshAgent
+            // 禁NavMeshAgent
             if (_navAgent != null)
             {
                 _navAgent.enabled = false;
