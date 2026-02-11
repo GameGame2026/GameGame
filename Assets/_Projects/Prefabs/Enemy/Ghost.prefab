@@ -263,7 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8602009365529824135}
-  - component: {fileID: 5786604254691114024}
+  - component: {fileID: 5528439545810623539}
   m_Layer: 0
   m_Name: AttackRange
   m_TagString: Untagged
@@ -286,8 +286,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 410813480847193736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5786604254691114024
-BoxCollider:
+--- !u!136 &5528439545810623539
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -304,9 +304,11 @@ BoxCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.34, z: 0}
+  serializedVersion: 2
+  m_Radius: 0.69
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.36, z: 0}
 --- !u!1001 &8529364737613383914
 PrefabInstance:
   m_ObjectHideFlags: 0

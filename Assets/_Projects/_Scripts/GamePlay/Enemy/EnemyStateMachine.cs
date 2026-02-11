@@ -76,8 +76,7 @@ namespace _Projects.GamePlay
             CurrentStateType = newStateType;
             CurrentState = _states[newStateType];
             CurrentState.Enter();
-
-            Debug.Log($"[EnemyStateMachine] {_enemy.gameObject.name}: {PreviousStateType} -> {CurrentStateType}");
+            
         }
 
         public void Update() => CurrentState?.Update();

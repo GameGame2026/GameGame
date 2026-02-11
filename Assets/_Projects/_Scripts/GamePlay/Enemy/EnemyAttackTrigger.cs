@@ -26,7 +26,6 @@ namespace _Projects.GamePlay
         public void EnableAttack()
         {
             attackRange.SetActive(true);
-            Debug.Log("[EnemyAttackTrigger] 攻击判定启用", this);
         }
 
         /// <summary>
@@ -35,10 +34,9 @@ namespace _Projects.GamePlay
         public void DisableAttack()
         {
             attackRange.SetActive(false);
-            Debug.Log("[EnemyAttackTrigger] 攻击判定禁用", this);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             
             PlayerStats player = other.GetComponent<PlayerStats>();

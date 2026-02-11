@@ -22,16 +22,14 @@ namespace _Projects.GamePlay
         public void EnableAttack()
         {
             attackRange.SetActive(true);
-            Debug.Log("[PlayerAttackTrigger] 攻击判定启用");
         }
         
         public void DisableAttack()
         {
             attackRange.SetActive(false);
-            Debug.Log("[PlayerAttackTrigger] 攻击判定禁用");
         }
         
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             // 检测是否碰撞到敌人
             EnemyBase enemy = other.GetComponent<EnemyBase>();
