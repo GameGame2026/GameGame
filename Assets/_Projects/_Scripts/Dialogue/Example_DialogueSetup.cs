@@ -94,7 +94,7 @@ public class Example_DialogueSetup : MonoBehaviour
      *      * Options（选项列表，如果需要选择）
      * 
      * 3. 设置 DialogueController：
-     *    - 在场景中的 NPC 物体上添加 DialogueController 组件
+     *    - 在场景中的 NPC 物体上添加 DialogueController 组件 // 还要加上InteractableNPC组件！不然根本检测不到可交互！！
      *    - 添加 Collider（设置为 Trigger）
      *    - 将创建的 DialogueData_SO 拖到 Current Data 字段
      *    - 将玩家的 PlayerInputHandler 拖到 Input 字段
