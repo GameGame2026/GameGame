@@ -1,106 +1,93 @@
-using _Projects.GamePlay;
 using UnityEngine;
 
 namespace _Projects.GamePlay
 {
+    /// <summary>
+    /// tangibleObject: 实体形态（如有碰撞/可见）
+    /// intangibleObject: 虚体形态（如无碰撞/半透明/不可见）
+    /// </summary>
     public class PhaseShifter : DisposableObject
     {
-        [Header("透明度设置")]
-        [Range(0, 1)] public float intangibleAlpha = 0.3f;
-        [Range(0, 1)] public float tangibleAlpha = 1.0f;
+        [Header("形态对象")]
+        [Tooltip("实体形态 GameObject（如有碰撞/可见）")]
+        public GameObject tangibleObject;
+        [Tooltip("虚体形态 GameObject（如无碰撞/半透明/不可见）")]
+        public GameObject intangibleObject;
 
         [Header("当前状态")]
         public bool isIntangible = false;
 
-        // 定义渲染队列常量
-        private const int OPAQUE_QUEUE = 2000;
-        private const int TRANSPARENT_QUEUE = 3000;
-        
+        /// <summary>
+        /// 切换到虚体
+        /// </summary>
+        public void SetIntangible()
+        {
+            isIntangible = true;
+            UpdateActiveState();
+        }
+
+        /// <summary>
+        /// 切换到实体
+        /// </summary>
+        public void SetTangible()
+        {
+            isIntangible = false;
+            UpdateActiveState();
+        }
+
+        /// <summary>
+        /// 切换形态
+        /// </summary>
+        public void TogglePhase()
+        {
+            isIntangible = !isIntangible;
+            UpdateActiveState();
+        }
+
+        /// <summary>
+        /// 贴点系统接口：贴点时切换形态
+        /// </summary>
         public override void ChangeState()
         {
             base.ChangeState();
-            
-            if (IsAttached)
-            {
-                SetPhase(true);
-            }
+            SetIntangible();
         }
-        
+
+        /// <summary>
+        /// 贴点系统接口：回收时切换回实体
+        /// </summary>
         public override void Recycle()
         {
             base.Recycle();
-            
-            SetPhase(false);
+            SetTangible();
         }
-        
-        private void SetPhase(bool makeIntangible)
-        {
-            Debug.Log("Changing phase state to " + (makeIntangible ? "Intangible" : "Tangible"));
-            isIntangible = makeIntangible;
 
-            // 获取渲染器
-            Renderer renderer = GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                Material mat = renderer.material;
-                
-                if (makeIntangible)
-                {
-                    mat.SetFloat("_Surface", 1); 
-                    
-                    mat.SetFloat("_Blend", 0);
-                    mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                    mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-                    
-                    mat.SetInt("_ZWrite", 0);
-                    
-                    mat.renderQueue = TRANSPARENT_QUEUE;
-                    
-                    mat.SetFloat("_AlphaClip", 0); 
-                }
-                else
-                {
-                    mat.SetFloat("_Surface", 0);
-                    mat.SetInt("_ZWrite", 1);
-                    mat.renderQueue = OPAQUE_QUEUE;
-                    
-                    mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-                    mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-                }
-                
-                Color color = mat.color;
-                color.a = isIntangible ? intangibleAlpha : tangibleAlpha;
-                mat.color = color;
-                
-                mat.shaderKeywords = null;
-            }
+        /// <summary>
+        /// 根据 isIntangible 切换 GameObject 激活状态
+        /// </summary>
+        private void UpdateActiveState()
+        {
+            if (tangibleObject != null)
+                tangibleObject.SetActive(!isIntangible);
+            if (intangibleObject != null)
+                intangibleObject.SetActive(isIntangible);
+        }
 
-            BoxCollider collider = GetComponent<BoxCollider>();
-            if (collider != null)
-            {
-                collider.isTrigger = isIntangible;
-            }
-        }
-        
-        public void TogglePhase()
-        {
-            SetPhase(!isIntangible);
-        }
-        
-        public void SetIntangible()
-        {
-            SetPhase(true);
-        }
-        
-        public void SetTangible()
-        {
-            SetPhase(false);
-        }
-        
-        [ContextMenu("切换相位状态")]
+        // 编辑器辅助
+        [ContextMenu("切换形态（TogglePhase）")]
         private void ToggleInEditor()
         {
             TogglePhase();
+        }
+        [ContextMenu("设为虚体（SetIntangible）")]
+        private void SetIntangibleInEditor()
+        {
+            SetIntangible();
+        }
+        [ContextMenu("设为实体（SetTangible）")]
+        private void SetTangibleInEditor()
+        {
+            SetTangible();
         }
     }
 }
