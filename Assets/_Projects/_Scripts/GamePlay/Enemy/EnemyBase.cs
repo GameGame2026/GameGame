@@ -68,6 +68,8 @@ namespace _Projects.GamePlay
         [Tooltip("是否可被攻击")]
         public bool CanBeAttacked = true;
         
+        // 死亡状态标志
+        public bool IsDead { get; protected set; }
         
         
         // 贴点状态
@@ -486,6 +488,13 @@ namespace _Projects.GamePlay
 
         public override void ChangeState()
         {
+            // 如果已经死亡，不允许贴点
+            if (IsDead)
+            {
+                Debug.Log($"[{gameObject.name}] 已死亡，无法贴点");
+                return;
+            }
+            
             base.ChangeState();
             OnPointAttached();
         }
@@ -594,11 +603,16 @@ namespace _Projects.GamePlay
         /// </summary>
         public virtual void OnDeath()
         {
+            // 标记为已死亡，防止死亡后继续贴点
+            IsDead = true;
+            
             Debug.Log($"[{gameObject.name}] 死亡");
             
+            // 如果死亡前被贴点，返回点数给玩家
             if (IsAttached)
             {
                 Recycle();
+                Debug.Log($"[{gameObject.name}] 死亡时被贴点，已返还点数给玩家");
             }
 
             // 播放死亡音效
@@ -626,7 +640,7 @@ namespace _Projects.GamePlay
             }
 
             // 延迟销毁
-            Destroy(gameObject, 3f);
+            Destroy(gameObject, 1f);
         }
 
         #endregion

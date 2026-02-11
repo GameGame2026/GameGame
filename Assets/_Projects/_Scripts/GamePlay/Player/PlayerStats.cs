@@ -12,7 +12,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float healthRegenDelay = 3f; // 受伤后多久开始恢复
     
     [Header("点数系统（影响角色外观动画）")]
-    [SerializeField] private int currentPoints = 0; // 当前点数 (0-3)
+    [SerializeField] private int currentPoints = 3; // 当前点数 (0-3)
     [SerializeField] private int maxPoints = 3; // 最大点数
     
     [Header("战斗属性")]
@@ -58,6 +58,8 @@ public class PlayerStats : MonoBehaviour
     public float AttackDamage => attackDamage; // 攻击力
     public bool IsAlive => currentHealth > 0;
     public bool IsInvincible => _invincibilityTimer > 0;
+
+    public float count = 1;
     
     private void Awake()
     {
@@ -72,10 +74,21 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
+    private void Start()
+    {
+        OnPointsChanged?.Invoke(currentPoints);
+    }
+    
     private void Update()
     {
         HandleHealthRegen();
         UpdateInvincibility();
+        if (count > 0)
+        {
+            count -= Time.deltaTime;
+            OnPointsChanged?.Invoke(currentPoints);
+        }
+       
     }
     
     /// <summary>

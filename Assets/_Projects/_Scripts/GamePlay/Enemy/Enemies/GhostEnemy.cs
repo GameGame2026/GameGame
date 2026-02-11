@@ -120,7 +120,11 @@ namespace _Projects.GamePlay
             base.Update();
             
             // 漂浮效果
-            UpdateFloat();
+            if (!IsDead)
+            {
+                UpdateFloat();
+            }
+            
         }
 
         /// <summary>
@@ -187,6 +191,12 @@ namespace _Projects.GamePlay
             randomDirection.y = _baseHeight;
             
             return randomDirection;
+        }
+
+        public override void OnDeath()
+        {
+            base.OnDeath();
+            
         }
     }
 }
