@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections.Generic;
 using _Projects.GamePlay;
 
@@ -64,6 +64,9 @@ namespace GamePlay.Controller
         private InteractableNPC _currentNPC;
         private bool _disposeInputPressed;
         private bool _recycleInputPressed;
+        
+        // 公开属性：检查是否有贴点对象
+        public bool HasAttachedObjects => _disposedObjects.Count > 0;
         
         public GameObject attackRange;
 

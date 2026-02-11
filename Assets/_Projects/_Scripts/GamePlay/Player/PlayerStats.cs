@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using _Projects.GamePlay;
+using GamePlay.Controller;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -40,6 +41,9 @@ public class PlayerStats : MonoBehaviour
     // 材质闪红效果组件
     private MaterialFlashEffect _materialFlash;
     
+    // 控制器引用
+    private ThirdPersonController _controller;
+    
     // 事件
     [Header("事件")]
     public UnityEvent<float> OnHealthChanged;
@@ -72,6 +76,9 @@ public class PlayerStats : MonoBehaviour
         {
             _materialFlash = gameObject.AddComponent<MaterialFlashEffect>();
         }
+        
+        // 获取控制器引用
+        _controller = GetComponent<ThirdPersonController>();
     }
     
     private void Start()
@@ -98,6 +105,13 @@ public class PlayerStats : MonoBehaviour
     {
         if (!canRegenHealth || !IsAlive) return;
         if (currentHealth >= maxHealth) return;
+        
+        // 如果有贴点对象，禁用自动回血
+        if (_controller != null && _controller.HasAttachedObjects)
+        {
+            // Debug.Log("[PlayerStats] 有贴点对象，禁用自动回血");
+            return;
+        }
         
         // 检查是否超过延迟时间
         if (Time.time - _lastDamageTime >= healthRegenDelay)

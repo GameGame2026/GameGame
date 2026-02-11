@@ -14,6 +14,9 @@ namespace _Projects.GamePlay
         [Tooltip("治愈模式下恢复的血量")]
         public float healAmount = 1f;
         
+        [Tooltip("治愈攻击冷却时间（秒）")]
+        public float healAttackCooldown = 1f;
+        
         [Tooltip("是否处于治愈模式")]
         public bool IsHealingMode => IsAttached;
 
@@ -25,6 +28,7 @@ namespace _Projects.GamePlay
         public Material healingMaterial;
 
         private Renderer _renderer;
+        private float _lastHealAttackTime; 
 
         protected override void Awake()
         {
@@ -39,7 +43,6 @@ namespace _Projects.GamePlay
         {
             base.OnPointAttached();
             
-            // 切换到治愈态材质
             if (_renderer != null && healingMaterial != null)
             {
                 _renderer.material = healingMaterial;
@@ -64,36 +67,37 @@ namespace _Projects.GamePlay
             Debug.Log($"[HeartPoker] {gameObject.name} 退出治愈模式");
         }
 
-        /// <summary>
-        /// 受到伤害 - 治愈模式下为玩家恢复血量
-        /// </summary>
-        public override void TakeDamage(float damage)
+        public override void AttackPlayer(PlayerStats player)
         {
             if (IsHealingMode)
             {
-                // 治愈模式：被攻击时治疗玩家
-                if (_playerStats != null)
+                // 检查治愈攻击冷却
+                if (Time.time - _lastHealAttackTime >= healAttackCooldown)
                 {
-                    _playerStats.Heal(healAmount);
-                    Debug.Log($"[HeartPoker] 治愈模式触发，为玩家恢复 {healAmount} 点血量");
-                }
-                
-                // 播放特殊音效（可以是治愈音效）
-                if (hitSound != null)
-                {
-                    AudioSource.PlayClipAtPoint(hitSound, transform.position, soundVolume);
-                }
-                
-                // 播放受击动画
-                if (_animator != null)
-                {
-                    _animator.SetTrigger(_animHit);
+                    if (player != null)
+                    {
+                        player.Heal(healAmount);
+                        _lastHealAttackTime = Time.time;
+                        Debug.Log($"[HeartPoker] 治愈模式：为玩家恢复 {healAmount} 点血量");
+                        
+                        // 播放治愈音效
+                        if (hitSound != null)
+                        {
+                            AudioSource.PlayClipAtPoint(hitSound, transform.position, soundVolume);
+                        }
+                        
+                        // 播放治愈动画
+                        if (_animator != null)
+                        {
+                            _animator.SetTrigger(_animAttack);
+                        }
+                    }
                 }
             }
             else
             {
-                // 正常模式：正常受伤
-                base.TakeDamage(damage);
+                // 正常攻击模式
+                base.AttackPlayer(player);
             }
         }
     }

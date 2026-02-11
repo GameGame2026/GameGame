@@ -40,7 +40,7 @@ namespace _Projects.GamePlay
         {
             base.Awake();
             _renderer = GetComponentInChildren<Renderer>();
-            
+
             // 初始状态：不可被攻击
             CanBeAttacked = false;
         }
@@ -54,7 +54,7 @@ namespace _Projects.GamePlay
             
             // 设置初始半透明状态
             SetGhostMode(true);
-            
+
             // 禁用NavMeshAgent（鬼魂漂浮移动）
             if (_navAgent != null)
             {
@@ -96,7 +96,7 @@ namespace _Projects.GamePlay
         private void SetGhostMode(bool isGhost)
         {
             if (_renderer == null) return;
-            
+
             if (isGhost && ghostMaterial != null)
             {
                 _renderer.material = ghostMaterial;
@@ -105,7 +105,7 @@ namespace _Projects.GamePlay
             {
                 _renderer.material = solidMaterial;
             }
-            
+
             // 直接修改透明度
             if (_renderer.material.HasProperty("_Color"))
             {
