@@ -56,6 +56,20 @@ public class DialogueUI : Singleton<DialogueUI>
     {
         base.Awake();
         
+        // 如果没有手动赋值 inputHandler，尝试自动查找
+        if (inputHandler == null)
+        {
+            inputHandler = FindObjectOfType<PlayerInputHandler>();
+            if (inputHandler != null)
+            {
+                Debug.Log("DialogueUI 自动找到 PlayerInputHandler");
+            }
+            else
+            {
+                Debug.LogWarning("DialogueUI 未找到 PlayerInputHandler，对话交互可能无法正常工作！");
+            }
+        }
+        
         if (nextHintPanel != null)
             nextHintPanel.SetActive(false);
         if (optionPanel != null)
@@ -70,47 +84,55 @@ public class DialogueUI : Singleton<DialogueUI>
             dialogueCloseCooldown -= Time.deltaTime;
         }
         
+        // 检查 inputHandler 是否存在
+        if (inputHandler == null)
+        {
+            // 尝试再次查找
+            inputHandler = FindObjectOfType<PlayerInputHandler>();
+            if (inputHandler == null)
+            {
+                return; // 没有输入处理器，无法处理输入
+            }
+        }
+        
         // 始终更新 lastInteractInput，即使对话框未激活，防止重新打开
-        bool interactPressed = inputHandler != null && inputHandler.InteractInput;
+        bool interactPressed = inputHandler.InteractInput;
         
         if (!dialoguePanel.activeSelf)
         {
             lastInteractInput = interactPressed; // 保持状态同步，不要重置
             return;
         }
+        
 
-        // 处理交互输入（I 键）- 只在按键按下时触发（边缘检测）
+        // 处理交互输入（E 键）- 只在按键按下时触发（边缘检测）
         if (interactPressed && !lastInteractInput)
         {
+            
             if (isTyping)
             {
-                // 跳过打字机效果
                 SkipTypewriter();
-            }
-            else if (currentOptions.Count > 0)
-            {
-                // 触发选中的选项
-                if (selectedOptionIndex >= 0 && selectedOptionIndex < currentOptions.Count)
-                {
-                    currentOptions[selectedOptionIndex].TriggerOption();
-                }
             }
             else if (textFullyDisplayed)
             {
-                // 如果文本已完全显示
-                if (currentPiece != null && currentPiece.isLastPiece)
+                // 文本已完全显示后的处理
+                if (currentOptions.Count > 0)
                 {
-                    // 最后一段对话，关闭对话框
+                    if (selectedOptionIndex >= 0 && selectedOptionIndex < currentOptions.Count)
+                    {
+                        currentOptions[selectedOptionIndex].TriggerOption();
+                    }
+                }
+                else if (currentPiece != null && currentPiece.isLastPiece)
+                {
                     CloseDialogue();
                 }
                 else if (!string.IsNullOrEmpty(currentPiece?.nextID))
                 {
-                    // 有下一段对话，继续
                     ContinueDialogue();
                 }
                 else
                 {
-                    // 没有下一段对话，关闭对话框
                     CloseDialogue();
                 }
             }
@@ -127,7 +149,6 @@ public class DialogueUI : Singleton<DialogueUI>
     // 新增：统一的关闭对话方法
     private void CloseDialogue()
     {
-        Debug.Log("关闭对话框");
         dialoguePanel.SetActive(false);
         dialogueCloseCooldown = COOLDOWN_TIME; // 设置冷却时间
     }
@@ -200,10 +221,24 @@ public class DialogueUI : Singleton<DialogueUI>
     private void ContinueDialogue()
     {
         if (!textFullyDisplayed)
+        {
             return;
+        }
 
         if (currentPiece != null && !string.IsNullOrEmpty(currentPiece.nextID))
         {
+            
+            if (currentData == null)
+            {
+                CloseDialogue();
+                return;
+            }
+            
+            if (currentData.dialogueIndex == null)
+            {
+                currentData.InitializeDialogue();
+            }
+            
             if (currentData.dialogueIndex.ContainsKey(currentPiece.nextID))
             {
                 UpdateMainDialogue(currentData.dialogueIndex[currentPiece.nextID]);
@@ -211,14 +246,12 @@ public class DialogueUI : Singleton<DialogueUI>
             else
             {
                 // 如果找不到 nextID，结束对话
-                Debug.LogWarning($"找不到下一段对话 ID: {currentPiece.nextID}");
                 CloseDialogue();
             }
         }
         else
         {
             // 如果没有 nextID，结束对话
-            Debug.Log("没有 nextID，关闭对话框");
             CloseDialogue();
         }
     }
@@ -226,13 +259,16 @@ public class DialogueUI : Singleton<DialogueUI>
     public void UpdateDialogueData(DialogueData_SO data)
     {
         currentData = data;
+        if (currentData != null)
+        {
+            currentData.InitializeDialogue(); // 运行时初始化对话索引
+        }
     }
 
     public void UpdateMainDialogue(DialoguePiece piece)
     {
         if (piece == null)
         {
-            Debug.LogError("DialoguePiece 为空！");
             return;
         }
         
@@ -355,7 +391,7 @@ public class DialogueUI : Singleton<DialogueUI>
         if (currentPiece.isLastPiece)
         {
             // 最后一段对话，显示关闭提示
-            ShowNextHint(true, "按 I 关闭对话");
+            ShowNextHint(true, "按 E 关闭对话");
             return;
         }
         
@@ -376,7 +412,7 @@ public class DialogueUI : Singleton<DialogueUI>
         else
         {
             // 没有选项也没有下一段对话，显示关闭对话的提示
-            ShowNextHint(true, "按 I 关闭对话");
+            ShowNextHint(true, "按 E 关闭对话");
         }
     }
     
@@ -389,7 +425,7 @@ public class DialogueUI : Singleton<DialogueUI>
         
         if (show && nextHintText != null)
         {
-            nextHintText.text = customText ?? "按 I 继续对话";
+            nextHintText.text = customText ?? "按 E 继续对话";
         }
     }
 

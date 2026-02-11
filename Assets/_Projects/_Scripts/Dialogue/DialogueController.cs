@@ -44,6 +44,13 @@ public class DialogueController : MonoBehaviour
 
     private void OpenDialogue()
     {
+        // 设置输入处理器（如果 DialogueUI 还没有的话）
+        if (DialogueUI.Instance.inputHandler == null && input != null)
+        {
+            DialogueUI.Instance.inputHandler = input;
+            Debug.Log("DialogueUI inputHandler 已设置");
+        }
+        
         DialogueUI.Instance.UpdateDialogueData(currentData);
         DialogueUI.Instance.UpdateMainDialogue(currentData.dialoguePieces[0]);
     }

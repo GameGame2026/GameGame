@@ -21,7 +21,11 @@ namespace _Projects.GamePlay
 
         private void Awake()
         {
-            point.SetActive(false);
+            if (point != null)
+            {
+                point.SetActive(false);
+            }
+           
         }
 
 
