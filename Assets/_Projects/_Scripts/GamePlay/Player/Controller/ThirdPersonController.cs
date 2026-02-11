@@ -438,18 +438,43 @@ namespace GamePlay.Controller
             {
                 _recycleInputPressed = true;
                 
-                // 按照放置次序回收（从列表末尾开始，即最后贴附的）
+                // 按照放置次序回收
                 if (_disposedObjects.Count > 0)
                 {
-                    DisposableObject lastDisposed = _disposedObjects[_disposedObjects.Count - 1];
+                    // 从后往前查找第一个非空的物体
+                    DisposableObject lastDisposed = null;
+                    int indexToRemove = -1;
                     
-                    Debug.Log($"[Recycle] 回收物体: {lastDisposed.gameObject.name}");
+                    for (int i = _disposedObjects.Count - 1; i >= 0; i--)
+                    {
+                        if (_disposedObjects[i] != null)
+                        {
+                            lastDisposed = _disposedObjects[i];
+                            indexToRemove = i;
+                            break;
+                        }
+                        else
+                        {
+                            // 清理已销毁的null引用
+                            Debug.Log($"[Recycle] 清理已销毁的物体引用（索引: {i}）");
+                            _disposedObjects.RemoveAt(i);
+                        }
+                    }
                     
-                    // 回收prefab，恢复物体状态
-                    lastDisposed.Recycle();
-                    
-                    // 从列表中移除
-                    _disposedObjects.RemoveAt(_disposedObjects.Count - 1);
+                    if (lastDisposed != null)
+                    {
+                        Debug.Log($"[Recycle] 回收物体: {lastDisposed.gameObject.name}");
+                        
+                        // 回收prefab，恢复物体状态
+                        lastDisposed.Recycle();
+                        
+                        // 从列表中移除
+                        _disposedObjects.RemoveAt(indexToRemove);
+                    }
+                    else
+                    {
+                        Debug.Log("[Recycle] 所有贴附的物体都已被销毁，无法回收");
+                    }
                 }
                 else
                 {
