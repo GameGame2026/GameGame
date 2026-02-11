@@ -197,21 +197,24 @@ MonoBehaviour:
   playerStats: {fileID: 0}
   maxHealth: 100
   currentHealth: 0
-  attackDamage: 10
-  AttackCooldown: 1.5
+  attackDamage: 12
+  AttackCooldown: 2.7
   PatrolSpeed: 2
   chaseSpeed: 4
   rotationSpeed: 5
   detectionRange: 8
   chaseRange: 15
-  attackRange: 2
+  attackRange: 8
   patrolRadius: 10
   invincibilityTime: 0.3
-  hitSound: {fileID: 0}
-  attackSound: {fileID: 0}
-  deathSound: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: e0850f562c934e0439cd83526f7004c5, type: 3}
+  attackSound: {fileID: 8300000, guid: b735ef4208257e646bd7b243122d5a06, type: 3}
+  deathSound: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
   soundVolume: 0.7
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 0.7}
+  hitFlashDuration: 0.2
   CanBeAttacked: 1
+  attackTriggerRange: {fileID: 0}
   bubblePrefab: {fileID: 4766293847553579469, guid: 3cc910d7cb964424bb6475373f5f6ee9, type: 3}
   firePoint: {fileID: 6604135046233440875}
   bubbleForce: 10

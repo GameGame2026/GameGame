@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 7059764850823189291}
   - component: {fileID: 4448695794983626742}
   - component: {fileID: 4341844032444932318}
+  - component: {fileID: 7789855023704002077}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -360,16 +361,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
+  currentHealth: 100
   canRegenHealth: 1
   healthRegenRate: 5
   healthRegenDelay: 3
   currentPoints: 3
   maxPoints: 3
   attackDamage: 10
-  invincibilityDuration: 1
-  hitSound: {fileID: 0}
-  attackSound: {fileID: 0}
+  invincibilityDuration: 0.7
+  hitSound: {fileID: 8300000, guid: 46c510ebc56eabc43a270c033d96d140, type: 3}
+  attackSound: {fileID: 8300000, guid: e0850f562c934e0439cd83526f7004c5, type: 3}
   soundVolume: 0.7
   hitFlashColor: {r: 1, g: 0, b: 0, a: 0.7}
   hitFlashDuration: 0.2
@@ -391,6 +392,7 @@ MonoBehaviour:
   OnHealthRegen:
     m_PersistentCalls:
       m_Calls: []
+  count: 1
 --- !u!114 &4448695794983626742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +406,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!64 &4341844032444932318
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!64 &7789855023704002077
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -577,8 +601,8 @@ Transform:
   m_GameObject: {fileID: 8380107396922941620}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.07715, y: 0.605, z: -0.137}
+  m_LocalScale: {x: 0.70537, y: 0.70537, z: 0.70537}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3893294197879345259}
@@ -602,10 +626,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.82
-  m_Height: 1
+  m_Radius: 0.8308149
+  m_Height: 2.2649798
   m_Direction: 1
-  m_Center: {x: 0, y: 0.62, z: 0}
+  m_Center: {x: 0.14609519, y: -0.06750977, z: 0.15550566}
 --- !u!114 &682457555758061353
 MonoBehaviour:
   m_ObjectHideFlags: 0

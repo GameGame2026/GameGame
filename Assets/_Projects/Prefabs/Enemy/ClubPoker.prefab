@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 113.28, y: 45.7, z: 93.7}
-  m_LocalScale: {x: 2.0842, y: 2.0842, z: 2.0842}
+  m_LocalScale: {x: 3.2140446, y: 3.2140446, z: 3.2140446}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8191263827623344841}
@@ -217,33 +217,35 @@ MonoBehaviour:
   point: {fileID: 816309971404728192}
   pointCost: 1
   playerStats: {fileID: 0}
-  maxHealth: 100
-  currentHealth: 0
-  attackDamage: 10
-  AttackCooldown: 1.5
+  maxHealth: 120
+  currentHealth: 120
+  attackDamage: 20
+  AttackCooldown: 2.3
   PatrolSpeed: 2
-  chaseSpeed: 4
+  chaseSpeed: 5.5
   rotationSpeed: 5
   detectionRange: 8
   chaseRange: 15
   attackRange: 2
   patrolRadius: 10
   invincibilityTime: 0.3
-  hitSound: {fileID: 0}
-  attackSound: {fileID: 0}
-  deathSound: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: b735ef4208257e646bd7b243122d5a06, type: 3}
+  attackSound: {fileID: 8300000, guid: e0850f562c934e0439cd83526f7004c5, type: 3}
+  deathSound: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
   soundVolume: 0.7
   hitFlashColor: {r: 1, g: 0, b: 0, a: 0.7}
   hitFlashDuration: 0.2
   CanBeAttacked: 1
   attackTriggerRange: {fileID: 2621615066921042893}
-  attachSearchRadius: 5
+  attachSearchRadius: 7
   attachableLayers:
     serializedVersion: 2
-    m_Bits: 0
-  transparentAlpha: 0.5
-  normalMaterial: {fileID: 0}
-  attachedMaterial: {fileID: 0}
+    m_Bits: 64
+  attachedAlpha: 0.5
+  attachMoveSpeed: 5
+  surfaceOffset: 1
+  alphaPropertyName: _Color
+  fadeTransitionTime: 0.3
 --- !u!1 &2621615066921042893
 GameObject:
   m_ObjectHideFlags: 0

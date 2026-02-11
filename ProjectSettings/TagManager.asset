@@ -9,6 +9,7 @@ TagManager:
   - interactable
   - Enemy
   - Attack
+  - New tag
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - Ground
   - Wall
-  - 
+  - 1
   - 
   - 
   - 

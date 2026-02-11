@@ -29,7 +29,7 @@ MonoBehaviour:
   bottomClamp: -40
   cameraAngleOverride: 0
   lockCameraPosition: 0
-  landingAudioClip: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
+  landingAudioClip: {fileID: 0}
   footstepAudioClips:
   - {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
   - {fileID: 8300000, guid: 5bccf781c19a7f342b520e89a3ce3a34, type: 3}

@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 113.28, y: 45, z: 97.5}
-  m_LocalScale: {x: 2.0842, y: 2.0842, z: 2.0842}
+  m_LocalScale: {x: 3.2263415, y: 3.2263415, z: 3.2263415}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5863121532584402910}
@@ -177,10 +177,10 @@ MonoBehaviour:
   point: {fileID: 3144875303003603607}
   pointCost: 1
   playerStats: {fileID: 0}
-  maxHealth: 100
-  currentHealth: 0
-  attackDamage: 10
-  AttackCooldown: 1.5
+  maxHealth: 80
+  currentHealth: 80
+  attackDamage: 12
+  AttackCooldown: 6.5
   PatrolSpeed: 2
   chaseSpeed: 4
   rotationSpeed: 5
@@ -189,15 +189,16 @@ MonoBehaviour:
   attackRange: 2
   patrolRadius: 10
   invincibilityTime: 0.3
-  hitSound: {fileID: 0}
-  attackSound: {fileID: 0}
-  deathSound: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: b735ef4208257e646bd7b243122d5a06, type: 3}
+  attackSound: {fileID: 8300000, guid: b735ef4208257e646bd7b243122d5a06, type: 3}
+  deathSound: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
   soundVolume: 0.7
   hitFlashColor: {r: 1, g: 0, b: 0, a: 0.7}
   hitFlashDuration: 0.2
   CanBeAttacked: 1
   attackTriggerRange: {fileID: 4535942262890552518}
-  healAmount: 1
+  healAmount: 100
+  healAttackCooldown: 1
   normalMaterial: {fileID: 0}
   healingMaterial: {fileID: 0}
 --- !u!136 &4936957294359469237
@@ -267,7 +268,7 @@ Transform:
   m_GameObject: {fileID: 4535942262890552518}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.353, y: -0.088, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -292,10 +293,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
-  m_Height: 1
+  m_Radius: 0.4956255
+  m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0, y: 0.76, z: 0}
+  m_Center: {x: -0.3043745, y: 0.76, z: 0}
 --- !u!114 &3683177307195760785
 MonoBehaviour:
   m_ObjectHideFlags: 0
