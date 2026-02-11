@@ -27,8 +27,18 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private AudioClip attackSound; // 攻击音效
     [SerializeField] [Range(0, 1)] private float soundVolume = 0.7f; // 音效音量
     
+    [Header("受击视觉效果")]
+    [Tooltip("受击时的闪红颜色")]
+    [SerializeField] private Color hitFlashColor = new Color(1f, 0f, 0f, 0.7f);
+    
+    [Tooltip("受击闪红持续时间")]
+    [SerializeField] private float hitFlashDuration = 0.2f;
+    
     // 计时
     private float _lastDamageTime;
+    
+    // 材质闪红效果组件
+    private MaterialFlashEffect _materialFlash;
     
     // 事件
     [Header("事件")]
@@ -53,6 +63,13 @@ public class PlayerStats : MonoBehaviour
     {
         // 初始化数值
         currentHealth = maxHealth;
+        
+        // 获取或添加材质闪红效果组件
+        _materialFlash = GetComponent<MaterialFlashEffect>();
+        if (_materialFlash == null)
+        {
+            _materialFlash = gameObject.AddComponent<MaterialFlashEffect>();
+        }
     }
     
     private void Update()
@@ -106,6 +123,12 @@ public class PlayerStats : MonoBehaviour
         if (hitSound != null)
         {
             AudioSource.PlayClipAtPoint(hitSound, transform.position, soundVolume);
+        }
+        
+        // 触发材质闪红效果
+        if (_materialFlash != null)
+        {
+            _materialFlash.Flash(hitFlashColor, hitFlashDuration);
         }
         
         OnHealthChanged?.Invoke(currentHealth);

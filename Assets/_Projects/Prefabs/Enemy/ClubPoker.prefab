@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 51836611526022048}
   - component: {fileID: 3306872723435845889}
   - component: {fileID: 7810171346900664330}
-  - component: {fileID: 3008858631989071967}
   m_Layer: 0
   m_Name: ClubPoker
   m_TagString: Disposeable
@@ -234,7 +233,10 @@ MonoBehaviour:
   attackSound: {fileID: 0}
   deathSound: {fileID: 0}
   soundVolume: 0.7
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 0.7}
+  hitFlashDuration: 0.2
   CanBeAttacked: 1
+  attackTriggerRange: {fileID: 2621615066921042893}
   attachSearchRadius: 5
   attachableLayers:
     serializedVersion: 2
@@ -242,19 +244,6 @@ MonoBehaviour:
   transparentAlpha: 0.5
   normalMaterial: {fileID: 0}
   attachedMaterial: {fileID: 0}
---- !u!114 &3008858631989071967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2282131710295747210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2efceed03724f6285c1d515cb7aa22e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: {fileID: 2621615066921042893}
 --- !u!1 &2621615066921042893
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,9 +254,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7127135777240756984}
   - component: {fileID: 6167768283673158110}
+  - component: {fileID: 6685215549414471257}
   m_Layer: 0
   m_Name: AttackRange
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,6 +298,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5718639, y: 1, z: 1.4673434}
   m_Center: {x: 0.016725507, y: 0.44000003, z: 0.5436717}
+--- !u!114 &6685215549414471257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2621615066921042893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2efceed03724f6285c1d515cb7aa22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7134829810840193802
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ TagManager:
   - Disposeable
   - interactable
   - Enemy
+  - Attack
   layers:
   - Default
   - TransparentFX

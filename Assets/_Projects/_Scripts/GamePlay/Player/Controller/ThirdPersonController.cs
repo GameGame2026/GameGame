@@ -64,6 +64,8 @@ namespace GamePlay.Controller
         private InteractableNPC _currentNPC;
         private bool _disposeInputPressed;
         private bool _recycleInputPressed;
+        
+        public GameObject attackRange;
 
 
 
@@ -84,6 +86,7 @@ namespace GamePlay.Controller
                     Debug.LogWarning("[ThirdPersonController] 未找到 PlayerProximityDetector，请手动添加并配置。", this);
                 }
             }
+            attackRange.SetActive(false);
         }
 
         private void Start()
@@ -518,6 +521,16 @@ namespace GamePlay.Controller
                 _animator.SetInteger(_animIDPoints, newPoints);
                 Debug.Log($"[ThirdPersonController] 动画点数更新: {newPoints}");
             }
+        }
+        
+        public void EnableAttack()
+        {
+            attackRange.SetActive(true);
+        }
+        
+        public void DisableAttack()
+        {
+            attackRange.SetActive(false);
         }
     }
 }

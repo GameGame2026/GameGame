@@ -10,24 +10,12 @@ namespace _Projects.GamePlay
     public class PlayerAttackTrigger : MonoBehaviour
     {
         private PlayerStats _playerStats;
-        public GameObject attackRange;
         
         private void Awake()
         {
             _playerStats = GetComponentInParent<PlayerStats>();
-            
-            attackRange.SetActive(false);
-            
-        }
-        public void EnableAttack()
-        {
-            attackRange.SetActive(true);
         }
         
-        public void DisableAttack()
-        {
-            attackRange.SetActive(false);
-        }
         
         private void OnTriggerStay(Collider other)
         {

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace _Projects.GamePlay
 {
@@ -56,14 +57,24 @@ namespace _Projects.GamePlay
         public AudioClip deathSound;
         [Range(0, 1)] public float soundVolume = 0.7f;
 
+        [Header("受击视觉效果")]
+        [Tooltip("受击时的闪红颜色")]
+        public Color hitFlashColor = new Color(1f, 0f, 0f, 0.7f);
+        
+        [Tooltip("受击闪红持续时间")]
+        public float hitFlashDuration = 0.2f;
+
         [Header("贴点系统")]
         [Tooltip("是否可被攻击")]
         public bool CanBeAttacked = true;
+        
+        
         
         // 贴点状态
         // `IsAttached` from DisposableObject is used to track whether this object is attached.
         // 使用基类 DisposableObject 中的 `IsAttached`（已定义为 public bool IsAttached { get; protected set; }）
         // 这里不再重复定义 IsPointAttached。
+        protected MaterialFlashEffect _materialFlash;
         public bool IsFriendly { get; protected set; }
 
         // 组件引用
@@ -95,6 +106,8 @@ namespace _Projects.GamePlay
         protected int _animHit;
         protected int _animDead;
         protected int _animPointAttached;
+        
+        public GameObject attackTriggerRange;
 
         protected virtual void Awake()
         {
@@ -102,6 +115,13 @@ namespace _Projects.GamePlay
             _animator = GetComponentInChildren<Animator>();
             _navAgent = GetComponent<NavMeshAgent>();
             _collider = GetComponent<Collider>();
+            
+            // 获取或添加 MaterialFlashEffect 组件
+            _materialFlash = GetComponent<MaterialFlashEffect>();
+            if (_materialFlash == null)
+            {
+                _materialFlash = gameObject.AddComponent<MaterialFlashEffect>();
+            }
             
             _spawnPosition = transform.position;
             currentHealth = maxHealth;
@@ -119,6 +139,12 @@ namespace _Projects.GamePlay
                 // 使用基类的 IsAttached
                 _animator.SetBool(_animPointAttached, IsAttached);
             }
+
+            if (attackTriggerRange != null)
+            {
+                attackTriggerRange.SetActive(false);
+            }
+          
         }
 
         protected virtual void Start()
@@ -422,10 +448,10 @@ namespace _Projects.GamePlay
                 AudioSource.PlayClipAtPoint(hitSound, transform.position, soundVolume);
             }
 
-            // 播放受击动画
-            if (_animator != null)
+            // 触发材质闪红效果（替代受击动画）
+            if (_materialFlash != null)
             {
-                _animator.SetTrigger(_animHit);
+                _materialFlash.Flash(hitFlashColor, hitFlashDuration);
             }
 
             // 开启无敌帧
@@ -599,6 +625,16 @@ namespace _Projects.GamePlay
         }
 
         #endregion
+        
+        public void EnableAttack()
+        {
+            attackTriggerRange.SetActive(true);
+        }
+        
+        public void DisableAttack()
+        {
+            attackTriggerRange.SetActive(false);
+        }
 
         #region Gizmos
 
