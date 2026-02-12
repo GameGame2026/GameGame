@@ -28,8 +28,8 @@ namespace _Projects.GamePlay.UI
         [SerializeField] private float fontSize = 36f;
         
         private UnityEngine.Camera _mainCamera;
-        
-        private void Awake()
+
+        protected override void Awake()
         {
             _mainCamera = UnityEngine.Camera.main;
             

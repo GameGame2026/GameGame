@@ -401,15 +401,15 @@ namespace GamePlay.Controller
                 if (closestDisposable != null && !closestDisposable.IsAttached && closestDisposable.HasEnoughPoints(_playerStats))
                 {
                     Debug.Log($"[Dispose] 贴附物体: {closestDisposable.gameObject.name}");
-                    
+
                     // 贴上prefab，改变物体状态
                     closestDisposable.ChangeState();
-                    
+
                     if (closestDisposable.IsAttached && !_disposedObjects.Contains(closestDisposable))
                     {
                         _disposedObjects.Add(closestDisposable);
                     }
-                   
+
                 }
             }
             else if (!_inputHandler.DisposeInput)
