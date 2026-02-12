@@ -56,7 +56,7 @@ MonoBehaviour:
   - id: meet_rb_6
     speakerType: 0
     speakerName: "\u767D\u5154"
-    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
     text: "\u7591\u70B9\u5C31\u5728\u6211\u4EEC\u8EAB\u8FB9\u3002\u6BD4\u5982\u524D\u9762\u7684\u65AD\u5D16\u2014\u2014\u8FD9\u91CC\u672C\u8BE5\u6709\u4E00\u5EA7\u6865\uFF0C\u4F46\u5B83\u4E0D\u89C1\u4E86\u3002\u4FA6\u63A2\u5C0F\u59D0\uFF0C\u5F53\u60A8\u53D1\u73B0\u4E86\u7EBF\u7D22\u4E2D\u7684\u7591\u70B9\uFF0C\u60A8\u901A\u5E38\u4F1A\u600E\u4E48\u505A\u5462\uFF1F"
     nextID: meet_rb_7
     options: []
