@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 9.666666}
+  m_LocalScale: {x: 1, y: 1, z: 10.64}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 747133214339479812}
@@ -134,7 +134,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 9.666666}
+  m_LocalScale: {x: 1, y: 1, z: 10.64}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 747133214339479812}
@@ -222,6 +222,8 @@ GameObject:
   - component: {fileID: 119554990831681333}
   - component: {fileID: 1139098115629005527}
   - component: {fileID: 3962006093566935665}
+  - component: {fileID: 8947556494068916565}
+  - component: {fileID: 6345212569948171922}
   m_Layer: 0
   m_Name: axis
   m_TagString: Untagged
@@ -316,4 +318,46 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8947556494068916565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667521869381481035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ec02ea1c3bd614586ccdce8271092a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  point: {fileID: 0}
+  pointCost: 1
+  playerStats: {fileID: 0}
+  hoverSpeed: 0.5
+  hoverHeight: 0
+  rotateSpeed: 220
+  stop: 0
+--- !u!136 &6345212569948171922
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667521869381481035}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5.2
+  m_Height: 1
+  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
