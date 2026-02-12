@@ -193,8 +193,6 @@ namespace _Projects.GamePlay
         /// </summary>
         public override void OnPointDetached()
         {
-            base.OnPointDetached();
-            
             Debug.Log($"[ClubPoker] {gameObject.name} 脱离表面");
             
             // 停止贴附协程
@@ -210,7 +208,7 @@ namespace _Projects.GamePlay
             
             // 恢复材质
             RestoreOriginalMaterials();
-            
+
             // 恢复物理
             if (_rigidbody != null)
             {
@@ -222,6 +220,31 @@ namespace _Projects.GamePlay
             {
                 _collider.enabled = true;
             }
+            
+            // 重新启用 NavMeshAgent
+            if (_navAgent != null)
+            {
+                _navAgent.enabled = true;
+                // 确保NavMeshAgent正确初始化
+                if (_navAgent.isOnNavMesh)
+                {
+                    _navAgent.isStopped = false;
+                    _navAgent.ResetPath();
+                }
+                else
+                {
+                    // 如果不在NavMesh上，尝试采样最近的NavMesh位置
+                    UnityEngine.AI.NavMeshHit hit;
+                    if (UnityEngine.AI.NavMesh.SamplePosition(transform.position, out hit, 5f, UnityEngine.AI.NavMesh.AllAreas))
+                    {
+                        transform.position = hit.position;
+                        Debug.Log($"[ClubPoker] {gameObject.name} 重新放置到NavMesh上: {hit.position}");
+                    }
+                }
+            }
+            
+            // 调用基类方法（会改变状态为Idle）
+            base.OnPointDetached();
         }
 
         #endregion

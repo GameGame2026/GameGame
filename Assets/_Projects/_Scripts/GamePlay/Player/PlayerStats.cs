@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using _Projects.GamePlay;
+using _Projects.GamePlay.UI;
 using GamePlay.Controller;
 
 public class PlayerStats : MonoBehaviour
@@ -158,6 +159,12 @@ public class PlayerStats : MonoBehaviour
             _materialFlash.Flash(hitFlashColor, hitFlashDuration);
         }
         
+        // 显示伤害数字
+        if (DamageNumberSpawner.Instance != null)
+        {
+            DamageNumberSpawner.Instance.SpawnDamage(damage, transform.position, true);
+        }
+        
         OnHealthChanged?.Invoke(currentHealth);
         OnDamageTaken?.Invoke(damage);
         
@@ -272,6 +279,9 @@ public class PlayerStats : MonoBehaviour
             Debug.Log($"[PlayerStats] 点数设置: {oldPoints} -> {currentPoints}");
         }
     }
+    
+    
+    
     
     // ===== 战斗系统方法 =====
     
