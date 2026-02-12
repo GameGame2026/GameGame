@@ -189,9 +189,9 @@ MonoBehaviour:
   attackRange: 2
   patrolRadius: 10
   invincibilityTime: 0.3
-  hitSound: {fileID: 8300000, guid: b735ef4208257e646bd7b243122d5a06, type: 3}
-  attackSound: {fileID: 8300000, guid: b735ef4208257e646bd7b243122d5a06, type: 3}
-  deathSound: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
+  hitSound: {fileID: 8300000, guid: f410687ef67bebf41a68391c1abfb737, type: 3}
+  attackSound: {fileID: 8300000, guid: dc60759755d76fb40a9ff1f8c2ce0142, type: 3}
+  deathSound: {fileID: 8300000, guid: c511f0e6f68ce594c9904ceb8b025703, type: 3}
   soundVolume: 0.7
   hitFlashColor: {r: 1, g: 0, b: 0, a: 0.7}
   hitFlashDuration: 0.2

@@ -202,10 +202,10 @@ MonoBehaviour:
   PatrolSpeed: 2
   chaseSpeed: 4
   rotationSpeed: 5
-  detectionRange: 8
+  detectionRange: 15
   chaseRange: 15
-  attackRange: 8
-  patrolRadius: 10
+  attackRange: 15
+  patrolRadius: 15
   invincibilityTime: 0.3
   hitSound: {fileID: 8300000, guid: e0850f562c934e0439cd83526f7004c5, type: 3}
   attackSound: {fileID: 8300000, guid: b735ef4208257e646bd7b243122d5a06, type: 3}
@@ -219,7 +219,7 @@ MonoBehaviour:
   firePoint: {fileID: 6604135046233440875}
   bubbleForce: 10
   bubbleAngle: 45
-  bubbleDamage: 1
+  bubbleDamage: 12
 --- !u!65 &8169356277010486408
 BoxCollider:
   m_ObjectHideFlags: 0

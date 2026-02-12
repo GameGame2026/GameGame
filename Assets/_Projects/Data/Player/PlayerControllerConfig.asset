@@ -29,13 +29,15 @@ MonoBehaviour:
   bottomClamp: -40
   cameraAngleOverride: 0
   lockCameraPosition: 0
-  landingAudioClip: {fileID: 0}
+  landingAudioClip: {fileID: 8300000, guid: ad3fb1a6afb7cba44b8e1ba6fd1e119e, type: 3}
   footstepAudioClips:
-  - {fileID: 8300000, guid: c32e5d06a6f942c43bac70bdf8dbc9b7, type: 3}
-  - {fileID: 8300000, guid: 84a39c9628c13664abb56a76f45fc82c, type: 3}
-  - {fileID: 8300000, guid: d49297a7c416c5d45bd7c6da4b84ae1c, type: 3}
-  - {fileID: 8300000, guid: 049808aa536adc342b99075378ea56a8, type: 3}
-  - {fileID: 8300000, guid: a2e33bca9c52c9d428774ca0a1728739, type: 3}
+  - {fileID: 8300000, guid: e3cb2ff958e2c704585704e8f2d41b22, type: 3}
+  - {fileID: 8300000, guid: 6b0310bcc997c9140b5df5c6e796c8f3, type: 3}
+  - {fileID: 8300000, guid: 8716d3a535989994480154719a342da0, type: 3}
+  - {fileID: 8300000, guid: 7db7b20d94c4cf14391601b9a5145a51, type: 3}
+  - {fileID: 8300000, guid: c1a1fd24d60c5764980e86148b2f4e58, type: 3}
+  - {fileID: 8300000, guid: 09b8eae55b0801c44a31e3f6c8222a56, type: 3}
+  - {fileID: 8300000, guid: ad3fb1a6afb7cba44b8e1ba6fd1e119e, type: 3}
   footstepAudioVolume: 1
   interactRange: 79.4
   interactAngle: 105.7

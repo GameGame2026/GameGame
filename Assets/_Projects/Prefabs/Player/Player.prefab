@@ -120,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 3469429770357648248}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.915}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -360,18 +360,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd48e93b732048b0aa042a4cd35d4541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 60
+  currentHealth: 60
   canRegenHealth: 1
-  healthRegenRate: 5
-  healthRegenDelay: 3
+  healthRegenRate: 0
+  healthRegenDelay: 0
   currentPoints: 3
   maxPoints: 3
-  attackDamage: 10
+  attackDamage: 6
   invincibilityDuration: 0.7
-  hitSound: {fileID: 8300000, guid: 46c510ebc56eabc43a270c033d96d140, type: 3}
-  attackSound: {fileID: 8300000, guid: e0850f562c934e0439cd83526f7004c5, type: 3}
-  soundVolume: 0.7
+  hitSound: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
+  attackSound: {fileID: 8300000, guid: a97ebf522ad957749b39366a5ee5aa33, type: 3}
+  soundVolume: 1
   hitFlashColor: {r: 1, g: 0, b: 0, a: 0.7}
   hitFlashDuration: 0.2
   OnHealthChanged:
