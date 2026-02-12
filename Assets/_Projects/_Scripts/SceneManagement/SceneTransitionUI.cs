@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
-namespace _Projects.SceneManagement
+namespace _Projects._Scripts.SceneManagement
 {
     [RequireComponent(typeof(Canvas))]
     [RequireComponent(typeof(CanvasGroup))]

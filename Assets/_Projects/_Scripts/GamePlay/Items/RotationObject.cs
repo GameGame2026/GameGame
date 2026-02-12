@@ -9,6 +9,8 @@ public class RotationObject : DisposableObject
     public float hoverSpeed = 1f;
     public float hoverHeight = 0.5f;
     public float rotateSpeed = 30f;
+    public Vector3 rotateAxis = Vector3.right;
+    public bool reverseRotation = false;
     
     public bool stop = false;
 
@@ -49,8 +51,9 @@ public class RotationObject : DisposableObject
         float newY = startPos.y + Mathf.Sin(Time.time * hoverSpeed) * hoverHeight;
         transform.position = new Vector3(startPos.x, newY, startPos.z);
 
-        // 匀速自转
-        transform.Rotate(Vector3.right, rotateSpeed * Time.deltaTime);
+        // 匀速自转，支持自定义旋转轴和方向
+        float direction = reverseRotation ? -1f : 1f;
+        transform.Rotate(rotateAxis, rotateSpeed * direction * Time.deltaTime);
         
     }
 

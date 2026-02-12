@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-namespace _Projects.SceneManagement
+namespace _Projects._Scripts.SceneManagement
 {
     public class SceneTransitionManager : Singleton<SceneTransitionManager>
     {
@@ -14,7 +14,11 @@ namespace _Projects.SceneManagement
         [Tooltip("淡入淡出持续时间（秒）")]
         public float fadeDuration = 1f;
 
-        private bool _isTransitioning = false;
+        [Header("Player设置")]
+        [Tooltip("Player在新场景中的生成点标签")]
+        public string spawnPointTag = "PlayerSpawnPoint";
+
+        private bool _isTransitioning;
 
         /// <summary>
         /// 当前是否���在转换场景
@@ -107,10 +111,17 @@ namespace _Projects.SceneManagement
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
             
             // 等待场景加载完成
-            while (!asyncLoad.isDone)
+            if (asyncLoad != null)
             {
-                yield return null;
+                while (!asyncLoad.isDone)
+                {
+                    yield return null;
+                }
             }
+
+            // 场景加载完成后，处理Player位置
+            yield return new WaitForEndOfFrame();
+            SetupPlayerInNewScene();
 
             // 淡入
             if (SceneTransitionUI.Instance != null)
@@ -138,10 +149,17 @@ namespace _Projects.SceneManagement
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
             
             // 等待场景加载完成
-            while (!asyncLoad.isDone)
+            if (asyncLoad != null)
             {
-                yield return null;
+                while (!asyncLoad.isDone)
+                {
+                    yield return null;
+                }
             }
+
+            // 场景加载完成后，处理Player位置
+            yield return new WaitForEndOfFrame();
+            SetupPlayerInNewScene();
 
             // 淡入
             if (SceneTransitionUI.Instance != null)
@@ -150,6 +168,76 @@ namespace _Projects.SceneManagement
             }
 
             _isTransitioning = false;
+        }
+
+        /// <summary>
+        /// 在新场景中设置Player位置
+        /// </summary>
+        private void SetupPlayerInNewScene()
+        {
+            // 查找DontDestroyOnLoad的Player
+            GameObject persistentPlayer = FindPersistentPlayer();
+            
+            if (persistentPlayer != null)
+            {
+                // 查找场景中的生成点
+                GameObject spawnPoint = GameObject.FindGameObjectWithTag(spawnPointTag);
+                
+                if (spawnPoint != null)
+                {
+                    // 将Player移动到生成点
+                    persistentPlayer.transform.position = spawnPoint.transform.position;
+                    persistentPlayer.transform.rotation = spawnPoint.transform.rotation;
+                    Debug.Log($"Player已移动到生成点: {spawnPoint.name}");
+                }
+                else
+                {
+                    Debug.LogWarning($"未找到标签为 '{spawnPointTag}' 的生成点，Player保持原位置");
+                }
+
+                // 清理场景中的重复Player
+                CleanupScenePlayers(persistentPlayer);
+            }
+            else
+            {
+                Debug.LogWarning("未找到持久化的Player对象");
+            }
+        }
+
+        /// <summary>
+        /// 查找DontDestroyOnLoad的Player
+        /// </summary>
+        private GameObject FindPersistentPlayer()
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            
+            foreach (GameObject player in players)
+            {
+                if (player.GetComponent<DontDestroyOnLoadManager>() != null)
+                {
+                    return player;
+                }
+            }
+            
+            return null;
+        }
+
+        /// <summary>
+        /// 清理场景中的重复Player（保留持久化的）
+        /// </summary>
+        private void CleanupScenePlayers(GameObject persistentPlayer)
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            
+            foreach (GameObject player in players)
+            {
+                // 如果不是持久化Player，就销毁
+                if (player != persistentPlayer)
+                {
+                    Debug.Log($"清理场景中的重复Player: {player.name}");
+                    Destroy(player);
+                }
+            }
         }
 
         /// <summary>
