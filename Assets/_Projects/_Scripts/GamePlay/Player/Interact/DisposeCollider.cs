@@ -5,16 +5,22 @@ namespace _Projects.GamePlay.Player.Controller
 {
     public class DisposeCollider : MonoBehaviour
     {
-        // 范围内的所有可贴附物体
-        private HashSet<DisposableObject> _objectsInRange = new HashSet<DisposableObject>();
+        // 范围内的所有可贴附物体及其对应的碰撞器
+        private Dictionary<DisposableObject, Collider> _objectsInRange = new Dictionary<DisposableObject, Collider>();
         
         public DisposableObject GetDisposable()
         {
             // 清理无效引用并返回第一个仍然在范围内且未贴附的对象
             List<DisposableObject> toRemove = new List<DisposableObject>();
-            foreach (var obj in _objectsInRange)
+            
+            Collider col = GetComponent<Collider>();
+            
+            foreach (var kvp in _objectsInRange)
             {
-                if (obj == null)
+                var obj = kvp.Key;
+                var objCollider = kvp.Value;
+                
+                if (obj == null || objCollider == null)
                 {
                     toRemove.Add(obj);
                     continue;
@@ -27,7 +33,16 @@ namespace _Projects.GamePlay.Player.Controller
                     continue;
                 }
 
+                // 检查物体的碰撞器是否真的还在触发器范围内
+                if (col != null && !IsObjectInTrigger(objCollider, col))
+                {
+                    Debug.Log($"[DisposeCollider] 物体 {obj.name} 已不在触发器范围内，移除");
+                    toRemove.Add(obj);
+                    continue;
+                }
+
                 // 有效且可贴附，立即返回
+                Debug.Log($"[DisposeCollider] 找到有效可贴附物体: {obj.name}");
                 return obj;
             }
 
@@ -39,6 +54,19 @@ namespace _Projects.GamePlay.Player.Controller
 
             return null;
         }
+        
+        /// <summary>
+        /// 检查物体的碰撞器是否与触发器重叠
+        /// </summary>
+        private bool IsObjectInTrigger(Collider objCollider, Collider triggerCollider)
+        {
+            // 使用 Bounds.Intersects 检查两个碰撞器的边界是否相交
+            bool boundsIntersect = objCollider.bounds.Intersects(triggerCollider.bounds);
+            
+            Debug.Log($"[DisposeCollider] 碰撞器重叠检查: {objCollider.name} 与触发器, 边界相交={boundsIntersect}");
+            
+            return boundsIntersect;
+        }
 
         /// <summary>
         /// 触发范围内所有未贴附物体的贴附操作（如果需要的话）
@@ -47,15 +75,27 @@ namespace _Projects.GamePlay.Player.Controller
         {
             // 遍历时收集需要移除的项以避免在枚举时修改集合
             List<DisposableObject> toRemove = new List<DisposableObject>();
-            foreach (var obj in _objectsInRange)
+            Collider col = GetComponent<Collider>();
+            
+            foreach (var kvp in _objectsInRange)
             {
-                if (obj == null)
+                var obj = kvp.Key;
+                var objCollider = kvp.Value;
+                
+                if (obj == null || objCollider == null)
                 {
                     toRemove.Add(obj);
                     continue;
                 }
 
                 if (obj.IsAttached)
+                {
+                    toRemove.Add(obj);
+                    continue;
+                }
+                
+                // 检查物体的碰撞器是否真的还在触发器范围内
+                if (col != null && !IsObjectInTrigger(objCollider, col))
                 {
                     toRemove.Add(obj);
                     continue;
@@ -78,8 +118,9 @@ namespace _Projects.GamePlay.Player.Controller
                 var disposable = other.GetComponentInParent<DisposableObject>();
                 if (disposable != null)
                 {
-                    _objectsInRange.Add(disposable);
-                    Debug.Log($"[DisposeCollider] 可贴附物体进入范围: {disposable.name}");
+                    // 存储 DisposableObject 和触发的 Collider
+                    _objectsInRange[disposable] = other;
+                    Debug.Log($"[DisposeCollider] 可贴附物体进入范围: {disposable.name}, Collider位置: {other.bounds.center}");
                 }
             }
            
@@ -106,8 +147,18 @@ namespace _Projects.GamePlay.Player.Controller
         public bool IsInRange(DisposableObject obj)
         {
             if (obj == null) return false;
-            if (!_objectsInRange.Contains(obj)) return false;
+            if (!_objectsInRange.ContainsKey(obj)) return false;
             if (obj.IsAttached) return false;
+            
+            // 检查物体的碰撞器是否真的还在触发器范围内
+            Collider col = GetComponent<Collider>();
+            Collider objCollider = _objectsInRange[obj];
+            
+            if (col != null && objCollider != null && !IsObjectInTrigger(objCollider, col))
+            {
+                return false;
+            }
+            
             return true;
         }
 

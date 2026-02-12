@@ -24,8 +24,12 @@ public class BoxObject : DisposableObject
 
     public override void Recycle()
     {
-        boxPrefab.SetActive(true);
-        openedBoxPrefab.SetActive(false);
+        if (isOpened)
+        {
+            boxPrefab.SetActive(true);
+            openedBoxPrefab.SetActive(false);
+            isOpened = false;
+        }
         base.Recycle();
     }
 }

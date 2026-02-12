@@ -24,6 +24,12 @@ namespace _Projects.GamePlay
 
         public override void Recycle()
         {
+            if (isOpened)
+            {
+                bottlePrefab.SetActive(true);
+                afterBottlePrefab.SetActive(false);
+                isOpened = false;
+            }
             base.Recycle();
         }
     }
