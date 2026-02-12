@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
+using _Projects.GamePlay.UI;
 
 namespace _Projects.GamePlay
 {
@@ -454,6 +455,12 @@ namespace _Projects.GamePlay
             if (_materialFlash != null)
             {
                 _materialFlash.Flash(hitFlashColor, hitFlashDuration);
+            }
+
+            // 显示伤害数字
+            if (DamageNumberSpawner.Instance != null)
+            {
+                DamageNumberSpawner.Instance.SpawnDamage(damage, transform.position, false);
             }
 
             // 开启无敌帧
