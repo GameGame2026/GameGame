@@ -3659,11 +3659,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 63.24
+      value: 37.39
       objectReference: {fileID: 0}
     - target: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 39.48
+      value: 23.41
       objectReference: {fileID: 0}
     - target: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6022,15 +6022,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7570615001506856890, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.59023
+      value: 16.349379
       objectReference: {fileID: 0}
     - target: {fileID: 7570615001506856890, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.386688
+      value: 14.364672
       objectReference: {fileID: 0}
     - target: {fileID: 7570615001506856890, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 152.75258
+      value: 178.60257
       objectReference: {fileID: 0}
     - target: {fileID: 7570615001506856890, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6078,15 +6078,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7951805107866121907, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.59023
+      value: 16.349379
       objectReference: {fileID: 0}
     - target: {fileID: 7951805107866121907, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.386688
+      value: 14.364672
       objectReference: {fileID: 0}
     - target: {fileID: 7951805107866121907, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 152.75258
+      value: 178.60257
       objectReference: {fileID: 0}
     - target: {fileID: 7951805107866121907, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7902,7 +7902,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 375270572928453364, guid: 6fcbdbb02feeafa4b893f23b782a47b0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -21.31
+      value: -21.34
       objectReference: {fileID: 0}
     - target: {fileID: 375270572928453364, guid: 6fcbdbb02feeafa4b893f23b782a47b0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7939,6 +7939,18 @@ PrefabInstance:
     - target: {fileID: 375270572928453364, guid: 6fcbdbb02feeafa4b893f23b782a47b0, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710255433587526313, guid: 6fcbdbb02feeafa4b893f23b782a47b0, type: 3}
+      propertyPath: m_Radius
+      value: 0.521582
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002638476480398649, guid: 6fcbdbb02feeafa4b893f23b782a47b0, type: 3}
+      propertyPath: hitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e0850f562c934e0439cd83526f7004c5, type: 3}
+    - target: {fileID: 2002638476480398649, guid: 6fcbdbb02feeafa4b893f23b782a47b0, type: 3}
+      propertyPath: attackRange
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4011834612025900174, guid: 6fcbdbb02feeafa4b893f23b782a47b0, type: 3}
       propertyPath: m_Name
@@ -23459,10 +23471,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605635f97d94cc646a1ee49d16098685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: {fileID: 777641620}
+  point: {fileID: 0}
   pointCost: 1
-  playerStats: {fileID: 0}
-  tangibleObject: {fileID: 0}
+  playerStats: {fileID: 497167469}
+  tangibleObject: {fileID: 966062368}
   intangibleObject: {fileID: 0}
   isIntangible: 0
 --- !u!1 &966819340
