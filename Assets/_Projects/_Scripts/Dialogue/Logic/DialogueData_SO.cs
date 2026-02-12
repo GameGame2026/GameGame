@@ -44,7 +44,7 @@ public class DialogueData_SO : ScriptableObject
             }
 
             //尝试偷偷加一段
-            if (piece.speakerType == SpeakerType.Player)
+            if (piece.speakerType == SpeakerType.Player && string.IsNullOrEmpty(piece.speakerName) )
             {
                 piece.speakerName = "爱丽丝";
             }

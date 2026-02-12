@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8072ed86cb0d7a4ca7603540e9e7ddf, type: 3}
+  m_Name: Poker_statue
+  m_EditorClassIdentifier: 
+  dialoguePieces:
+  - id: statue_1
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u4E00\u5BF9\u6251\u514B\u724C\u536B\u5175\u7684\u96D5\u50CF\u3002\u770B\u5230\u5B83\u4EEC\u65F6\uFF0C\u4F60\u60F3\u8D77\u4E86\u66FE\u7ECF\u542C\u5230\u7684\u53EA\u8A00\u7247\u8BED\u2026\u2026"
+    nextID: statue_2
+    options: []
+    isLastPiece: 0
+  - id: statue_2
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u65E2\u7136\u4F60\u662F\u5973\u738B\uFF0C\u4F60\u5C31\u5F97\u6709\u4E00\u652F\u519B\u961F\u624D\u884C\u5440\u3002\u201D\n\u201C\u8BA9\u6211\u60F3\u60F3\u3002\u4F60\u9700\u8981\u6709\u5F88\u591A\u5F88\u591A\u7684\u519B\u961F\u2026\u2026\u5C31\u50CF\u6C99\u5B50\u90A3\u4E48\u591A\uFF1F\u4E0D\u884C\uFF0C\u6C99\u5B50\u592A\u5C0F\u4E86\uFF0C\u654C\u4EBA\u4E00\u811A\u5C31\u8E29\u6B7B\u4E86\u3002\u201D"
+    nextID: statue_3
+    options: []
+    isLastPiece: 0
+  - id: statue_3
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u6211\u77E5\u9053\u4E86\uFF0C\u4F60\u8981\u6709\u4E00\u652F\u6251\u514B\u724C\u519B\u961F\uFF01\u4E00\u76D2\u6251\u514B\u724C\u5C31\u6709\u90A3\u4E48\u591A\u5F20\uFF0C\u800C\u4F60\u6709\u4E00\u62BD\u5C49\u2014\u2014\u4E0D\uFF0C\u4E00\u6574\u4E2A\u623F\u95F4\u7684\u6251\u514B\u724C\uFF01\u5B83\u4EEC\u5168\u662F\u4F60\u7684\u58EB\u5175\uFF01\u201D"
+    nextID: statue_4
+    options: []
+    isLastPiece: 0
+  - id: statue_4
+    speakerType: 1
+    speakerName: "\u7231\u4E3D\u4E1D"
+    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    text: "\u50CF\u662F\u5C0F\u5B69\u5B50\u7684\u8BED\u6C14\u2026\u2026\u5B8C\u5168\u6CA1\u5370\u8C61\u662F\u5728\u54EA\u91CC\u542C\u5230\u7684\u4E86\u3002"
+    nextID: 
+    options: []
+    isLastPiece: 1

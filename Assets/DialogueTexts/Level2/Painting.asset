@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8072ed86cb0d7a4ca7603540e9e7ddf, type: 3}
+  m_Name: Painting
+  m_EditorClassIdentifier: 
+  dialoguePieces:
+  - id: paint-1
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u4E00\u5E45\u6CB9\u753B\uFF0C\u63CF\u7ED8\u7684\u4F3C\u4E4E\u662F\u5973\u738B\u5728\u6BBF\u4E0A\u53D1\u53F7\u65BD\u4EE4\u7684\u6837\u5B50\u3002"
+    nextID: paint-2
+    options: []
+    isLastPiece: 0
+  - id: paint-2
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u4F60\u4EEC\u4E2D\u6709\u4EBA\u80CC\u53DB\u4E86\u6211\u3002\u6211\u8981\u6293\u51FA\u90A3\u4E2A\u53DB\u5F92\uFF0C\u72E0\u72E0\u5730\u60E9\u7F5A\u4ED6\uFF01\u201D"
+    nextID: paint-3
+    options: []
+    isLastPiece: 0
+  - id: paint-3
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u662F\u8389\u739B\uFF01\u5979\u6628\u5929\u5077\u5403\u4E86\u5973\u738B\u965B\u4E0B\u7684\u6A31\u6843\u997C\u5E72\uFF01\u201D"
+    nextID: paint-4
+    options: []
+    isLastPiece: 0
+  - id: paint-4
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u54E6\uFF1F\u8389\u739B\uFF0C\u4F60\u7ADF\u6562\u8FD9\u6837\u8511\u89C6\u738B\u6743\uFF01\u6211\u8981\u628A\u4F60\u5173\u8FDB\u5730\u7262\uFF01\u201D"
+    nextID: paint-5
+    options: []
+    isLastPiece: 0
+  - id: paint-5
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u7B49\u4E00\u4E0B\uFF0C\u4EB2\u7231\u7684\u5973\u738B\uFF0C\u90A3\u6837\u591A\u6CA1\u610F\u601D\u554A\u2014\u2014\u4F60\u5E94\u8BE5\u780D\u4E0B\u5979\u7684\u5934\uFF01\u89E6\u6012\u5973\u738B\u7684\u4EBA\u5C31\u5E94\u8BE5\u88AB\u780D\u5934\u3002\u201D"
+    nextID: paint-6
+    options: []
+    isLastPiece: 0
+  - id: paint-6
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u780D\u5934\uFF1F\u53EF\u662F\u2026\u2026\u201D"
+    nextID: paint-7
+    options: []
+    isLastPiece: 0
+  - id: paint-6
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u780D\u5934\uFF1F\u53EF\u662F\u2026\u2026\u201D"
+    nextID: paint-7
+    options: []
+    isLastPiece: 0
+  - id: paint-7
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u4F60\u770B\uFF0C\u8389\u739B\u7684\u88D9\u5B50\u810F\u4E86\uFF0C\u5979\u7ADF\u6562\u8FD9\u6837\u5C31\u6765\u89C1\u4F60\uFF0C\u591A\u4E0D\u5C0A\u91CD\u554A\u3002\u4E0B\u4EE4\u5427\uFF0C\u5973\u738B\u3002\u4EE5\u540E\u4F1A\u6709\u7A7F\u7740\u66F4\u6F02\u4EAE\u7684\u88D9\u5B50\u3001\u66F4\u4E56\u5DE7\u7684\u8389\u739B\u6765\u966A\u4F60\u73A9\u7684\u3002\u201D"
+    nextID: paint-8
+    options: []
+    isLastPiece: 0
+  - id: paint-8
+    speakerType: 2
+    speakerName: 
+    image: {fileID: 0}
+    text: "\u201C\u2026\u2026\u536B\u5175\u4EEC\uFF0C\u780D\u4E0B\u5979\u7684\u5934\uFF01\u201D"
+    nextID: paint-9
+    options: []
+    isLastPiece: 0
+  - id: paint-9
+    speakerType: 1
+    speakerName: "\u7231\u4E3D\u4E1D"
+    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    text: "\u8FD9\u53C8\u662F\u54EA\u6765\u7684\u8BB0\u5FC6\u2026\u2026"
+    nextID: 
+    options: []
+    isLastPiece: 1

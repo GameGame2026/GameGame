@@ -4,7 +4,8 @@ using UnityEngine;
 public enum SpeakerType
 {
     NPC,
-    Player
+    Player,
+    None
 }
 
 [System.Serializable]

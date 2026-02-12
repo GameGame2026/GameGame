@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8072ed86cb0d7a4ca7603540e9e7ddf, type: 3}
+  m_Name: L1_1_start
+  m_EditorClassIdentifier: 
+  dialoguePieces:
+  - id: start_1
+    speakerType: 1
+    speakerName: "\u7231\u4E3D\u4E1D"
+    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    text: "\u54B3\u54B3\uFF01\u597D\u591A\u571F\uFF0C\u65E9\u77E5\u9053\u4E0D\u7A7F\u88D9\u5B50\u6765\u8C03\u67E5\u4E86\u2026\u2026"
+    nextID: start_2
+    options: []
+    isLastPiece: 0
+  - id: start_2
+    speakerType: 1
+    speakerName: "\u7231\u4E3D\u4E1D"
+    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    text: "<b>\u5973\u738B\u5931\u8E2A\u6848<\\b>\u2026\u2026\u542C\u8D77\u6765\u771F\u662F\u4E86\u4E0D\u5F97\u554A\u3002\u54FC\u54FC\uFF0C\u4E0D\u6127\u662F\u9700\u8981\u6211\u5927\u4FA6\u63A2\u7231\u4E3D\u4E1D\u51FA\u9A6C\u7684\u6848\u5B50\uFF01"
+    nextID: start_3
+    options: []
+    isLastPiece: 0
+  - id: start_3
+    speakerType: 1
+    speakerName: "\u7231\u4E3D\u4E1D"
+    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    text: "\u4E0D\u8FC7\u8FD9\u4E2A\u59D4\u6258\u5730\u70B9\u2026\u2026\u4E3A\u4EC0\u4E48\u4F1A\u7279\u610F\u8981\u6C42\u6211\u5FC5\u987B\u4ECE\u8FD9\u4E2A<b>\u5730\u6D1E<\\b>\u7A7F\u8FC7\u53BB\uFF1F"
+    nextID: start_4
+    options: []
+    isLastPiece: 0
+  - id: start_4
+    speakerType: 1
+    speakerName: "\u7231\u4E3D\u4E1D"
+    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    text: "\u7B97\u4E86\uFF0C\u5BF9\u65B9\u5B9A\u91D1\u4ED8\u5F97\u4E5F\u8DB3\u591F\u6709\u8BDA\u610F\uFF0C\u5148\u6309\u7167\u59D4\u6258\u4E66\u4E0A\u7684\u8BF4\u660E\u8D70\u8D70\u770B\u5427\u3002\uFF08\u63D0\u793A\uFF1A\u6309WASD\u5728\u5E73\u9762\u79FB\u52A8\uFF0Cspace\u8DF3\u8DC3\uFF0CE\u89E6\u53D1\u5BF9\u8BDD\uFF09"
+    nextID: 
+    options: []
+    isLastPiece: 1

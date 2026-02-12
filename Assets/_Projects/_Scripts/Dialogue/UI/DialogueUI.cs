@@ -52,6 +52,9 @@ public class DialogueUI : Singleton<DialogueUI>
     // 对话是否激活（包括冷却时间检查）
     public bool IsDialogueActive => (dialoguePanel != null && dialoguePanel.activeSelf) || dialogueCloseCooldown > 0;
 
+    // // 尝试加个监听
+    // public event System.Action OnDialogueClosed;
+
     protected override void Awake()
     {
         base.Awake();
@@ -329,7 +332,7 @@ public class DialogueUI : Singleton<DialogueUI>
                 NPCNameText.text = piece.speakerName;
             }
         }
-        else // 玩家
+        else if (piece.speakerType == SpeakerType.Player) // 玩家
         {
             // 显示玩家面板，隐藏 NPC 面板
             if (PlayerPanel != null)
@@ -352,6 +355,14 @@ public class DialogueUI : Singleton<DialogueUI>
             {
                 PlayerNameText.text = piece.speakerName;
             }
+        }
+        else // 2.12 静影: 用于系统提示等没有人名的场合
+        {
+            // 隐藏玩家面板，隐藏 NPC 面板
+            if (PlayerPanel != null)
+                PlayerPanel.SetActive(false);
+            if (NPCPanel != null)
+                NPCPanel.SetActive(false);
         }
     }
     

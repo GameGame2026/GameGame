@@ -43,6 +43,8 @@ namespace _Projects.GamePlay.Player
                 {
                     _npcsInRange.Add(npc);
                     Debug.Log($"[InteractCollider] NPC 进入范围: {npc.name}");
+
+                    npc.ShowQuestMark();
                 }
             }
            
@@ -57,6 +59,8 @@ namespace _Projects.GamePlay.Player
                 {
                     _npcsInRange.Remove(npc);
                     Debug.Log($"[InteractCollider] NPC 离开范围: {npc.name}");
+
+                    npc.HideQuestMark();
                 }
             }
             
