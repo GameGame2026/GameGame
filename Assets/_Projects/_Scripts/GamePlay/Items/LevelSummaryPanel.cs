@@ -75,7 +75,7 @@ namespace _Projects._Scripts.GamePlay.Items
             }
             else
             {
-                Debug.LogWarning("[LevelSummaryPanel] 未找到 CollectibleManager！");
+                Debug.LogWarning("[LevelSummaryPanel] 未找�� CollectibleManager！");
                 _levelData = new CollectionData();
             }
 
@@ -88,8 +88,18 @@ namespace _Projects._Scripts.GamePlay.Items
             // 暂停游戏
             Time.timeScale = 0f;
 
-            // 显示数据
-            StartCoroutine(DisplaySummaryCoroutine());
+            // 解锁光标，使其可见且可点击
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            Debug.Log("[LevelSummaryPanel] 光标已解锁，可以点击按钮");
+
+            if (summaryPanel.activeInHierarchy == false)
+            {
+                summaryPanel.SetActive(true);
+                // 显示数据
+                StartCoroutine(DisplaySummaryCoroutine());
+            }
+            
         }
 
         /// <summary>
@@ -104,6 +114,11 @@ namespace _Projects._Scripts.GamePlay.Items
 
             // 恢复游戏时间
             Time.timeScale = 1f;
+
+            // 重新锁定光标（恢复游戏状态）
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Debug.Log("[LevelSummaryPanel] 光标已重新锁定，恢复游戏状态");
         }
 
         /// <summary>
@@ -177,6 +192,10 @@ namespace _Projects._Scripts.GamePlay.Items
         /// </summary>
         private void OnContinueClicked()
         {
+            Debug.Log($"[LevelSummaryPanel] 加载下一关: {nextSceneName}");
+
+            // 确保恢复时间缩放
+            Time.timeScale = 1f;
             HideSummary();
             LoadNextLevel();
         }
