@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8072ed86cb0d7a4ca7603540e9e7ddf, type: 3}
+  m_Name: L1_4_end&recycle
+  m_EditorClassIdentifier: 
+  dialoguePieces:
+  - id: recycle_1
+    speakerType: 0
+    speakerName: "\u767D\u5154"
+    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    text: "\u60A8\u7684\u70B9\u6570\u5269\u5F97\u4E0D\u591A\u4E86\u2026\u2026\u8FD9\u4E5F\u96BE\u514D\u3002\u6709\u65F6\u5F02\u5E38\u592A\u591A\uFF0C\u6211\u4EEC\u53EA\u80FD\u6807\u8BB0\u6700\u5173\u5FC3\u7684\u90A3\u51E0\u4E2A\u3002"
+    nextID: recycle_2
+    options: []
+    isLastPiece: 0
+  - id: recycle_2
+    speakerType: 0
+    speakerName: "\u767D\u5154"
+    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    text: "\u5982\u679C\u4E4B\u524D\u6807\u8BB0\u7684\u7591\u70B9\u4E0D\u518D\u9700\u8981\u4E86\uFF0C\u60A8\u53EF\u4EE5\u56DE\u6536\u5B83\u4EEC\uFF0C\u4EE5\u4FBF\u5C06\u70B9\u6570\u7528\u5728\u6700\u91CD\u8981\u7684\u5730\u65B9\u3002\uFF08\u6309R\u952E\u56DE\u6536\u6700\u65E9\u6807\u8BB0\u7684\u7591\u70B9\uFF09"
+    nextID: recycle_3
+    options: []
+    isLastPiece: 0
+  - id: recycle_3
+    speakerType: 0
+    speakerName: "\u767D\u5154"
+    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    text: "\u5F53\u88AB\u8D34\u70B9\u7684\u654C\u4EBA\u6B7B\u4EA1\u65F6\uFF0C\u5B83\u4EEC\u4E5F\u4F1A\u5F52\u8FD8\u8D34\u4E0A\u7684\u70B9\u6570\u3002"
+    nextID: recycle_4
+    options: []
+    isLastPiece: 0
+  - id: recycle_4
+    speakerType: 0
+    speakerName: "\u767D\u5154"
+    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    text: "\u4E00\u8DEF\u8D70\u6765\u8F9B\u82E6\u4E86\uFF0C\u7231\u4E3D\u4E1D\u5C0F\u59D0\u3002\u4ECA\u5929\u5148\u5728\u6211\u4EEC\u4E3A\u60A8\u51C6\u5907\u7684\u57CE\u5821\u91CC\u4F11\u606F\u4E00\u665A\u5427\uFF0C\u660E\u5929\u518D\u7EE7\u7EED\u8C03\u67E5\u3002"
+    nextID: 
+    options: []
+    isLastPiece: 1
