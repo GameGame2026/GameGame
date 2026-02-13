@@ -18,6 +18,9 @@ namespace _Projects._Scripts.SceneManagement
         [Header("Player设置")]
         [Tooltip("Player在新场景中的生成点标签")]
         public string spawnPointTag = "PlayerSpawnPoint";
+        
+        [Tooltip("场景加载时是否重置点数为3")]
+        public bool resetPointsOnSceneLoad = true;
 
         private bool _isTransitioning;
 
@@ -194,6 +197,17 @@ namespace _Projects._Scripts.SceneManagement
             
             if (persistentPlayer != null)
             {
+                // 重置点数为3（如果启用）
+                if (resetPointsOnSceneLoad)
+                {
+                    PlayerStats playerStats = persistentPlayer.GetComponent<PlayerStats>();
+                    if (playerStats != null)
+                    {
+                        playerStats.SetPoints(3);
+                        Debug.Log("[SceneTransitionManager] 已重置玩家点数为 3");
+                    }
+                }
+                
                 // 查找场景中的生成点
                 GameObject spawnPoint = GameObject.FindGameObjectWithTag(spawnPointTag);
                 

@@ -53,7 +53,8 @@ namespace _Projects._Scripts.GamePlay.Items
             CollectibleManager manager = FindObjectOfType<CollectibleManager>();
             if (manager == null)
             {
-                Debug.LogError("❌ 场景中没有 CollectibleManager！");
+                Debug.LogError("❌ 场景中没有 CollectibleManager！这会导致收集物品不生效！");
+                Debug.LogError("   解决方法：点击下方的'🔧 自动修复场景'按钮，或手动创建一个空物体添加 CollectibleManager 组件");
             }
             else
             {
