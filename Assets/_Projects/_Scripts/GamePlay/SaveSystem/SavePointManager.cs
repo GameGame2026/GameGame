@@ -13,11 +13,17 @@ namespace _Projects._Scripts.GamePlay.SaveSystem
         private Vector3 _lastSavePointPosition;
         private int _lastSaveSceneIndex;
         private bool _hasSaveData;
+        private bool _isLoadingSave; // 标记是否正在从存档加载
 
         /// <summary>
         /// 是否有存档数据
         /// </summary>
         public bool HasSaveData => _hasSaveData;
+        
+        /// <summary>
+        /// 是否正在从存档加载（用于防止其他系统干扰玩家位置）
+        /// </summary>
+        public bool IsLoadingSave => _isLoadingSave;
 
         /// <summary>
         /// 最后的存档位置
@@ -53,6 +59,8 @@ namespace _Projects._Scripts.GamePlay.SaveSystem
                 return;
             }
 
+            _isLoadingSave = true; // 设置加载标记
+            
             // 如果在不同场景，先加载场景
             if (SceneManager.GetActiveScene().buildIndex != _lastSaveSceneIndex)
             {
@@ -63,7 +71,7 @@ namespace _Projects._Scripts.GamePlay.SaveSystem
             else
             {
                 // 在同一场景，直接传送玩家
-                TeleportPlayerToSavePoint();
+                StartCoroutine(TeleportPlayerWithDelay());
             }
         }
 
@@ -73,9 +81,26 @@ namespace _Projects._Scripts.GamePlay.SaveSystem
         private void OnSaveSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             SceneManager.sceneLoaded -= OnSaveSceneLoaded;
-            TeleportPlayerToSavePoint();
+            StartCoroutine(TeleportPlayerWithDelay());
         }
 
+        /// <summary>
+        /// 延迟传送玩家（确保在所有其他系统之后执行）
+        /// </summary>
+        private System.Collections.IEnumerator TeleportPlayerWithDelay()
+        {
+            // 等待一帧，确保场景完全加载
+            yield return null;
+            
+            // 再等待一小段时间，确保其他系统（如SceneTransitionManager）完成初始化
+            yield return new WaitForSeconds(0.1f);
+            
+            TeleportPlayerToSavePoint();
+            
+            // 清除加载标记
+            _isLoadingSave = false;
+        }
+        
         /// <summary>
         /// 将玩家传送到存档点
         /// </summary>
@@ -84,7 +109,20 @@ namespace _Projects._Scripts.GamePlay.SaveSystem
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
+                // 禁用CharacterController以便直接设置位置
+                CharacterController characterController = player.GetComponent<CharacterController>();
+                if (characterController != null)
+                {
+                    characterController.enabled = false;
+                }
+                
                 player.transform.position = _lastSavePosition;
+                
+                // 重新启用CharacterController
+                if (characterController != null)
+                {
+                    characterController.enabled = true;
+                }
                 
                 // 恢复玩家血量
                 PlayerStats playerStats = player.GetComponent<PlayerStats>();

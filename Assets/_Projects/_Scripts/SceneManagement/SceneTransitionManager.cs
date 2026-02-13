@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using _Projects._Scripts.GamePlay.SaveSystem;
 
 namespace _Projects._Scripts.SceneManagement
 {
@@ -38,6 +39,9 @@ namespace _Projects._Scripts.SceneManagement
                 return;
             }
 
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+
             if (useFadeEffect)
             {
                 StartCoroutine(LoadSceneWithFade(sceneName));
@@ -59,6 +63,9 @@ namespace _Projects._Scripts.SceneManagement
                 Debug.LogWarning("场景转换正在进行中，请稍候...");
                 return;
             }
+
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
 
             if (useFadeEffect)
             {
@@ -175,6 +182,13 @@ namespace _Projects._Scripts.SceneManagement
         /// </summary>
         private void SetupPlayerInNewScene()
         {
+            // 如果SavePointManager正在从存档加载，不要干扰玩家位置
+            if (SavePointManager.Instance != null && SavePointManager.Instance.IsLoadingSave)
+            {
+                Debug.Log("[SceneTransitionManager] SavePointManager正在加载存档，跳过生成点设置");
+                return;
+            }
+            
             // 查找DontDestroyOnLoad的Player
             GameObject persistentPlayer = FindPersistentPlayer();
             
