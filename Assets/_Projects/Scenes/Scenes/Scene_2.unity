@@ -3431,7 +3431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7570615001506856893, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: near clip plane
-      value: 3.01
+      value: 3.02
       objectReference: {fileID: 0}
     - target: {fileID: 7951805107866121906, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_Follow
@@ -3443,7 +3443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7951805107866121906, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_Lens.NearClipPlane
-      value: 3.01
+      value: 3.02
       objectReference: {fileID: 0}
     - target: {fileID: 7951805107866121907, guid: b27612ad431c72a4cbac08263227870d, type: 3}
       propertyPath: m_LocalPosition.x

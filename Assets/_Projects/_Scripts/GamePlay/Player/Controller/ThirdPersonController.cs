@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿﻿﻿using UnityEngine;
 using System.Collections.Generic;
 using _Projects.GamePlay;
 
@@ -26,7 +26,6 @@ namespace GamePlay.Controller
         [Header("检测器")]
         [Tooltip("玩家检测器（手动指定或自动查找）")]
         public PlayerProximityDetector proximityDetector;
-
         // 玩家相关
         private float _speed;
         private float _animationBlend;
