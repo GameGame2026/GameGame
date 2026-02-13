@@ -29,6 +29,9 @@ namespace _Projects._Scripts.SceneManagement
 
         private void Awake()
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            
             // 如果没有音频源，自动添加一个
             if (audioSource == null)
             {
@@ -36,8 +39,31 @@ namespace _Projects._Scripts.SceneManagement
             }
         }
 
+        private void OnEnable()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        private void Update()
+        {
+            if (Cursor.lockState != CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            
+            if (!Cursor.visible)
+            {
+                Cursor.visible = true;
+            }
+        }
+
         private void Start()
         {
+            // 确保光标在主菜单中可见且未锁定
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            
             // 绑定按钮事件
             if (startGameButton != null)
             {
@@ -123,7 +149,6 @@ namespace _Projects._Scripts.SceneManagement
         private void OnCreditsClicked()
         {
             PlayButtonSound();
-            Debug.Log("打开制作人员面板");
             
             if (creditsPanel != null)
             {
@@ -141,7 +166,6 @@ namespace _Projects._Scripts.SceneManagement
         private void OnQuitGameClicked()
         {
             PlayButtonSound();
-            Debug.Log("显示退出确认对话框");
             
             if (quitDialog != null)
             {
@@ -169,7 +193,6 @@ namespace _Projects._Scripts.SceneManagement
         /// </summary>
         public void ConfirmQuitGame()
         {
-            Debug.Log("确认退出游戏");
             
 #if UNITY_EDITOR
             // 在编辑器中停止播放

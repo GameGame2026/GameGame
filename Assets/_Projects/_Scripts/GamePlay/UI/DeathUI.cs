@@ -288,13 +288,32 @@ namespace _Projects._Scripts.GamePlay.UI
         {
             Debug.Log("[DeathUI] 点击返回主菜单");
             
-            // 隐藏死亡面板
-            HideDeathPanel();
-            
             // 恢复时间
             Time.timeScale = 1f;
+            Debug.Log("[DeathUI] 时间已恢复");
+            
+            // 确保鼠标可见且未锁定（主菜单需要）
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            Debug.Log($"[DeathUI] 光标状态设置 - Visible: {Cursor.visible}, LockState: {Cursor.lockState}");
+            
+            // 隐藏死亡面板（但不锁定光标）
+            _isShowing = false;
+            if (deathPanel != null)
+            {
+                deathPanel.SetActive(false);
+                
+                if (_canvasGroup != null)
+                {
+                    _canvasGroup.alpha = 0f;
+                    _canvasGroup.interactable = false;
+                    _canvasGroup.blocksRaycasts = false;
+                }
+            }
+            Debug.Log("[DeathUI] 死亡面板已隐藏");
             
             // 加载主菜单场景
+            Debug.Log($"[DeathUI] 准备加载主菜单场景: {mainMenuSceneName}");
             if (SceneTransitionManager.Instance != null)
             {
                 SceneTransitionManager.Instance.LoadScene(mainMenuSceneName);
