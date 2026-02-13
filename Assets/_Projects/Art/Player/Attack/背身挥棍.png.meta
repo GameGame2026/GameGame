@@ -138,6 +138,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: "\u7A7A\u767D"
+      rect:
+        serializedVersion: 2
+        x: 1771
+        y: 1346
+        width: 107
+        height: 204
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dbb97c65bab17642a7f0616f940e51a
+      internalID: -375487555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -149,6 +170,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      "\u7A7A\u767D": -375487555
       "\u80CC\u8EAB\u6325\u68CD_0": -454245892
       "\u80CC\u8EAB\u6325\u68CD_1": 973550167
   mipmapLimitGroupName: 
