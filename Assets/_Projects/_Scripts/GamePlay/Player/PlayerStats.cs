@@ -200,6 +200,15 @@ public class PlayerStats : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth);
     }
     
+    /// <summary>
+    /// 设置攻击力
+    /// </summary>
+    public void SetAttackDamage(float newAttackDamage)
+    {
+        attackDamage = Mathf.Max(newAttackDamage, 0);
+        Debug.Log($"[PlayerStats] 攻击力设置为: {attackDamage}");
+    }
+    
     
     /// <summary>
     /// 死亡
