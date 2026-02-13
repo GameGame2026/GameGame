@@ -20,6 +20,7 @@ public class DialogueUI : Singleton<DialogueUI>
     public TextMeshProUGUI mainText;
     
     public GameObject dialoguePanel;
+    public GameObject soloPanel;
     
     [Header("Next Hint")]
     public GameObject nextHintPanel;
@@ -315,6 +316,8 @@ public class DialogueUI : Singleton<DialogueUI>
                 NPCPanel.SetActive(true);
             if (PlayerPanel != null)
                 PlayerPanel.SetActive(false);
+            if (soloPanel != null)
+                soloPanel.SetActive(false);
             
             // 设置 NPC 图标和名字
             if (piece.image != null && NPCIcon != null)
@@ -339,6 +342,8 @@ public class DialogueUI : Singleton<DialogueUI>
                 PlayerPanel.SetActive(true);
             if (NPCPanel != null)
                 NPCPanel.SetActive(false);
+            if (soloPanel != null)
+                soloPanel.SetActive(false);
             
             // 设置玩家图标和名字
             if (piece.image != null && PlayerIcon != null)
@@ -363,6 +368,8 @@ public class DialogueUI : Singleton<DialogueUI>
                 PlayerPanel.SetActive(false);
             if (NPCPanel != null)
                 NPCPanel.SetActive(false);
+            if (soloPanel != null)
+                soloPanel.SetActive(true);
         }
     }
     
