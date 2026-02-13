@@ -260,40 +260,8 @@ namespace _Projects._Scripts.GamePlay.Enemy.Enemies
             {
                 AttackPlayer(_playerStats);
             }
-            
-            // 确保攻击状态在一定时间后自动重置（防止动画事件未触发导致卡住）
-            // 这是一个安全措施，正常情况下应该由动画事件 OnAttackEnd() 重置
-            Invoke(nameof(ResetAttackState), 1.0f);
-        }
-        
-        /// <summary>
-        /// 重置攻击状态（安全措施，防止动画事件丢失导致永久卡住）
-        /// </summary>
-        private void ResetAttackState()
-        {
-            if (_isAttacking)
-            {
-                Debug.LogWarning($"[{gameObject.name}] 攻击状态被强制重置（可能是动画事件未正确设置）");
-                _isAttacking = false;
-                if (_navAgent != null && _navAgent.enabled)
-                {
-                    _navAgent.isStopped = false;
-                }
-            }
         }
 
-        /// <summary>
-        /// 重写动画事件回调：攻击结束
-        /// 取消安全措施的Invoke，让动画事件正常处理
-        /// </summary>
-        public new void OnAttackEnd()
-        {
-            // 取消延迟重置（因为动画事件正确触发了）
-            CancelInvoke(nameof(ResetAttackState));
-            
-            // 调用基类的攻击结束逻辑
-            base.OnAttackEnd();
-        }
 
         // 可视化范围
         protected override void OnDrawGizmosSelected()

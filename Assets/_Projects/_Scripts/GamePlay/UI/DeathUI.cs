@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 using _Projects._Scripts.SceneManagement;
 using _Projects._Scripts.GamePlay.SaveSystem;
 using TMPro;
@@ -59,57 +58,22 @@ namespace _Projects._Scripts.GamePlay.UI
                 _canvasGroup = deathPanel.AddComponent<CanvasGroup>();
             }
             
-            // 初始化按钮数组
-            _buttons = new[] { continueButton, mainMenuButton };
-            
             // 设置按钮事件
             if (continueButton != null)
             {
                 continueButton.onClick.AddListener(OnContinueButtonClicked);
-                AddPointerEnterEvent(continueButton, 0);
             }
             
             if (mainMenuButton != null)
             {
                 mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
-                AddPointerEnterEvent(mainMenuButton, 1);
             }
+            
+            // 初始化按钮数组
+            _buttons = new Button[] { continueButton, mainMenuButton };
             
             // 初始隐藏
             HideDeathPanel();
-        }
-        
-        /// <summary>
-        /// 添加鼠标悬停事件
-        /// </summary>
-        private void AddPointerEnterEvent(Button button, int index)
-        {
-            EventTrigger trigger = button.GetComponent<EventTrigger>();
-            if (trigger == null)
-            {
-                trigger = button.gameObject.AddComponent<EventTrigger>();
-            }
-            
-            // 添加鼠标进入事件
-            EventTrigger.Entry entry = new EventTrigger.Entry
-            {
-                eventID = EventTriggerType.PointerEnter
-            };
-            entry.callback.AddListener((data) => { OnButtonHover(index); });
-            trigger.triggers.Add(entry);
-        }
-        
-        /// <summary>
-        /// 按钮悬停回调
-        /// </summary>
-        private void OnButtonHover(int index)
-        {
-            if (_isShowing)
-            {
-                _currentSelectedIndex = index;
-                UpdateButtonSelection();
-                Debug.Log($"[DeathUI] 鼠标悬停选择: {(_currentSelectedIndex == 0 ? "继续游戏" : "返回主菜单")}");
-            }
         }
 
         private void Start()
@@ -223,22 +187,26 @@ namespace _Projects._Scripts.GamePlay.UI
         /// </summary>
         private void UpdateButtonSelection()
         {
-            // 确保 EventSystem 存在
-            if (EventSystem.current == null)
-            {
-                Debug.LogWarning("[DeathUI] EventSystem 不存在！");
-                return;
-            }
-            
             for (int i = 0; i < _buttons.Length; i++)
             {
                 if (_buttons[i] == null) continue;
                 
                 if (i == _currentSelectedIndex)
                 {
-                    // 选中的按钮 - 使用 EventSystem 选择
-                    EventSystem.current.SetSelectedGameObject(_buttons[i].gameObject);
-                    Debug.Log($"[DeathUI] 设置选中按钮: {_buttons[i].name}");
+                    // 选中的按钮 - 高亮显示
+                    _buttons[i].Select();
+                    
+                    // 可选：改变按钮的颜色或缩放来突出显示
+                    var colors = _buttons[i].colors;
+                    colors.normalColor = colors.highlightedColor;
+                    _buttons[i].colors = colors;
+                }
+                else
+                {
+                    // 未选中的按钮 - 恢复正常
+                    var colors = _buttons[i].colors;
+                    colors.normalColor = Color.white;
+                    _buttons[i].colors = colors;
                 }
             }
         }
