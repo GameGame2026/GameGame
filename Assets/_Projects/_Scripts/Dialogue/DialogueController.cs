@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using GamePlay.Controller;
 using UnityEngine;
+using _Projects.GamePlay;
 
 public class DialogueController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class DialogueController : MonoBehaviour
     public PlayerInputHandler input;
     bool canTalk = false;
     private bool lastInteractInput = false;
+    private InteractableNPC npc;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -37,6 +39,14 @@ public class DialogueController : MonoBehaviour
         if (canTalk && !DialogueUI.Instance.IsDialogueActive && interactPressed && !lastInteractInput)
         {
             OpenDialogue();
+
+            // 关掉npc对话提示符！！
+            npc = GetComponent<InteractableNPC>();
+            if (npc != null)
+            {
+                npc.MarkAsInteracted();
+                npc.HideQuestMark();
+            }
         }
         
         lastInteractInput = interactPressed;

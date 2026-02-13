@@ -68,10 +68,6 @@ namespace _Projects.GamePlay
             
             // 互动开始后可以隐藏UI
             HideInteractUI();
-            
-            // 标记已开始对话
-            hasInteracted = true;
-            if (hideAfterDialogue) HideQuestMark();
         }
 
         /// <summary>
@@ -91,6 +87,11 @@ namespace _Projects.GamePlay
             {
                 questMark.SetActive(false);
             }
+        }
+
+        public void MarkAsInteracted()
+        {
+            hasInteracted = true;
         }
         
     }

@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0999a6a2802d443db9b84d106a46a2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractUI: {fileID: 6751388636123340836, guid: 2f7f3dde7ae722a4aafffe20691ad702, type: 3}
+  InteractUI: {fileID: 0}
   questMark: {fileID: 8132269157699456036}
   hideAfterDialogue: 1
 --- !u!114 &3936914901876904877
