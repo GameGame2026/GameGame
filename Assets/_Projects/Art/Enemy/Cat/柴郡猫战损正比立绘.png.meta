@@ -100,7 +100,7 @@ TextureImporter:
       name: Cat_hurt_CG
       rect:
         serializedVersion: 2
-        x: 51
+        x: 56
         y: 282
         width: 1016
         height: 818
@@ -117,6 +117,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: "\u67F4\u90E1\u732B\u6218\u635F_\u7AD6\u7ACB\u7ED8"
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 226
+        width: 699
+        height: 960
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2254175b057422b4aa824722ae402e29
+      internalID: -1240867006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -129,6 +150,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Cat_hurt_CG: 2129982858
+      "\u67F4\u90E1\u732B\u6218\u635F_\u7AD6\u7ACB\u7ED8": -1240867006
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
