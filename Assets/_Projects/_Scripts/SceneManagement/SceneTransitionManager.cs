@@ -200,13 +200,27 @@ namespace _Projects._Scripts.SceneManagement
                 if (spawnPoint != null)
                 {
                     // 将Player移动到生成点
-                    persistentPlayer.transform.position = spawnPoint.transform.position;
-                    persistentPlayer.transform.rotation = spawnPoint.transform.rotation;
-                    Debug.Log($"Player已移动到生成点: {spawnPoint.name}");
+                    // 对于CharacterController，需要先禁用再设置位置
+                    CharacterController controller = persistentPlayer.GetComponent<CharacterController>();
+                    if (controller != null)
+                    {
+                        controller.enabled = false;
+                        persistentPlayer.transform.position = spawnPoint.transform.position;
+                        persistentPlayer.transform.rotation = spawnPoint.transform.rotation;
+                        controller.enabled = true;
+                        Debug.Log($"[SceneTransitionManager] Player已移动到生成点（CharacterController）: {spawnPoint.name} at {spawnPoint.transform.position}");
+                    }
+                    else
+                    {
+                        // 没有CharacterController，直接设置
+                        persistentPlayer.transform.position = spawnPoint.transform.position;
+                        persistentPlayer.transform.rotation = spawnPoint.transform.rotation;
+                        Debug.Log($"[SceneTransitionManager] Player已移动到生成点: {spawnPoint.name} at {spawnPoint.transform.position}");
+                    }
                 }
                 else
                 {
-                    Debug.LogWarning($"未找到标签为 '{spawnPointTag}' 的生成点，Player保持原位置");
+                    Debug.LogWarning($"[SceneTransitionManager] 未找到标签为 '{spawnPointTag}' 的生成点，Player保持原位置");
                 }
 
                 // 清理场景中的重复Player
