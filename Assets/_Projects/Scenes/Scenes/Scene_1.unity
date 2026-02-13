@@ -981,10 +981,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275795056974259219, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.915
-      objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Name
       value: Player
@@ -995,31 +991,19 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
     - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: maxHealth
-      value: 70
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: attackSound
       value: 
       objectReference: {fileID: 8300000, guid: a97ebf522ad957749b39366a5ee5aa33, type: 3}
     - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: soundVolume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: attackDamage
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: currentHealth
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: healthRegenRate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: healthRegenDelay
-      value: 0
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 9204772043642247589, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Radius
@@ -1037,21 +1021,11 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6558516657584815940, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-    - {fileID: -4138698146137660109, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1992127662}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
---- !u!1 &312413834 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-  m_PrefabInstance: {fileID: 312413833}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &317848634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5850,7 +5824,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -6056394231257539517, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
   m_PrefabInstance: {fileID: 312413833}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312413834}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f99f2580d61b40d18e4b7c114bf2ac6b, type: 3}
@@ -5861,25 +5835,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
   m_PrefabInstance: {fileID: 312413833}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312413834}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd48e93b732048b0aa042a4cd35d4541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1992127662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312413834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60380fae6e07461a8b49ef89f990e10a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  applyOnAwake: 1
 --- !u!1001 &1992794122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95108,7 +95069,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: c511f0e6f68ce594c9904ceb8b025703, type: 3}
     - target: {fileID: 7355107212211139494, guid: 326617da651352f488fab6d647588b78, type: 3}
       propertyPath: healAmount
-      value: 10
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7355107212211139494, guid: 326617da651352f488fab6d647588b78, type: 3}
       propertyPath: attackSound
