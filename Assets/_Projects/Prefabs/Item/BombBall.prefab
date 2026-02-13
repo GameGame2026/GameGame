@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 4465958159946272949}
   - component: {fileID: 8159077978884192731}
   - component: {fileID: 8878799723537908739}
+  - component: {fileID: 7101935192971205577}
   m_Layer: 0
   m_Name: BombBall
   m_TagString: Untagged
@@ -219,6 +220,26 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: 38972d9a807375f4fbdbf2e076aa183f, type: 3}
+--- !u!114 &7101935192971205577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6874129598090525912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1500162ec6e64369857a2abf478d1ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explodeDelay: 3
+  explosionDamage: 10
+  explosionRadius: 5
+  explosionParticle: {fileID: 7443022377656067840, guid: 01504e86805eff540ba37c902d70ae14, type: 3}
+  explosionSound: {fileID: 0}
+  soundVolume: 0.8
+  destroyDelay: 2
+  bombModel: {fileID: 6874129598090525912}
 --- !u!1 &8095530857108399406
 GameObject:
   m_ObjectHideFlags: 0
