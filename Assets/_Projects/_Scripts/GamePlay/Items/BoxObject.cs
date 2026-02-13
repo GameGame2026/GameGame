@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using _Projects.GamePlay;
 using UnityEngine;
 
@@ -18,7 +20,6 @@ public class BoxObject : DisposableObject
             boxPrefab.SetActive(false);
             openedBoxPrefab.SetActive(true);
             isOpened = true;
-            
             // 第一次打开时生成炸弹
             if (!hasSpawnedBomb && bombPrefab != null)
             {
@@ -40,7 +41,7 @@ public class BoxObject : DisposableObject
         }
         base.Recycle();
     }
-
+    
     /// <summary>
     /// 生成炸弹并施加弹出力
     /// </summary>
@@ -62,3 +63,4 @@ public class BoxObject : DisposableObject
         }
     }
 }
+

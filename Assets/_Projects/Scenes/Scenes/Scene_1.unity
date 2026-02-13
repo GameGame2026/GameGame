@@ -929,6 +929,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2593087522732143295, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593087522732143295, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593087522732143295, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.89
+      objectReference: {fileID: 0}
     - target: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_LocalPosition.x
       value: 24.33
@@ -973,9 +985,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: hitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
+    - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: maxHealth
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: attackSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a97ebf522ad957749b39366a5ee5aa33, type: 3}
+    - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: attackDamage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059764850823189291, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: currentHealth
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204772043642247589, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_Radius
+      value: 1.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204772043642247589, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204772043642247589, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204772043642247589, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_Center.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 86852339453729078, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
@@ -6252,29 +6299,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-<<<<<<< HEAD
-    - target: {fileID: 7391232990727450531, guid: ff20f6f3d1652224caa67563d4906c38, type: 3}
-      propertyPath: m_margin.z
-      value: 62.47159
-      objectReference: {fileID: 0}
-    - target: {fileID: 7391232990727450531, guid: ff20f6f3d1652224caa67563d4906c38, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -6777654992590698744, guid: a13df2354764baf428d3e9fcd198e4cf, type: 2}
-    - target: {fileID: 7710534511351320252, guid: ff20f6f3d1652224caa67563d4906c38, type: 3}
-=======
     - target: {fileID: 6651463717945145061, guid: ff20f6f3d1652224caa67563d4906c38, type: 3}
->>>>>>> b540d6f94779799aea99fd0fee8cf1c04a3d6e8d
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8286712066467882789, guid: ff20f6f3d1652224caa67563d4906c38, type: 3}
       propertyPath: m_Name
       value: Base Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 8504807426023710312, guid: ff20f6f3d1652224caa67563d4906c38, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
