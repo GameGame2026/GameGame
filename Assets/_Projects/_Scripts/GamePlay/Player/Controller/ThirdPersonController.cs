@@ -1,4 +1,4 @@
-﻿﻿﻿using UnityEngine;
+﻿﻿﻿﻿using UnityEngine;
 using System.Collections.Generic;
 using _Projects.GamePlay;
 
@@ -91,6 +91,28 @@ namespace GamePlay.Controller
             attackRange.SetActive(false);
         }
 
+        private void OnEnable()
+        {
+            // 场景切换时重新查找主相机（DontDestroyOnLoad对象在新场景加载时会触发OnEnable）
+            RefreshSceneReferences();
+        }
+
+        /// <summary>
+        /// 刷新场景特定的引用（用于处理场景切换）
+        /// </summary>
+        private void RefreshSceneReferences()
+        {
+            // 重新查找主相机
+            if (_mainCamera == null)
+            {
+                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                if (_mainCamera != null)
+                {
+                    Debug.Log("[ThirdPersonController] 场景切换后重新找到主相机");
+                }
+            }
+        }
+
         private void Start()
         {
             _hasAnimator = TryGetComponent(out _animator);
@@ -175,6 +197,17 @@ namespace GamePlay.Controller
 
         private void Move()
         {
+            // 检查主相机引用是否有效，如果无效则重新查找（场景切换时可能会失效）
+            if (_mainCamera == null)
+            {
+                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                if (_mainCamera == null)
+                {
+                    Debug.LogWarning("[ThirdPersonController] 未找到主相机，无法计算移动方向");
+                    return;
+                }
+            }
+            
             // 根据行走/冲刺输入设置目标速度
             float targetSpeed = _inputHandler.SprintInput ? config.sprintSpeed : config.moveSpeed;
 

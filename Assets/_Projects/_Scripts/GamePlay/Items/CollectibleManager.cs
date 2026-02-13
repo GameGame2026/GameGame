@@ -92,14 +92,16 @@ namespace _Projects._Scripts.GamePlay.Items
         {
             if (collectible == null) return;
 
-            // 更新计数
+            // 更新计数并立即应用效果
             switch (collectible.Type)
             {
                 case CollectibleType.AttackBoost:
                     _currentLevelData.attackBoostCount++;
+                    ApplyAttackBoost();
                     break;
                 case CollectibleType.HealthBoost:
                     _currentLevelData.healthBoostCount++;
+                    ApplyHealthBoost();
                     break;
             }
 
@@ -119,6 +121,45 @@ namespace _Projects._Scripts.GamePlay.Items
         }
 
         /// <summary>
+        /// 立即应用攻击力提升
+        /// </summary>
+        private void ApplyAttackBoost()
+        {
+            if (_playerStats == null)
+            {
+                Debug.LogWarning("[CollectibleManager] 未找到玩家属性，无法应用攻击力提升！");
+                return;
+            }
+
+            float attackIncrease = _playerStats.AttackDamage * boostMultiplier;
+            _currentLevelData.totalAttackIncrease += attackIncrease;
+            float newAttack = _playerStats.AttackDamage + attackIncrease;
+            _playerStats.SetAttackDamage(newAttack);
+
+            Debug.Log($"[CollectibleManager] 立即应用攻击力提升: +{attackIncrease:F2} -> {newAttack:F2}");
+        }
+
+        /// <summary>
+        /// 立即应用生命值提升
+        /// </summary>
+        private void ApplyHealthBoost()
+        {
+            if (_playerStats == null)
+            {
+                Debug.LogWarning("[CollectibleManager] 未找到玩家属性，无法应用生命值提升！");
+                return;
+            }
+
+            float healthIncrease = _playerStats.MaxHealth * boostMultiplier;
+            _currentLevelData.totalHealthIncrease += healthIncrease;
+            float newMaxHealth = _playerStats.MaxHealth + healthIncrease;
+            _playerStats.SetMaxHealth(newMaxHealth);
+            _playerStats.Heal(healthIncrease); // 回复增加的血量
+
+            Debug.Log($"[CollectibleManager] 立即应用生命值提升: +{healthIncrease:F2} -> {newMaxHealth:F2}");
+        }
+
+        /// <summary>
         /// 获取指定类型的收集数量
         /// </summary>
         public int GetCollectionCount(CollectibleType type)
@@ -132,38 +173,14 @@ namespace _Projects._Scripts.GamePlay.Items
         }
 
         /// <summary>
-        /// 关卡结束时应用收集效果
+        /// 关卡结束时显示收集效果总结（提升已在拾取时立即应用）
         /// </summary>
         public void ApplyCollectionBoosts()
         {
-            if (_playerStats == null)
-            {
-                Debug.LogWarning("[CollectibleManager] 未找到玩家属性，无法应用提升！");
-                return;
-            }
-
-            // 计算攻击力提升
-            if (_currentLevelData.attackBoostCount > 0)
-            {
-                float attackIncrease = _playerStats.AttackDamage * boostMultiplier * _currentLevelData.attackBoostCount;
-                _currentLevelData.totalAttackIncrease = attackIncrease;
-                float newAttack = _playerStats.AttackDamage + attackIncrease;
-                _playerStats.SetAttackDamage(newAttack);
-
-                Debug.Log($"[CollectibleManager] 攻击力提升: +{attackIncrease:F2} -> {newAttack:F2}");
-            }
-
-            // 计算生命值提升
-            if (_currentLevelData.healthBoostCount > 0)
-            {
-                float healthIncrease = _playerStats.MaxHealth * boostMultiplier * _currentLevelData.healthBoostCount;
-                _currentLevelData.totalHealthIncrease = healthIncrease;
-                float newMaxHealth = _playerStats.MaxHealth + healthIncrease;
-                _playerStats.SetMaxHealth(newMaxHealth);
-                _playerStats.Heal(healthIncrease); // 回复增加的血量
-
-                Debug.Log($"[CollectibleManager] 生命值提升: +{healthIncrease:F2} -> {newMaxHealth:F2}");
-            }
+            // 注意：属性提升已在拾取时立即应用，此方法仅用于显示总结
+            Debug.Log($"[CollectibleManager] 本关收集总结:");
+            Debug.Log($"  攻击力提升物品数量: {_currentLevelData.attackBoostCount}，总提升: +{_currentLevelData.totalAttackIncrease:F2}");
+            Debug.Log($"  生命值提升物品数量: {_currentLevelData.healthBoostCount}，总提升: +{_currentLevelData.totalHealthIncrease:F2}");
         }
 
         /// <summary>
