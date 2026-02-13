@@ -29,6 +29,9 @@ namespace _Projects._Scripts.SceneManagement
 
         private void Awake()
         {
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+            
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             
@@ -63,6 +66,12 @@ namespace _Projects._Scripts.SceneManagement
             // 确保光标在主菜单中可见且未锁定
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+            
+            // 清理任何残留的持久化Player对象
+            CleanupPersistentPlayers();
             
             // 绑定按钮事件
             if (startGameButton != null)
@@ -131,6 +140,9 @@ namespace _Projects._Scripts.SceneManagement
             PlayButtonSound();
             Debug.Log("开始游戏，加载场景: " + firstLevelSceneName);
             
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+            
             // 使用场景转换管理器加载场景（如果存在）
             if (SceneTransitionManager.Instance != null)
             {
@@ -185,6 +197,25 @@ namespace _Projects._Scripts.SceneManagement
             if (audioSource != null && buttonClickSound != null)
             {
                 audioSource.PlayOneShot(buttonClickSound);
+            }
+        }
+
+        /// <summary>
+        /// 清理残留的持久化Player对象
+        /// </summary>
+        private void CleanupPersistentPlayers()
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            
+            if (players.Length > 0)
+            {
+                Debug.Log($"[MainMenuController] 发现 {players.Length} 个Player对象，正在清理...");
+                
+                foreach (GameObject player in players)
+                {
+                    Debug.Log($"[MainMenuController] 销毁Player对象: {player.name}");
+                    Destroy(player);
+                }
             }
         }
 

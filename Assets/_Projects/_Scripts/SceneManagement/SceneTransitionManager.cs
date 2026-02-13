@@ -38,6 +38,9 @@ namespace _Projects._Scripts.SceneManagement
                 return;
             }
 
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+
             if (useFadeEffect)
             {
                 StartCoroutine(LoadSceneWithFade(sceneName));
@@ -59,6 +62,9 @@ namespace _Projects._Scripts.SceneManagement
                 Debug.LogWarning("场景转换正在进行中，请稍候...");
                 return;
             }
+
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
 
             if (useFadeEffect)
             {

@@ -297,6 +297,9 @@ namespace _Projects._Scripts.GamePlay.UI
             Cursor.lockState = CursorLockMode.None;
             Debug.Log($"[DeathUI] 光标状态设置 - Visible: {Cursor.visible}, LockState: {Cursor.lockState}");
             
+            // 销毁持久化的Player对象（如果存在）
+            DestroyPersistentPlayer();
+            
             // 隐藏死亡面板（但不锁定光标）
             _isShowing = false;
             if (deathPanel != null)
@@ -321,6 +324,24 @@ namespace _Projects._Scripts.GamePlay.UI
             else
             {
                 SceneManager.LoadScene(mainMenuSceneName);
+            }
+        }
+        
+        /// <summary>
+        /// 销毁持久化的Player对象
+        /// </summary>
+        private void DestroyPersistentPlayer()
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            
+            foreach (GameObject player in players)
+            {
+                var dontDestroyManager = player.GetComponent<DontDestroyOnLoadManager>();
+                if (dontDestroyManager != null)
+                {
+                    Debug.Log($"[DeathUI] 销毁持久化的Player: {player.name}");
+                    Destroy(player);
+                }
             }
         }
 
