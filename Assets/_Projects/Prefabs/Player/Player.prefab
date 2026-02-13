@@ -326,17 +326,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd48e93b732048b0aa042a4cd35d4541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 60
-  currentHealth: 60
+  maxHealth: 70
+  currentHealth: 70
   canRegenHealth: 1
   healthRegenRate: 0
   healthRegenDelay: 0
   currentPoints: 3
   maxPoints: 3
-  attackDamage: 6
+  attackDamage: 7
   invincibilityDuration: 0.7
-  hitSound: {fileID: 8300000, guid: 761ebfe0c9bf1a74891541deefbcd702, type: 3}
-  attackSound: {fileID: 8300000, guid: a97ebf522ad957749b39366a5ee5aa33, type: 3}
+  hitSound: {fileID: 8300000, guid: 46c510ebc56eabc43a270c033d96d140, type: 3}
+  attackSound: {fileID: 8300000, guid: e0850f562c934e0439cd83526f7004c5, type: 3}
   soundVolume: 1
   hitFlashColor: {r: 1, g: 0, b: 0, a: 0.7}
   hitFlashDuration: 0.2

@@ -197,7 +197,7 @@ MonoBehaviour:
   hitFlashDuration: 0.2
   CanBeAttacked: 1
   attackTriggerRange: {fileID: 4535942262890552518}
-  healAmount: 100
+  healAmount: 13
   healAttackCooldown: 1
   normalMaterial: {fileID: 0}
   healingMaterial: {fileID: 0}
