@@ -13,8 +13,6 @@ namespace _Projects.GamePlay.Player.Controller
             // 清理无效引用并返回第一个仍然在范围内且未贴附的对象
             List<DisposableObject> toRemove = new List<DisposableObject>();
             
-            Collider col = GetComponent<Collider>();
-            
             foreach (var kvp in _objectsInRange)
             {
                 var obj = kvp.Key;
@@ -33,15 +31,8 @@ namespace _Projects.GamePlay.Player.Controller
                     continue;
                 }
 
-                // 检查物体的碰撞器是否真的还在触发器范围内
-                if (col != null && !IsObjectInTrigger(objCollider, col))
-                {
-                    Debug.Log($"[DisposeCollider] 物体 {obj.name} 已不在触发器范围内，移除");
-                    toRemove.Add(obj);
-                    continue;
-                }
-
                 // 有效且可贴附，立即返回
+                // 注意：不再使用 IsObjectInTrigger 检查，因为 OnTriggerEnter/Exit 已经可靠地管理了范围
                 Debug.Log($"[DisposeCollider] 找到有效可贴附物体: {obj.name}");
                 return obj;
             }
@@ -56,26 +47,12 @@ namespace _Projects.GamePlay.Player.Controller
         }
         
         /// <summary>
-        /// 检查物体的碰撞器是否与触发器重叠
-        /// </summary>
-        private bool IsObjectInTrigger(Collider objCollider, Collider triggerCollider)
-        {
-            // 使用 Bounds.Intersects 检查两个碰撞器的边界是否相交
-            bool boundsIntersect = objCollider.bounds.Intersects(triggerCollider.bounds);
-            
-            Debug.Log($"[DisposeCollider] 碰撞器重叠检查: {objCollider.name} 与触发器, 边界相交={boundsIntersect}");
-            
-            return boundsIntersect;
-        }
-
-        /// <summary>
         /// 触发范围内所有未贴附物体的贴附操作（如果需要的话）
         /// </summary>
         public void TriggerAllDisposables()
         {
             // 遍历时收集需要移除的项以避免在枚举时修改集合
             List<DisposableObject> toRemove = new List<DisposableObject>();
-            Collider col = GetComponent<Collider>();
             
             foreach (var kvp in _objectsInRange)
             {
@@ -89,13 +66,6 @@ namespace _Projects.GamePlay.Player.Controller
                 }
 
                 if (obj.IsAttached)
-                {
-                    toRemove.Add(obj);
-                    continue;
-                }
-                
-                // 检查物体的碰撞器是否真的还在触发器范围内
-                if (col != null && !IsObjectInTrigger(objCollider, col))
                 {
                     toRemove.Add(obj);
                     continue;
@@ -150,15 +120,7 @@ namespace _Projects.GamePlay.Player.Controller
             if (!_objectsInRange.ContainsKey(obj)) return false;
             if (obj.IsAttached) return false;
             
-            // 检查物体的碰撞器是否真的还在触发器范围内
-            Collider col = GetComponent<Collider>();
-            Collider objCollider = _objectsInRange[obj];
-            
-            if (col != null && objCollider != null && !IsObjectInTrigger(objCollider, col))
-            {
-                return false;
-            }
-            
+
             return true;
         }
 

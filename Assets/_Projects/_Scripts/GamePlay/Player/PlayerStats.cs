@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using _Projects.GamePlay;
 using _Projects.GamePlay.UI;
+using _Projects._Scripts.GamePlay.UI;
 using GamePlay.Controller;
 
 public class PlayerStats : MonoBehaviour
@@ -206,7 +207,20 @@ public class PlayerStats : MonoBehaviour
     private void Die()
     {
         OnDeath?.Invoke();
-        // 这里可以添加死亡逻辑，比如播放动画、禁用控制等
+        
+        // 显示死亡UI
+        if (DeathUI.Instance != null)
+        {
+            DeathUI.Instance.ShowDeathPanel();
+        }
+        
+        // 禁用玩家控制
+        if (_controller != null)
+        {
+            _controller.enabled = false;
+        }
+        
+        Debug.Log("[PlayerStats] 玩家已死亡");
     }
     
     /// <summary>
@@ -217,6 +231,12 @@ public class PlayerStats : MonoBehaviour
         currentHealth = maxHealth;
         _invincibilityTimer = invincibilityDuration;
         OnHealthChanged?.Invoke(currentHealth);
+        
+        // 重新启用玩家控制
+        if (_controller != null)
+        {
+            _controller.enabled = true;
+        }
     }
     
     /// <summary>
