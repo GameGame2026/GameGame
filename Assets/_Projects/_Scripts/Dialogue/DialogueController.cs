@@ -12,12 +12,21 @@ public class DialogueController : MonoBehaviour
     bool canTalk = false;
     private bool lastInteractInput = false;
     private InteractableNPC npc;
+     [SerializeField]
+    private bool ForcedToDialogue = false;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && currentData != null)
         {
             canTalk = true;
+        }
+
+        // 2.15 静影：加入强制对话
+        if (ForcedToDialogue)
+        {
+            OpenDialogue();
+            ForcedToDialogue = false;
         }
     }
 

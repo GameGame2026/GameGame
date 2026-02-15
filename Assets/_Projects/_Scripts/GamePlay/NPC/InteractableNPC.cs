@@ -32,6 +32,7 @@ namespace _Projects.GamePlay
             if (questMark != null) questMark.SetActive(false);
         }
 
+    // 下面两段疑似没用。
         /// <summary>
         /// 显示可互动UI
         /// </summary>
@@ -43,7 +44,6 @@ namespace _Projects.GamePlay
                 _isUIShowing = true;
             }
         }
-
         /// <summary>
         /// 隐藏可互动UI
         /// </summary>
@@ -80,7 +80,7 @@ namespace _Projects.GamePlay
                 questMark.SetActive(true);
             }
         }
-
+        
         public void HideQuestMark()
         {
             if (questMark != null)

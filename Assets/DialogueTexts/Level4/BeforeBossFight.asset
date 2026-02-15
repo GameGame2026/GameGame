@@ -16,7 +16,7 @@ MonoBehaviour:
   - id: bf_fight_1
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
-    image: {fileID: 172096910, guid: 32b018da00279724c9742e73989b0b98, type: 3}
+    image: {fileID: 213429117, guid: 32b018da00279724c9742e73989b0b98, type: 3}
     text: "\u53C8\u89C1\u9762\u4E86\uFF0C\u7231\u4E3D\u4E1D\u3002"
     nextID: bf_fight_2
     options: []
@@ -24,7 +24,7 @@ MonoBehaviour:
   - id: bf_fight_2
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
-    image: {fileID: 172096910, guid: 32b018da00279724c9742e73989b0b98, type: 3}
+    image: {fileID: 213429117, guid: 32b018da00279724c9742e73989b0b98, type: 3}
     text: "\u771F\u5E0C\u671B\u4F60\u5DF2\u7ECF\u4E0D\u5728\u4E86\u3002\u53EF\u60DC\u2026\u2026\u679C\u7136\u4EE5\u4F60\u7684\u529B\u91CF\uFF0C\u90A3\u4E9B\u673A\u5173\u5B8C\u5168\u4E0D\u8DB3\u4EE5\u56F0\u4F4F\u4F60\u554A\u3002"
     nextID: bf_fight_3
     options: []
@@ -32,7 +32,7 @@ MonoBehaviour:
   - id: bf_fight_3
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
-    image: {fileID: 172096910, guid: 32b018da00279724c9742e73989b0b98, type: 3}
+    image: {fileID: 213429117, guid: 32b018da00279724c9742e73989b0b98, type: 3}
     text: "\u4F60\u7684\u201C\u73B0\u5B9E\u201D\u4E16\u754C\u8FD8\u4E0D\u591F\u6709\u8DA3\u5417\uFF1F\u4F60\u7684\u65F6\u95F4\u5DF2\u7ECF\u6D41\u901D\u4E86\u8FD9\u4E48\u591A\u5E74\uFF0C\u4E3A\u4EC0\u4E48\u8FD8\u8981\u56DE\u6765\u6253\u6405\u6211\u4EEC\uFF1F"
     nextID: bf_fight_4
     options: []
@@ -48,7 +48,7 @@ MonoBehaviour:
   - id: bf_fight_5
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
-    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    image: {fileID: 213429117, guid: 32b018da00279724c9742e73989b0b98, type: 3}
     text: "\u539F\u6765\u5982\u6B64\uFF0C\u4F60\u4E0D\u8BB0\u5F97\u4E86\u3002"
     nextID: bf_fight_6
     options: []
@@ -56,7 +56,7 @@ MonoBehaviour:
   - id: bf_fight_6
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
-    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    image: {fileID: 213429117, guid: 32b018da00279724c9742e73989b0b98, type: 3}
     text: "\u591A\u4E48\u53EF\u7B11\u2026\u2026\u6211\u672C\u6765\u4EE5\u4E3A\u201C\u6211\u4EEC\u53EA\u662F\u795E\u660E\u7684\u73A9\u5177\u201D\u4E4B\u7C7B\u7684\u4E8B\u5B9E\u5DF2\u7ECF\u8DB3\u591F\u53EF\u60B2\uFF0C\u539F\u6765\u8FD9\u573A\u6B8B\u9177\u7684\u6E38\u620F\u751A\u81F3\u4E0D\u914D\u5728\u4F60\u7684\u8BB0\u5FC6\u91CC\u7559\u4E0B\u75D5\u8FF9\u3002"
     nextID: bf_fight_7
     options: []
@@ -64,7 +64,7 @@ MonoBehaviour:
   - id: bf_fight_7
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
-    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    image: {fileID: 213429117, guid: 32b018da00279724c9742e73989b0b98, type: 3}
     text: "\u4F46\u662F\u6211\u4E0D\u4F1A\u653E\u5F03\u3002"
     nextID: bf_fight_8
     options: []
@@ -72,7 +72,7 @@ MonoBehaviour:
   - id: bf_fight_8
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
-    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
+    image: {fileID: 213429117, guid: 32b018da00279724c9742e73989b0b98, type: 3}
     text: "\u5C3D\u7BA1\u6211\u7684\u529B\u91CF\u8FDC\u4E0D\u53CA\u5973\u738B\uFF0C\u6211\u8FD8\u662F\u8981\u53BB\u505A\u5979\u6240\u505A\u4E4B\u4E8B\uFF1A\u4ECE\u4F60\u7684\u624B\u4E2D\uFF0C\u62EF\u6551\u8FD9\u4E2A\u4E16\u754C\u3002"
     nextID: bf_fight_9
     options: []
@@ -80,8 +80,8 @@ MonoBehaviour:
   - id: bf_fight_9
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
-    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
-    text: "<b>\u2014\u2014\u6C38\u8FDC\u5730\u79BB\u5F00\uFF0C\u6216\u8005\u6C38\u8FDC\u5730\u7559\u5728\u8FD9\u91CC\u5427\uFF0C\u7231\u4E3D\u4E1D\uFF01<\\b>"
+    image: {fileID: 213429117, guid: 32b018da00279724c9742e73989b0b98, type: 3}
+    text: "<b>\u2014\u2014\u6C38\u8FDC\u5730\u79BB\u5F00\uFF0C\u6216\u8005\u6C38\u8FDC\u5730\u7559\u5728\u8FD9\u91CC\u5427\uFF0C\u7231\u4E3D\u4E1D\uFF01</b>"
     nextID: 
     options: []
     isLastPiece: 0

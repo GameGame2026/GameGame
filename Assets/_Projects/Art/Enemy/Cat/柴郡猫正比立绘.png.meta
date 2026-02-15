@@ -100,7 +100,7 @@ TextureImporter:
       name: Cat_CG
       rect:
         serializedVersion: 2
-        x: 75
+        x: 74
         y: 298
         width: 1000
         height: 816
@@ -117,6 +117,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: "\u67F4\u90E1\u732B\u6B63\u6BD4\u7ACB\u7ED8_\u7AD6\u7248"
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 239
+        width: 532
+        height: 970
+      alignment: 9
+      pivot: {x: 0.5015723, y: 0.53326964}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 397a30223f8c7fb4da69d65a83c5a6df
+      internalID: 213429117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -129,6 +150,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Cat_CG: 172096910
+      "\u67F4\u90E1\u732B\u6B63\u6BD4\u7ACB\u7ED8_\u7AD6\u7248": 213429117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
