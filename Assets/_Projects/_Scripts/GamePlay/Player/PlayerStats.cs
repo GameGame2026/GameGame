@@ -240,6 +240,7 @@ public class PlayerStats : MonoBehaviour
         currentHealth = maxHealth;
         _invincibilityTimer = invincibilityDuration;
         OnHealthChanged?.Invoke(currentHealth);
+        Debug.Log($"[PlayerStats] Respawn: 血量已恢复至 {currentHealth}，事件已触发");
         
         // 重新启用玩家控制
         if (_controller != null)
