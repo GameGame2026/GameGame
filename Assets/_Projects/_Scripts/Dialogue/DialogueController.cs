@@ -15,6 +15,17 @@ public class DialogueController : MonoBehaviour
      [SerializeField]
     private bool ForcedToDialogue = false;
 
+    // 2.18 静影：跨场景无法对话问题：增加自动拾取玩家信息
+    private void Start()
+    {
+        // 查找玩家
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            input = playerObj.GetComponent<PlayerInputHandler>();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && currentData != null)
