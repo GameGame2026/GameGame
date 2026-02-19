@@ -1,5 +1,6 @@
 using UnityEngine;
 using _Projects.GamePlay;
+using UnityEngine.Events;
 
 namespace _Projects._Scripts.GamePlay.Enemy.Enemies
 {
@@ -39,6 +40,9 @@ namespace _Projects._Scripts.GamePlay.Enemy.Enemies
         
         // 记录上次扑跳时间，用于扑跳冷却
         private float _lastPounceTime = -100f;
+
+        // 2.19 静影：补充猫死亡后事件
+        public UnityEvent OnCatDeath;
 
         protected override void Awake()
         {
@@ -256,10 +260,10 @@ namespace _Projects._Scripts.GamePlay.Enemy.Enemies
             base.PerformAttack();
 
             // 立即尝试对玩家造成伤害（如果在范围内）——如果项目使用动画事件来造成伤害，可以移除此调用
-            if (_playerStats != null && GetDistanceToPlayer() <= attackRange)
-            {
-                AttackPlayer(_playerStats);
-            }
+            // if (_playerStats != null && GetDistanceToPlayer() <= attackRange)
+            // {
+            //     AttackPlayer(_playerStats);
+            // }
             
             // 确保攻击状态在一定时间后自动重置（防止动画事件未触发导致卡住）
             // 这是一个安全措施，正常情况下应该由动画事件 OnAttackEnd() 重置
@@ -305,6 +309,14 @@ namespace _Projects._Scripts.GamePlay.Enemy.Enemies
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, minPounceDistance);
+        }
+
+        // 2.19 静影：增加猫死亡事件
+        public override void OnDeath()
+        {
+            OnCatDeath?.Invoke();
+            // 最后调用基类方法销毁对象
+            base.OnDeath();
         }
     }
 }

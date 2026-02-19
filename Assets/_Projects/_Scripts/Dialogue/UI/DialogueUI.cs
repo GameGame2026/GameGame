@@ -53,8 +53,8 @@ public class DialogueUI : Singleton<DialogueUI>
     // 对话是否激活（包括冷却时间检查）
     public bool IsDialogueActive => (dialoguePanel != null && dialoguePanel.activeSelf) || dialogueCloseCooldown > 0;
 
-    // // 尝试加个监听
-    // public event System.Action OnDialogueClosed;
+    // 2.19 静影：尝试加个结束对话的监听
+    public event System.Action<DialogueData_SO> OnDialogueClosed;
 
     protected override void Awake()
     {
@@ -155,6 +155,9 @@ public class DialogueUI : Singleton<DialogueUI>
     {
         dialoguePanel.SetActive(false);
         dialogueCloseCooldown = COOLDOWN_TIME; // 设置冷却时间
+
+        // 2.19：传递事件
+        OnDialogueClosed?.Invoke(currentData);
     }
 
     private void HandleOptionSelection()
