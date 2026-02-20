@@ -16,7 +16,7 @@ MonoBehaviour:
   - id: bf_teapot_1
     speakerType: 0
     speakerName: "\u767D\u5154"
-    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    image: {fileID: 1881468092, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
     text: "\u722C\u4E0A\u6765\u8F9B\u82E6\u4E86\u3002\u68EE\u6797\u91CC\u53EF\u80FD\u6709\u66F4\u591A\u9EBB\u70E6\u7684\u654C\u4EBA\u3002\u6BD4\u5982\u6709\u4E00\u79CD\u4F1A\u5410\u6CE1\u6CE1\u7684\u8336\u58F6\uFF0C\u60A8\u53EF\u4EE5\u5C1D\u8BD5\u5C06\u70B9\u8D34\u5728\u6CE1\u6CE1\u4E0A\u2014\u2014\u8FD9\u5E94\u8BE5\u80FD\u8BA9\u5B83\u4EEC<b>\u539F\u8DEF\u8FD4\u56DE</b>\u3002"
     nextID: bf_teapot_2
     options: []
@@ -32,7 +32,7 @@ MonoBehaviour:
   - id: bf_teapot_3
     speakerType: 0
     speakerName: "\u767D\u5154"
-    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    image: {fileID: 1881468092, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
     text: "\u6CA1\u4EC0\u4E48\uFF0C\u4E00\u5F20\u5E9F\u7EB8\u800C\u5DF2\u3002\u53EF\u80FD\u6709\u4EBA\u4E71\u4E22\u5783\u573E\u3002\u68EE\u6797\u91CC\u6709\u4E9B\u5C45\u6C11\u5E76\u4E0D\u662F\u5F88\u6587\u660E\u3002"
     nextID: 
     options: []

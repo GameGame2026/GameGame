@@ -32,7 +32,7 @@ MonoBehaviour:
   - id: L2_rabbit_3
     speakerType: 0
     speakerName: "\u767D\u5154"
-    image: {fileID: 21300000, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    image: {fileID: 1881468092, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
     text: "\u2026\u2026"
     nextID: L2_rabbit_4
     options: []
