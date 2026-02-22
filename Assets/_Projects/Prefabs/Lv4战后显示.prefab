@@ -257,6 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentData: {fileID: 11400000, guid: d291f7f015412db4292a5eed8b166160, type: 2}
   input: {fileID: 0}
+  ForcedToDialogue: 0
 --- !u!1001 &5008336553304062581
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+using _Projects._Scripts.SceneManagement;
 
 namespace _Projects._Scripts.GamePlay.UI
 {
@@ -126,14 +128,20 @@ namespace _Projects._Scripts.GamePlay.UI
         {
             // 订阅玩家事件
             if (playerStats != null)
-            {
+            {   
                 playerStats.OnHealthChanged.AddListener(UpdateHealth);
                 playerStats.OnPointsChanged.AddListener(UpdatePoints);
             }
+
+            // 订阅场景加载事件
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         
         private void OnDisable()
         {
+            // 取消订阅场景加载
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+
             // 取消订阅事件
             if (playerStats != null)
             {
@@ -175,6 +183,44 @@ namespace _Projects._Scripts.GamePlay.UI
                 }
             }
         }
+
+        private PlayerStats FindPersistentPlayerStats()
+        {
+            var players = FindObjectsOfType<PlayerStats>();
+            foreach (var p in players)
+            {
+                if (p.GetComponent<DontDestroyOnLoadManager>() != null)
+                    return p;
+            }
+            return null; // 如果没有持久化玩家，则返回第一个找到的
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // 重新查找玩家
+            playerStats = FindPersistentPlayerStats(); // 优先持久化
+            if (playerStats == null) 
+                playerStats = FindObjectOfType<PlayerStats>(); // 降级
+            
+            if (playerStats != null)
+            {
+                // 先取消可能存在的旧订阅（安全起见）
+                playerStats.OnHealthChanged.RemoveListener(UpdateHealth);
+                playerStats.OnPointsChanged.RemoveListener(UpdatePoints);
+                
+                // 重新订阅
+                playerStats.OnHealthChanged.AddListener(UpdateHealth);
+                playerStats.OnPointsChanged.AddListener(UpdatePoints);
+                
+                // 立即同步当前血量与点数
+                UpdateHealth(playerStats.Health);
+                UpdatePoints(playerStats.Points);
+            }
+            else
+            {
+                Debug.LogWarning("[StatsBar] 场景加载后未找到 PlayerStats");
+            }
+        }
         
         /// <summary>
         /// 初始化UI
@@ -185,6 +231,7 @@ namespace _Projects._Scripts.GamePlay.UI
             
             // 初始化血条
             UpdateHealth(playerStats.Health);
+            Debug.Log("StatsBar: 已更新玩家血条"); // 好像从主菜单进第一关的时候不会初始化……
             
             // 初始化点数
             UpdatePoints(playerStats.Points);
@@ -229,8 +276,11 @@ namespace _Projects._Scripts.GamePlay.UI
         /// <param name="currentHealth">当前血量</param>
         private void UpdateHealth(float currentHealth)
         {
-            if (playerStats == null) return;
-            
+            if (playerStats == null) 
+            {
+                Debug.Log("[StatsBar]playerStats不存在，无法赋值");
+                return;
+            }
             // 更新血条填充量
             _targetHealthFill = playerStats.HealthPercent;
             

@@ -243,7 +243,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3543129639994891113}
-  - component: {fileID: 5322335289709744439}
   m_Layer: 6
   m_Name: First_bridge
   m_TagString: Disposeable
@@ -269,24 +268,6 @@ Transform:
   - {fileID: 7000964080845822277}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5322335289709744439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6833893552437714135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 605635f97d94cc646a1ee49d16098685, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  point: {fileID: 0}
-  pointCost: 1
-  playerStats: {fileID: 0}
-  tangibleObject: {fileID: 0}
-  intangibleObject: {fileID: 6833893552437714135}
-  isIntangible: 0
 --- !u!1001 &8323036224282699910
 PrefabInstance:
   m_ObjectHideFlags: 0

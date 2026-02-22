@@ -71,6 +71,7 @@ public class PlayerStats : MonoBehaviour
     {
         // 初始化数值
         currentHealth = maxHealth;
+        Debug.Log($"[PlayerStats]已awake，Player目前血量{Health}，最大血量{MaxHealth}");
         
         // 获取或添加材质闪红效果组件
         _materialFlash = GetComponent<MaterialFlashEffect>();

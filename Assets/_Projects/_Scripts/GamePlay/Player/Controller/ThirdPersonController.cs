@@ -579,7 +579,7 @@ namespace GamePlay.Controller
             if (_hasAnimator)
             {
                 _animator.SetInteger(_animIDPoints, newPoints);
-                Debug.Log($"[ThirdPersonController] 动画点数更新: {newPoints}");
+                // Debug.Log($"[ThirdPersonController] 动画点数更新: {newPoints}");
             }
         }
         
