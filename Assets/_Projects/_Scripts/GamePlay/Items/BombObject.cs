@@ -42,7 +42,9 @@ namespace _Projects._Scripts.GamePlay.Items
             // 如果没有手动指定粒子特效，尝试自动查找
             if (explosionParticle == null)
             {
+                Debug.Log("尝试寻找粒子中……");
                 explosionParticle = GetComponentInChildren<ParticleSystem>();
+                if (explosionParticle != null) Debug.Log($"已找到:{explosionParticle}");
             }
             
             // 确保粒子特效初始时不播放
@@ -79,6 +81,7 @@ namespace _Projects._Scripts.GamePlay.Items
             // 播放爆炸粒子特效
             if (explosionParticle != null)
             {
+                Debug.Log("存在粒子，现在播放爆炸特效");
                 explosionParticle.Play();
             }
             

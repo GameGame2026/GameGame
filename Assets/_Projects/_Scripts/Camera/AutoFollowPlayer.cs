@@ -26,7 +26,7 @@ namespace _Projects.Camera
         public bool useChildTarget = true;
         
         [Tooltip("子对象的名称（如果 useChildTarget 为 true）")]
-        public string childTargetName = "CinemachineCameraTarget";
+        public string childTargetName = "PlayerCameraRoot";
 
         private CinemachineVirtualCamera _virtualCamera;
 

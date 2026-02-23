@@ -184,41 +184,40 @@ namespace _Projects._Scripts.GamePlay.UI
             }
         }
 
-        private PlayerStats FindPersistentPlayerStats()
-        {
-            var players = FindObjectsOfType<PlayerStats>();
-            foreach (var p in players)
-            {
-                if (p.GetComponent<DontDestroyOnLoadManager>() != null)
-                    return p;
-            }
-            return null; // 如果没有持久化玩家，则返回第一个找到的
-        }
+        // private PlayerStats FindPersistentPlayerStats()
+        // {
+        //     var players = FindObjectsOfType<PlayerStats>();
+        //     foreach (var p in players)
+        //     {
+        //         if (p.GetComponent<DontDestroyOnLoadManager>() != null)
+        //             return p;
+        //     }
+        //     return null; // 如果没有持久化玩家，则返回第一个找到的
+        // }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            // 重新查找玩家
-            playerStats = FindPersistentPlayerStats(); // 优先持久化
-            if (playerStats == null) 
+            if (scene.name == "Scene_1")
+            {
                 playerStats = FindObjectOfType<PlayerStats>(); // 降级
-            
-            if (playerStats != null)
-            {
-                // 先取消可能存在的旧订阅（安全起见）
-                playerStats.OnHealthChanged.RemoveListener(UpdateHealth);
-                playerStats.OnPointsChanged.RemoveListener(UpdatePoints);
-                
-                // 重新订阅
-                playerStats.OnHealthChanged.AddListener(UpdateHealth);
-                playerStats.OnPointsChanged.AddListener(UpdatePoints);
-                
-                // 立即同步当前血量与点数
-                UpdateHealth(playerStats.Health);
-                UpdatePoints(playerStats.Points);
-            }
-            else
-            {
-                Debug.LogWarning("[StatsBar] 场景加载后未找到 PlayerStats");
+                if (playerStats != null)
+                {
+                    // 先取消可能存在的旧订阅（安全起见）
+                    playerStats.OnHealthChanged.RemoveListener(UpdateHealth);
+                    playerStats.OnPointsChanged.RemoveListener(UpdatePoints);
+                    
+                    // 重新订阅
+                    playerStats.OnHealthChanged.AddListener(UpdateHealth);
+                    playerStats.OnPointsChanged.AddListener(UpdatePoints);
+                    
+                    // 立即同步当前血量与点数
+                    UpdateHealth(playerStats.Health);
+                    UpdatePoints(playerStats.Points);
+                }
+                else
+                {
+                    Debug.LogWarning("[StatsBar] 场景加载后未找到 PlayerStats");
+                }
             }
         }
         

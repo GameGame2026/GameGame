@@ -171,6 +171,9 @@ namespace _Projects._Scripts.SceneManagement
             yield return new WaitForEndOfFrame();
             SetupPlayerInNewScene();
 
+            // 2.23: 尝试加一个强制打光
+            DynamicGI.UpdateEnvironment();
+
             // 淡入
             if (SceneTransitionUI.Instance != null)
             {

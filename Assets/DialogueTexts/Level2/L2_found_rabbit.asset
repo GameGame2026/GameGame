@@ -17,7 +17,7 @@ MonoBehaviour:
     speakerType: 1
     speakerName: "\u7231\u4E3D\u4E1D"
     image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
-    text: "\u767D\u5154\u5148\u751F\uFF01\u7EC8\u4E8E\u8FFD\u4E0A\u4F60\u4E86\uFF01"
+    text: "\u767D\u5154\u5148\u751F\uFF01\u7EC8\u4E8E\u627E\u5230\u4F60\u4E86\uFF01"
     nextID: L2_rabbit_2
     options: []
     isLastPiece: 0

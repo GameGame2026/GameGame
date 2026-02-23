@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6469587341571439295}
   - component: {fileID: 4690382767275426472}
   - component: {fileID: 3314209611584460887}
+  - component: {fileID: 5800313451785264896}
   m_Layer: 0
   m_Name: "\u5BF9\u8BDD\u5C0F\u5E7D\u7075"
   m_TagString: interactable
@@ -102,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentData: {fileID: 11400000, guid: 3e54bef004129274684e947c995273bd, type: 2}
   input: {fileID: 0}
+  ForcedToDialogue: 0
 --- !u!114 &4690382767275426472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +142,19 @@ CapsuleCollider:
   m_Height: 12.320003
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: -2}
+--- !u!114 &5800313451785264896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6020519345485425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f713275576003540b5da37c7ce6b54f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theDialogue: {fileID: 11400000, guid: 3e54bef004129274684e947c995273bd, type: 2}
 --- !u!1 &7851279943941407542
 GameObject:
   m_ObjectHideFlags: 0

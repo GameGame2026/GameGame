@@ -20,19 +20,19 @@ namespace _Projects.GamePlay.Player
             return null;
         }
 
-        /// <summary>
-        /// 触发范围内所有NPC的互动（如果需要的话）
-        /// </summary>
-        public void TriggerAllInteractables()
-        {
-            foreach (var npc in _npcsInRange)
-            {
-                if (npc != null)
-                {
-                    npc.TriggerAction();
-                }
-            }
-        }
+        // /// <summary>
+        // /// 触发范围内所有NPC的互动（如果需要的话）
+        // /// </summary>
+        // public void TriggerAllInteractables()
+        // {
+        //     foreach (var npc in _npcsInRange)
+        //     {
+        //         if (npc != null)
+        //         {
+        //             npc.TriggerAction();
+        //         }
+        //     }
+        // }
 
         private void OnTriggerEnter(Collider other)
         {

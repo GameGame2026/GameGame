@@ -82,14 +82,6 @@ MonoBehaviour:
     speakerName: 
     image: {fileID: 0}
     text: "\u201C\u2026\u2026\u536B\u5175\u4EEC\uFF0C\u780D\u4E0B\u5979\u7684\u5934\uFF01\u201D"
-    nextID: paint-9
-    options: []
-    isLastPiece: 0
-  - id: paint-9
-    speakerType: 1
-    speakerName: "\u7231\u4E3D\u4E1D"
-    image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
-    text: "\u8FD9\u53C8\u662F\u54EA\u6765\u7684\u8BB0\u5FC6\u2026\u2026"
     nextID: 
     options: []
     isLastPiece: 1

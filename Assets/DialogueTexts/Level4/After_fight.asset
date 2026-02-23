@@ -33,7 +33,7 @@ MonoBehaviour:
     speakerType: 1
     speakerName: "\u7231\u4E3D\u4E1D"
     image: {fileID: 949369644, guid: 3769222f6f6a8fa489528a3e85534301, type: 3}
-    text: "\u5176\u5B9E\u6211\u5927\u6982\u731C\u5230\u4E86\u4E00\u4E9B\u2026\u2026\u6211\u5F88\u62B1\u6B49\u3002\u5982\u679C\u53EF\u4EE5\u7684\u8BDD\uFF0C\u6211\u60F3\u2026\u2026"
+    text: "\u2026\u2026\u6211\u5F88\u62B1\u6B49\u3002\u5982\u679C\u53EF\u4EE5\u7684\u8BDD\uFF0C\u6211\u60F3\u2026\u2026"
     nextID: after_fight_4
     options: []
     isLastPiece: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
     speakerType: 0
     speakerName: "\u767D\u5154"
     image: {fileID: 1881468092, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
-    text: "\u8FD9\u662F\uFF0C\u4E00\u53EA\u4F1A\u4F24\u4EBA\u7684\u3001\u54A7\u5634\u7B11\u7684\u732B\uFF1F\u4FA6\u63A2\u5C0F\u59D0\uFF0C\u6211\u60F3\u8FD9\u4E5F\u662F\u4E00\u4E2A\u5F88<b>\u53EF\u7591</b>\u7684\u52A8\u7269\uFF0C\u60A8\u4E0D\u89C9\u5F97\u5417\uFF1F"
+    text: "\u8FD9\u662F\uFF1F\u2026\u2026\u4E00\u53EA<b>\u4F1A\u4F24\u4EBA\u7684\u3001\u54A7\u5634\u7B11\u7684\u732B</b>\uFF1F"
     nextID: after_fight_6
     options: []
     isLastPiece: 0
@@ -57,11 +57,19 @@ MonoBehaviour:
     speakerType: 0
     speakerName: "\u767D\u5154"
     image: {fileID: 1881468092, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
-    text: "\u5982\u679C\u521A\u624D\u60A8\u65E0\u6CD5\u7ED9\u5B83\u8D34\u4E0A\u70B9\u7684\u8BDD\uFF0C\u6211\u60F3<b>\u73B0\u5728</b>\u53EF\u4EE5\u4E86\u3002"
+    text: "\u4FA6\u63A2\u5C0F\u59D0\uFF0C\u6211\u60F3\u8FD9\u4E5F\u662F\u4E00\u4E2A\u5F88<b>\u53EF\u7591</b>\u7684\u52A8\u7269\uFF0C\u60A8\u4E0D\u89C9\u5F97\u5417\uFF1F"
     nextID: after_fight_7
     options: []
     isLastPiece: 0
   - id: after_fight_7
+    speakerType: 0
+    speakerName: "\u767D\u5154"
+    image: {fileID: 1881468092, guid: be3e0a95e30e14546a9e2f269bca7e02, type: 3}
+    text: "\u5982\u679C\u521A\u624D\u60A8\u65E0\u6CD5\u7ED9\u5B83\u8D34\u4E0A\u70B9\u7684\u8BDD\uFF0C\u6211\u60F3<b>\u73B0\u5728</b>\u53EF\u4EE5\u4E86\u3002"
+    nextID: after_fight_8
+    options: []
+    isLastPiece: 0
+  - id: after_fight_8
     speakerType: 0
     speakerName: "\u67F4\u90E1\u732B"
     image: {fileID: -1240867006, guid: 4b488b92ad047b14b80652c225315fdb, type: 3}

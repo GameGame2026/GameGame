@@ -18,16 +18,16 @@ namespace _Projects.GamePlay.Player.Controller
                 var obj = kvp.Key;
                 var objCollider = kvp.Value;
                 
-                if (obj == null || objCollider == null)
+                if (obj == null || objCollider == null) 
                 {
-                    toRemove.Add(obj);
+                    toRemove.Add(kvp.Key);
                     continue;
                 }
 
                 // 如果已经被贴附，移除
                 if (obj.IsAttached)
                 {
-                    toRemove.Add(obj);
+                    toRemove.Add(kvp.Key);
                     continue;
                 }
 
@@ -45,40 +45,50 @@ namespace _Projects.GamePlay.Player.Controller
 
             return null;
         }
+
+        // // 2.23 静影：加入一个手动移除
+        // public void RemoveFromRange(DisposableObject obj)
+        // {
+        //     if (_objectsInRange.ContainsKey(obj))
+        //     {
+        //         _objectsInRange.Remove(obj);
+        //         Debug.Log($"[DisposeCollider] 主动移除 {obj.name} 从范围字典");
+        //     }
+        // }
         
-        /// <summary>
-        /// 触发范围内所有未贴附物体的贴附操作（如果需要的话）
-        /// </summary>
-        public void TriggerAllDisposables()
-        {
-            // 遍历时收集需要移除的项以避免在枚举时修改集合
-            List<DisposableObject> toRemove = new List<DisposableObject>();
+        // /// <summary>
+        // /// 触发范围内所有未贴附物体的贴附操作（如果需要的话）
+        // /// </summary>
+        // public void TriggerAllDisposables()
+        // {
+        //     // 遍历时收集需要移除的项以避免在枚举时修改集合
+        //     List<DisposableObject> toRemove = new List<DisposableObject>();
             
-            foreach (var kvp in _objectsInRange)
-            {
-                var obj = kvp.Key;
-                var objCollider = kvp.Value;
+        //     foreach (var kvp in _objectsInRange)
+        //     {
+        //         var obj = kvp.Key;
+        //         var objCollider = kvp.Value;
                 
-                if (obj == null || objCollider == null)
-                {
-                    toRemove.Add(obj);
-                    continue;
-                }
+        //         if (obj == null || objCollider == null)
+        //         {
+        //             toRemove.Add(kvp.Key);
+        //             continue;
+        //         }
 
-                if (obj.IsAttached)
-                {
-                    toRemove.Add(obj);
-                    continue;
-                }
+        //         if (obj.IsAttached)
+        //         {
+        //             toRemove.Add(kvp.Key);
+        //             continue;
+        //         }
 
-                obj.ChangeState();
-            }
+        //         obj.ChangeState();
+        //     }
 
-            foreach (var r in toRemove)
-            {
-                _objectsInRange.Remove(r);
-            }
-        }
+        //     foreach (var r in toRemove)
+        //     {
+        //         _objectsInRange.Remove(r);
+        //     }
+        // }
 
         private void OnTriggerEnter(Collider other)
         {
